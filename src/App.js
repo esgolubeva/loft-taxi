@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+// import logo from './logo.svg';
+// import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {Header} from "./Header";
+import {Map} from "./Map";
+import {Login} from "./Login";
+import {Signup} from "./Signup";
+import {Profile} from "./Profile";
+
+export class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			page: "map"
+		};
+	}
+
+	setPage(name) {
+		this.setState({
+			page: name
+		});
+	}
+
+	render() {
+		let page;
+
+		switch (this.state.page) {
+			case "map":
+				page = <Map />;
+				break;
+			case "login":
+				page = <Login />;
+				break;
+			case "signup":
+				page = <Signup />;
+				break;
+			case "profile":
+				page = <Profile />;
+				break;
+			default:
+          page = <Map />;
+		}
+
+		return (
+			<div>
+				<Header handler={this.setPage.bind(this)} />
+				{page}
+			</div>
+		);
+	}
 }
 
-export default App;
