@@ -2,11 +2,11 @@ import React from "react";
 // import logo from './logo.svg';
 // import "./App.css";
 
-import {Header} from "./Header";
-import {Map} from "./Map";
-import {Login} from "./Login";
-import {Signup} from "./Signup";
-import {Profile} from "./Profile";
+import { Header } from "./Header";
+import { Map } from "./Map";
+import { Login } from "./Login";
+import { Signup } from "./Signup";
+import { Profile } from "./Profile";
 
 export class App extends React.Component {
 	constructor(props) {
@@ -39,7 +39,7 @@ export class App extends React.Component {
 				page = <Profile />;
 				break;
 			default:
-          page = <Map />;
+				page = <Map />;
 		}
 
 		return (
@@ -50,4 +50,3 @@ export class App extends React.Component {
 		);
 	}
 }
-
