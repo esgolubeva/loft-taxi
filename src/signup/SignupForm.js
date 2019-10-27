@@ -4,26 +4,22 @@ export class SignupForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { email: "", name: "", surname: "", password: "" };
-
-		this.onSubmit = this.onSubmit.bind(this);
-		this.onLoginClick = this.onLoginClick.bind(this);
-		this.onInputChange = this.onInputChange.bind(this);
 	}
 
-	onSubmit(e) {
-		e.preventDefault();
+	onSubmit = event => {
+		event.preventDefault();
 		this.props.setPage("map");
-	}
+	};
 
-	onLoginClick(e) {
-		e.preventDefault();
+	onLoginClick = event => {
+		event.preventDefault();
 		this.props.setPage("login");
-	}
+	};
 
-	onInputChange(e) {
-		let input = e.target;
+	onInputChange = event => {
+		let input = event.target;
 		this.setState({ [input.name]: input.value });
-	}
+	};
 
 	render() {
 		return (

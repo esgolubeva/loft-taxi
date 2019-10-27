@@ -12,18 +12,15 @@ export class App extends React.Component {
 		this.state = {
 			page: "map"
 		};
-
-		this.setPage = this.setPage.bind(this);
-		this.currentPage = this.currentPage.bind(this);
 	}
 
-	setPage(name) {
+	setPage = name => {
 		this.setState({
 			page: name
 		});
-	}
+	};
 
-	currentPage() {
+	currentPage = () => {
 		switch (this.state.page) {
 			case "map":
 				return <Map />;
@@ -34,7 +31,7 @@ export class App extends React.Component {
 			default:
 				return <Login setPage={this.setPage} />;
 		}
-	}
+	};
 
 	render() {
 		let page = this.currentPage();
