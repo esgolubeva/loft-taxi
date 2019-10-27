@@ -1,12 +1,10 @@
 import React from "react";
-// import logo from './logo.svg';
-// import "./App.css";
 
-import { Header } from "./Header";
-import { Map } from "./Map";
-import { Login } from "./Login";
-import { Signup } from "./Signup";
-import { Profile } from "./Profile";
+import { Header } from "./shared/Header";
+import { Map } from "./map";
+import { Login } from "./login";
+import { Signup } from "./signup";
+import { Profile } from "./profile";
 
 export class App extends React.Component {
 	constructor(props) {
@@ -14,6 +12,9 @@ export class App extends React.Component {
 		this.state = {
 			page: "map"
 		};
+
+		this.setPage = this.setPage.bind(this);
+		this.currentPage = this.currentPage.bind(this);
 	}
 
 	setPage(name) {
@@ -22,29 +23,25 @@ export class App extends React.Component {
 		});
 	}
 
-	render() {
-		let page;
-
+	currentPage() {
 		switch (this.state.page) {
 			case "map":
-				page = <Map />;
-				break;
-			case "login":
-				page = <Login />;
-				break;
+				return <Map />;
 			case "signup":
-				page = <Signup />;
-				break;
+				return <Signup setPage={this.setPage} />;
 			case "profile":
-				page = <Profile />;
-				break;
+				return <Profile />;
 			default:
-				page = <Map />;
+				return <Login setPage={this.setPage} />;
 		}
+	}
+
+	render() {
+		let page = this.currentPage();
 
 		return (
 			<div>
-				<Header handler={this.setPage.bind(this)} />
+				<Header setPage={this.setPage} />
 				{page}
 			</div>
 		);

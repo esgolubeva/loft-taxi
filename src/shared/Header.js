@@ -11,9 +11,9 @@ export class Header extends React.Component {
 			<AppBar position="static">
 				<Toolbar>
 					<Typography variant="h6">Loft Taxi</Typography>
-					<Button onClick={() => this.props.handler("map")}>Карта</Button>
-					<Button onClick={() => this.props.handler("profile")}>Профиль</Button>
-					<Button onClick={() => this.props.handler("login")}>Войти</Button>
+					<Button onClick={() => this.props.setPage("map")}>Карта</Button>
+					<Button onClick={() => this.props.setPage("profile")}>Профиль</Button>
+					<Button onClick={() => this.props.setPage("login")}>Войти</Button>
 				</Toolbar>
 			</AppBar>
 		);
