@@ -1,10 +1,12 @@
 import React from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import { Header } from "./shared/Header";
 import { Map } from "./map";
 import { Login } from "./login";
 import { Signup } from "./signup";
 import { Profile } from "./profile";
+import { theme } from "./shared/mui-theme";
 
 export class App extends React.Component {
 	constructor(props) {
@@ -37,10 +39,12 @@ export class App extends React.Component {
 		let page = this.currentPage();
 
 		return (
-			<div>
-				<Header setPage={this.setPage} />
-				{page}
-			</div>
+			<MuiThemeProvider theme={theme}>
+				<div>
+					<Header setPage={this.setPage} />
+					{page}
+				</div>
+			</MuiThemeProvider>
 		);
 	}
 }
