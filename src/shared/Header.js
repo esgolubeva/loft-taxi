@@ -17,7 +17,9 @@ export const Header = props => {
 	return (
 		<AppBar position="static">
 			<Toolbar>
-				<Typography variant="h6" className={classes.title}>Loft Taxi</Typography>
+				<Typography variant="h6" className={classes.title}>
+					Loft Taxi
+				</Typography>
 				<Button onClick={() => props.setPage("map")} color="inherit">
 					Карта
 				</Button>

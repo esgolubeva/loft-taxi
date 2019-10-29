@@ -1,3 +1,4 @@
 import React from "react";
+import { MapApp } from "./MapApp";
 
-export const Map = (props) => <h1>Map</h1>;
+export const Map= props => <MapApp />;

@@ -40,10 +40,8 @@ export class App extends React.Component {
 
 		return (
 			<MuiThemeProvider theme={theme}>
-				<div>
-					<Header setPage={this.setPage} />
-					{page}
-				</div>
+				<Header setPage={this.setPage} />
+				{page}
 			</MuiThemeProvider>
 		);
 	}
