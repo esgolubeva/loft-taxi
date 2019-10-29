@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Header } from "./shared/Header";
+import { Map } from "./map";
+import { Login } from "./login";
+import { Signup } from "./signup";
+import { Profile } from "./profile";
+import { theme } from "./shared/mui-theme";
+
+export class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			page: "map"
+		};
+	}
+
+	setPage = name => {
+		this.setState({
+			page: name
+		});
+	};
+
+	currentPage = () => {
+		switch (this.state.page) {
+			case "map":
+				return <Map />;
+			case "signup":
+				return <Signup setPage={this.setPage} />;
+			case "profile":
+				return <Profile />;
+			default:
+				return <Login setPage={this.setPage} />;
+		}
+	};
+
+	render() {
+		let page = this.currentPage();
+
+		return (
+			<MuiThemeProvider theme={theme}>
+				<div>
+					<Header setPage={this.setPage} />
+					{page}
+				</div>
+			</MuiThemeProvider>
+		);
+	}
 }
-
-export default App;
