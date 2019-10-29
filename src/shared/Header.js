@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -32,4 +33,8 @@ export const Header = props => {
 			</Toolbar>
 		</AppBar>
 	);
+};
+
+Header.propTypes = {
+	setPage: PropTypes.func
 };

@@ -1,9 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { name: "", password: "" };
+	}
+
+	static propTypes = {
+		setPage: PropTypes.func
 	}
 
 	onSubmit = event => {

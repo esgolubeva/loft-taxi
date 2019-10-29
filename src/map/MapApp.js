@@ -32,10 +32,6 @@ export class MapApp extends React.Component {
 		});
 	}
 
-	componentWillUnmount() {
-		this.map.remove();
-	}
-
 	render() {
 		const style = {
 			position: "absolute",

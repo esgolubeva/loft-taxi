@@ -1,9 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export class SignupForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { email: "", name: "", surname: "", password: "" };
+	}
+
+	static propTypes = {
+		setPage: PropTypes.func
 	}
 
 	onSubmit = event => {
