@@ -12,11 +12,12 @@ export class MapApp extends React.Component {
 			lat: 52.52437,
 			zoom: 10
 		};
+		this.mapContainerRef = React.createRef();
 	}
 
 	componentDidMount() {
 		const map = new mapboxgl.Map({
-			container: this.mapContainer,
+			container: this.mapContainerRef.current,
 			style: "mapbox://styles/mapbox/streets-v11",
 			center: [this.state.lng, this.state.lat],
 			zoom: this.state.zoom
@@ -29,17 +30,11 @@ export class MapApp extends React.Component {
 				zoom: map.getZoom().toFixed(2)
 			});
 		});
-
-		map.on("load", function() {
-			map.resize();
-		});
 	}
 
 	componentWillUnmount() {
 		this.map.remove();
 	}
-
-	setMapContainerRef = element => (this.mapContainer = element);
 
 	render() {
 		const style = {
@@ -54,7 +49,11 @@ export class MapApp extends React.Component {
 
 		return (
 			<div style={{ position: "relative", zIndex: -10 }}>
-				<div style={style} ref={this.setMapContainerRef} className="mapContainer" />
+				<div
+					style={style}
+					ref={this.mapContainerRef}
+					className="mapContainer"
+				/>
 			</div>
 		);
 	}
