@@ -1,80 +1,77 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
-export class SignupForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { email: "", name: "", surname: "", password: "" };
-	}
+import { AuthContext } from "../auth";
 
-	static propTypes = {
-		setPage: PropTypes.func
-	}
+export const SignupForm = props => {
+	const [userInfo, setUserInfo] = useState({
+		email: "",
+		name: "",
+		surname: "",
+		password: ""
+	});
 
-	onSubmit = event => {
+	const context = useContext(AuthContext);
+
+	const onSubmit = event => {
 		event.preventDefault();
-		this.props.setPage("map");
+		context.login();
+		props.setPage("map");
 	};
 
-	onLoginClick = event => {
+	const onLoginClick = event => {
 		event.preventDefault();
-		this.props.setPage("login");
+		props.setPage("login");
 	};
 
-	onInputChange = event => {
+	const onInputChange = event => {
 		let input = event.target;
-		this.setState({ [input.name]: input.value });
+		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
 
-	render() {
-		return (
+	return (
+		<div>
+			<h1>Регистрация</h1>
 			<div>
-				<h1>Регистрация</h1>
-				<div>
-					Уже зарегистрирован?{" "}
-					<a href="/" onClick={this.onLoginClick}>
-						Войти
-					</a>
-				</div>
-				<form onSubmit={this.onSubmit}>
-					<label>
-						Адрес электронной почты
-						<input
-							name="email"
-							value={this.state.email}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<br />
-					<label>
-						Имя
-						<input
-							name="name"
-							value={this.state.name}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<label>
-						Фамилия
-						<input
-							name="surname"
-							value={this.state.surname}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<br />
-					<label>
-						Пароль
-						<input
-							name="password"
-							value={this.state.password}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<br />
-					<input type="submit" value="Зарегистрироваться" />
-				</form>
+				Уже зарегистрирован?{" "}
+				<a href="/" onClick={onLoginClick}>
+					Войти
+				</a>
 			</div>
-		);
-	}
-}
+			<form onSubmit={onSubmit}>
+				<label>
+					Адрес электронной почты
+					<input name="email" value={userInfo.email} onChange={onInputChange} />
+				</label>
+				<br />
+				<label>
+					Имя
+					<input name="name" value={userInfo.name} onChange={onInputChange} />
+				</label>
+				<label>
+					Фамилия
+					<input
+						name="surname"
+						value={userInfo.surname}
+						onChange={onInputChange}
+					/>
+				</label>
+				<br />
+				<label>
+					Пароль
+					<input
+						name="password"
+						value={userInfo.password}
+						onChange={onInputChange}
+					/>
+				</label>
+				<br />
+				<input type="submit" value="Зарегистрироваться" />
+			</form>
+		</div>
+	);
+};
+
+SignupForm.propTypes = {
+	setPage: PropTypes.func
+};

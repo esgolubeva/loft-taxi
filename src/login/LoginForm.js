@@ -1,63 +1,59 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
-export class LoginForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { name: "", password: "" };
-	}
+import { AuthContext } from "../auth";
 
-	static propTypes = {
-		setPage: PropTypes.func
-	}
+export const LoginForm = props => {
+	const [userInfo, setUserInfo] = useState({ name: "", password: "" });
 
-	onSubmit = event => {
+	const context = useContext(AuthContext);
+
+	const onSubmit = event => {
 		event.preventDefault();
-		this.props.setPage("map");
+		context.login();
+		props.setPage("map");
 	};
 
-	onSignupClick = event => {
+	const onSignupClick = event => {
 		event.preventDefault();
-		this.props.setPage("signup");
+		props.setPage("signup");
 	};
 
-	onInputChange = event => {
+	const onInputChange = event => {
 		let input = event.target;
-		this.setState({ [input.name]: input.value });
+		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
 
-	render() {
-		return (
+	return (
+		<div>
+			<h1>Войти</h1>
 			<div>
-				<h1>Войти</h1>
-				<div>
-					Новый пользователь?{" "}
-					<a href="/" onClick={this.onSignupClick}>
-						Зарегистрируйтесь
-					</a>
-				</div>
-				<form onSubmit={this.onSubmit}>
-					<label>
-						Имя пользователя<span>*</span>
-						<input
-							name="name"
-							value={this.state.name}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<br />
-					<label>
-						Пароль<span>*</span>
-						<input
-							name="password"
-							value={this.state.password}
-							onChange={this.onInputChange}
-						/>
-					</label>
-					<br />
-					<input type="submit" value="Войти" />
-				</form>
+				Новый пользователь?{" "}
+				<a href="/" onClick={onSignupClick}>
+					Зарегистрируйтесь
+				</a>
 			</div>
-		);
-	}
-}
+			<form onSubmit={onSubmit}>
+				<label>
+					Имя пользователя<span>*</span>
+					<input name="name" value={userInfo.name} onChange={onInputChange} />
+				</label>
+				<br />
+				<label>
+					Пароль<span>*</span>
+					<input
+						name="password"
+						value={userInfo.password}
+						onChange={onInputChange}
+					/>
+				</label>
+				<br />
+				<input type="submit" value="Войти" />
+			</form>
+		</div>
+	);
+};
+
+LoginForm.propTypes = {
+	setPage: PropTypes.func
+};

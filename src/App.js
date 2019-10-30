@@ -6,13 +6,15 @@ import { Map } from "./map";
 import { Login } from "./login";
 import { Signup } from "./signup";
 import { Profile } from "./profile";
+import { AccessDenied } from "./accessDenied";
 import { theme } from "./shared/mui-theme";
+import { AuthProvider } from "./auth";
 
 export class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			page: "map"
+			page: "login"
 		};
 	}
 
@@ -30,6 +32,8 @@ export class App extends React.Component {
 				return <Signup setPage={this.setPage} />;
 			case "profile":
 				return <Profile />;
+			case "accessDenied":
+				return <AccessDenied />;
 			default:
 				return <Login setPage={this.setPage} />;
 		}
@@ -39,10 +43,12 @@ export class App extends React.Component {
 		let page = this.currentPage();
 
 		return (
-			<MuiThemeProvider theme={theme}>
-				<Header setPage={this.setPage} />
-				{page}
-			</MuiThemeProvider>
+			<AuthProvider>
+				<MuiThemeProvider theme={theme}>
+					<Header setPage={this.setPage} />
+					{page}
+				</MuiThemeProvider>
+			</AuthProvider>
 		);
 	}
 }
