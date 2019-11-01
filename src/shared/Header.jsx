@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
+import { AuthContext } from "../auth";
+
+import { Logo } from "loft-taxi-mui-theme";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-import { AuthContext } from "../auth";
-
 const useStyles = makeStyles(theme => ({
+	bar: {
+		backgroundColor: "#fff"
+	},
 	title: {
 		flexGrow: 1
 	}
@@ -44,10 +48,10 @@ export const Header = props => {
 	);
 
 	return (
-		<AppBar position="static">
+		<AppBar position="static" className={classes.bar}>
 			<Toolbar>
 				<Typography variant="h6" className={classes.title}>
-					Loft Taxi
+					<Logo />
 				</Typography>
 				<Button onClick={() => onButtonClick("map")} color="inherit">
 					Карта

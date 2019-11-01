@@ -7,7 +7,7 @@ import { Login } from "./login";
 import { Signup } from "./signup";
 import { Profile } from "./profile";
 import { AccessDenied } from "./accessDenied";
-import { theme } from "./shared/mui-theme";
+import { theme } from "loft-taxi-mui-theme";
 import { AuthProvider } from "./auth";
 
 export class App extends React.Component {

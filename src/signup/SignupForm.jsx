@@ -2,6 +2,15 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 import { AuthContext } from "../auth";
+import { useFormStyles } from "../shared/styles";
+
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import Link from "@material-ui/core/Link";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 export const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
@@ -28,47 +37,65 @@ export const SignupForm = props => {
 		let input = event.target;
 		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
+	const classes = useFormStyles();
 
 	return (
-		<div>
-			<h1>Регистрация</h1>
-			<div>
-				Уже зарегистрирован?{" "}
-				<a href="/" onClick={onLoginClick}>
-					Войти
-				</a>
-			</div>
-			<form onSubmit={onSubmit}>
-				<label>
-					Адрес электронной почты
-					<input name="email" value={userInfo.email} onChange={onInputChange} />
-				</label>
-				<br />
-				<label>
-					Имя
-					<input name="name" value={userInfo.name} onChange={onInputChange} />
-				</label>
-				<label>
-					Фамилия
-					<input
+		<Paper className={classes.form}>
+			<Container className={classes.formContainer}>
+				<Typography variant="h4" component="h1">
+					Регистрация
+				</Typography>
+				<div>
+					<p>
+						Уже зарегистрирован?{" "}
+						<Link href="/" onClick={onLoginClick}>
+							Войти
+						</Link>
+					</p>
+				</div>
+				<form onSubmit={onSubmit}>
+					<TextField
+						label="Адрес электронной почты"
+						fullWidth
+						margin="normal"
+						name="email"
+						type="email"
+						value={userInfo.email}
+						onChange={onInputChange}
+					/>
+					<TextField
+						label="Имя"
+						margin="normal"
+						name="name"
+						type="text"
+						value={userInfo.name}
+						onChange={onInputChange}
+					/>
+					<TextField
+						label="Фамилия"
+						margin="normal"
 						name="surname"
+						type="text"
 						value={userInfo.surname}
 						onChange={onInputChange}
 					/>
-				</label>
-				<br />
-				<label>
-					Пароль
-					<input
+					<TextField
+						label="Пароль"
+						fullWidth
+						margin="normal"
 						name="password"
+						type="password"
 						value={userInfo.password}
 						onChange={onInputChange}
 					/>
-				</label>
-				<br />
-				<input type="submit" value="Зарегистрироваться" />
-			</form>
-		</div>
+					<Box className={classes.buttonContainer}>
+						<Button type="submit" variant="contained" color="primary">
+							Зарегистрироваться
+						</Button>
+					</Box>
+				</form>
+			</Container>
+		</Paper>
 	);
 };
 

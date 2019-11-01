@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
+// import 'typeface-roboto'; // TODO fix font 
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

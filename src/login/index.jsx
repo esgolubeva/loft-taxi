@@ -1,9 +1,12 @@
 import React from "react";
 
 import { LoginForm } from "./LoginForm";
+import { AuthPage } from "../shared/AuthPage";
 
 export const Login = props => (
 	<div>
-		<LoginForm setPage={props.setPage} />
+		<AuthPage>
+			<LoginForm setPage={props.setPage} />
+		</AuthPage>
 	</div>
 );
