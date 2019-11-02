@@ -1,13 +1,36 @@
 import React from "react";
 
 import { useAuthPageStyles } from "../shared/styles";
+import Background from "../img/bg/auth-bg.jpg";
 
+import { makeStyles } from "@material-ui/core/styles";
 import { Logo } from "loft-taxi-mui-theme";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 
+const useStyles = makeStyles(theme => ({
+	authBg: {
+		backgroundColor: "#000",
+		backgroundImage: `url(${Background})`,
+		backgroundSize: "cover"
+	},
+	container: {
+		maxWidth: "1000px",
+		minHeight: "calc(100vh - 72px)", // TODO add header height
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between"
+	},
+	logoContainer: {
+		width: "420px",
+		display: "flex",
+		justifyContent: "center"
+	}
+}));
+
 export const AuthPage = props => {
-	const classes = useAuthPageStyles();
+	const classes = useStyles();
 	return (
 		<div className={classes.authBg}>
 			<Container>
