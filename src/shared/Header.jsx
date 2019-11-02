@@ -27,7 +27,7 @@ export const Header = props => {
 		if (context.isLoggedIn) {
 			return props.setPage(name);
 		}
-		return props.setPage("accessDenied");
+		return props.setPage("access-denied");
 	};
 
 	const onLogoutButtonClick = () => {

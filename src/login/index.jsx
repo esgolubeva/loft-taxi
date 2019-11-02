@@ -5,6 +5,8 @@ import { AuthPage } from "../shared/AuthPage";
 
 export const Login = props => (
 	<AuthPage>
-		<LoginForm setPage={props.setPage} />
+		<div data-testid="login">
+			<LoginForm setPage={props.setPage} />
+		</div>
 	</AuthPage>
 );

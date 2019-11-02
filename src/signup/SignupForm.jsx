@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 export const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
@@ -54,40 +55,52 @@ export const SignupForm = props => {
 					</p>
 				</div>
 				<form onSubmit={onSubmit}>
-					<TextField
-						label="Адрес электронной почты"
-						fullWidth
-						margin="normal"
-						name="email"
-						type="email"
-						value={userInfo.email}
-						onChange={onInputChange}
-					/>
-					<TextField
-						label="Имя"
-						margin="normal"
-						name="name"
-						type="text"
-						value={userInfo.name}
-						onChange={onInputChange}
-					/>
-					<TextField
-						label="Фамилия"
-						margin="normal"
-						name="surname"
-						type="text"
-						value={userInfo.surname}
-						onChange={onInputChange}
-					/>
-					<TextField
-						label="Пароль"
-						fullWidth
-						margin="normal"
-						name="password"
-						type="password"
-						value={userInfo.password}
-						onChange={onInputChange}
-					/>
+					<Grid container spacing={3}>
+						<Grid item xs={12}>
+							<TextField
+								label="Адрес электронной почты"
+								fullWidth
+								margin="normal"
+								name="email"
+								type="email"
+								value={userInfo.email}
+								onChange={onInputChange}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								label="Имя"
+								fullWidth
+								margin="normal"
+								name="name"
+								type="text"
+								value={userInfo.name}
+								onChange={onInputChange}
+							/>
+						</Grid>
+						<Grid item xs={6}>
+							<TextField
+								label="Фамилия"
+								fullWidth
+								margin="normal"
+								name="surname"
+								type="text"
+								value={userInfo.surname}
+								onChange={onInputChange}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								label="Пароль"
+								fullWidth
+								margin="normal"
+								name="password"
+								type="password"
+								value={userInfo.password}
+								onChange={onInputChange}
+							/>
+						</Grid>
+					</Grid>
 					<Box className={classes.buttonContainer}>
 						<Button type="submit" variant="contained" color="primary">
 							Зарегистрироваться

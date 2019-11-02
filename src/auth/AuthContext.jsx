@@ -1,6 +1,6 @@
 import React from "react";
 
-class AuthHandler {
+export class AuthHandler {
 	constructor() {
 		this.isLoggedIn = false;
 	}
