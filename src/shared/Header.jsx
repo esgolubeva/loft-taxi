@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export const Header = React.memo(props => {
+export const Header = props => {
 	const classes = useStyles();
 	const context = useContext(AuthContext);
 
@@ -63,7 +63,7 @@ export const Header = React.memo(props => {
 			</Toolbar>
 		</AppBar>
 	);
-});
+};
 
 Header.propTypes = {
 	setPage: PropTypes.func
