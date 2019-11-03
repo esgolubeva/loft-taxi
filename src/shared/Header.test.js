@@ -32,7 +32,7 @@ describe("Header", () => {
 		}
 	);
 
-	it("should have Выйти button if logged in and logout() on click", () => {
+	it("should have Выйти button if isLoggedIn=true and logout() on click", () => {
 		let setPageMock = jest.fn();
 		let logoutMock = jest.fn();
 
@@ -54,18 +54,5 @@ describe("Header", () => {
 		expect(setPageMock.mock.calls.length).toBe(1);
 		expect(setPageMock.mock.calls[0][0]).toBe("login");
 		expect(logoutMock.mock.calls.length).toBe(1);
-	});
-
-	it("test", () => {
-		function a(b) {
-			b(42, 24);
-		}
-
-		let c = jest.fn();
-
-		a(c);
-
-		expect(c.mock.calls.length).toBe(1);
-		expect(c.mock.calls[0]).toEqual([42, 24]);
 	});
 });

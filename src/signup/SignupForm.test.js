@@ -31,7 +31,7 @@ describe("SignupForm", () => {
 			expect(loginMock.mock.calls.length).toBe(1);
 		});
 	});
-	describe("on Зарегистрируйтесь click", () => {
+	describe("on Войти link click", () => {
 		it("should set Login page", () => {
 			let setPageMock = jest.fn();
 
