@@ -7,6 +7,9 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
+				resolve: {
+					extensions: [".js", ".jsx"]
+				},
 				exclude: /node_modules/,
 				loaders: ["react-hot-loader/webpack", "babel-loader"]
 			},
@@ -15,9 +18,9 @@ module.exports = {
 				loaders: ["style-loader", "css-loader"]
 			},
 			{
-                test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff2?$|\.ttf$/,
-                loader: 'file?name=[name].[ext]'
-            }
+				test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff2?$|\.ttf$/,
+				loader: "file-loader?name=[name].[ext]"
+			}
 		]
 	},
 	plugins: [
