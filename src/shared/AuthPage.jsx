@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	container: {
 		maxWidth: "1000px",
-		minHeight: "calc(100vh - 72px)", // TODO add header height
+		minHeight: "100vh",
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",

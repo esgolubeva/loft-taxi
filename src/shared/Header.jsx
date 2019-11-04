@@ -34,19 +34,6 @@ export const Header = props => {
 		context.logout();
 		props.setPage("login");
 	};
-
-	let loginButton = (
-		<Button onClick={() => props.setPage("login")} color="inherit">
-			Войти
-		</Button>
-	);
-
-	let logoutButton = (
-		<Button onClick={onLogoutButtonClick} color="inherit">
-			Выйти
-		</Button>
-	);
-
 	return (
 		<AppBar position="static" className={classes.bar}>
 			<Toolbar>
@@ -59,7 +46,9 @@ export const Header = props => {
 				<Button onClick={() => onButtonClick("profile")} color="inherit">
 					Профиль
 				</Button>
-				{context.isLoggedIn ? logoutButton : loginButton}
+				<Button onClick={onLogoutButtonClick} color="inherit">
+					Выйти
+				</Button>
 			</Toolbar>
 		</AppBar>
 	);

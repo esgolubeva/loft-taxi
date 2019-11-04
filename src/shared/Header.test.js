@@ -10,7 +10,6 @@ describe("Header", () => {
 		${"Карта"}   | ${false}   | ${"access-denied"}
 		${"Профиль"} | ${true}    | ${"profile"}
 		${"Профиль"} | ${false}   | ${"access-denied"}
-		${"Войти"}   | ${false}   | ${"login"}
 	`(
 		"$buttonText button should set $expectedPage page on click if isLoggedIn=$isLoggedIn",
 		({ buttonText, isLoggedIn, expectedPage }) => {

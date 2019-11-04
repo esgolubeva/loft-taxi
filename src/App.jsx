@@ -25,6 +25,13 @@ export const currentAppPage = (currentPageName, setPage) => {
 	}
 };
 
+const showHeader = (currentPageName, setPage) => {
+	if (currentPageName === "login" || currentPageName === "signup") {
+		return null;
+	} 
+	return <Header setPage={setPage} />;
+};
+
 export class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -40,12 +47,13 @@ export class App extends React.Component {
 	};
 
 	render() {
+		let header = showHeader(this.state.page, this.setPage);
 		let page = currentAppPage(this.state.page, this.setPage);
 
 		return (
 			<AuthProvider>
 				<MuiThemeProvider theme={theme}>
-					<Header setPage={this.setPage} />
+					{header}
 					{page}
 				</MuiThemeProvider>
 			</AuthProvider>

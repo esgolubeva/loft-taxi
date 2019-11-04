@@ -7,21 +7,13 @@ export const AuthProvider = props => {
 
 	const login = (username, password) => {
 		setIsLoggedIn(true);
-		console.log(isLoggedIn);
 	};
 
 	const logout = () => {
 		setIsLoggedIn(false);
-		console.log(isLoggedIn);
 	};
 	return (
-		<AuthContext.Provider
-			value={{
-				isLoggedIn,
-				login,
-				logout
-			}}
-		>
+		<AuthContext.Provider value={{ isLoggedIn, login, logout }}>
 			{props.children}
 		</AuthContext.Provider>
 	);
