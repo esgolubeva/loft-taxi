@@ -13,6 +13,12 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
+import { Link as RouterLink } from "react-router-dom";
+
+const LoginLink = React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
+
 export const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
@@ -27,11 +33,6 @@ export const SignupForm = props => {
 		event.preventDefault();
 		context.login();
 		props.setPage("map");
-	};
-
-	const onLoginClick = event => {
-		event.preventDefault();
-		props.setPage("login");
 	};
 
 	const onInputChange = event => {
@@ -49,7 +50,7 @@ export const SignupForm = props => {
 				<div>
 					<p>
 						Уже зарегистрирован?{" "}
-						<Link href="/" onClick={onLoginClick}>
+						<Link to="/login" component={LoginLink}>
 							Войти
 						</Link>
 					</p>

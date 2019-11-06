@@ -12,8 +12,17 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
+import { Link as RouterLink } from "react-router-dom";
+
+const SignupLink = React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
+
 export const LoginForm = props => {
-	const [userInfo, setUserInfo] = useState({ name: "", password: "" });
+	const [userInfo, setUserInfo] = useState({
+		name: "",
+		password: ""
+	});
 
 	const context = useContext(AuthContext);
 
@@ -21,11 +30,6 @@ export const LoginForm = props => {
 		event.preventDefault();
 		context.login();
 		props.setPage("map");
-	};
-
-	const onSignupClick = event => {
-		event.preventDefault();
-		props.setPage("signup");
 	};
 
 	const onInputChange = event => {
@@ -44,7 +48,7 @@ export const LoginForm = props => {
 				<div>
 					<p>
 						Новый пользователь?{" "}
-						<Link href="/" onClick={onSignupClick}>
+						<Link to="/signup" component={SignupLink}>
 							Зарегистрируйтесь
 						</Link>
 					</p>

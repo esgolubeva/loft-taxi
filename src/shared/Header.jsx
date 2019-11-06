@@ -10,6 +10,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
+import { Link as RouterLink } from "react-router-dom";
+
+const NavLink =  React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
+
 const useStyles = makeStyles(theme => ({
 	bar: {
 		backgroundColor: "#fff"
@@ -40,10 +46,10 @@ export const Header = props => {
 				<Typography variant="h6" className={classes.title}>
 					<Logo />
 				</Typography>
-				<Button onClick={() => onButtonClick("map")} color="inherit">
+				<Button component={NavLink} to="/map" color="inherit">
 					Карта
 				</Button>
-				<Button onClick={() => onButtonClick("profile")} color="inherit">
+				<Button component={NavLink} to="/profile" color="inherit">
 					Профиль
 				</Button>
 				<Button onClick={onLogoutButtonClick} color="inherit">
