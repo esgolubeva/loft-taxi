@@ -20,16 +20,43 @@ const SignupLink = React.forwardRef((props, ref) => (
 
 export const LoginForm = props => {
 	const [userInfo, setUserInfo] = useState({
-		name: "",
+		email: "",
 		password: ""
 	});
 
 	const context = useContext(AuthContext);
 
 	const onSubmit = event => {
+		let data = JSON.stringify(userInfo);
 		event.preventDefault();
-		context.login();
-		props.setPage("map");
+		console.log(data);
+
+		function handleErrors(response) {
+			if (!response.success) {
+				console.log(response);
+				throw Error(response.error);
+			}
+			return response;
+		}
+
+		fetch("https://loft-taxi.glitch.me/auth", {
+			method: "POST",
+			body: data,
+			headers: {
+				Accept: "application/json"
+			}
+		}).then(response => {
+			response
+				.json()
+				.then(handleErrors)
+				.then(data => {
+					context.login();
+					console.log(data);
+				})
+				.catch(function(res) {
+					console.log(res);
+				});
+		});
 	};
 
 	const onInputChange = event => {
@@ -38,6 +65,10 @@ export const LoginForm = props => {
 	};
 
 	const classes = useFormStyles();
+
+	if (context.isLoggedIn) {
+		return <Redirect to="/map" />;
+	}
 
 	return (
 		<Paper className={classes.form}>
@@ -58,9 +89,9 @@ export const LoginForm = props => {
 						label="Имя пользователя*"
 						fullWidth
 						margin="normal"
-						name="name"
-						type="text"
-						value={userInfo.name}
+						name="email"
+						type="email"
+						value={userInfo.email}
 						onChange={onInputChange}
 					/>
 					<TextField

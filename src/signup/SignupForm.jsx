@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 
 const LoginLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
@@ -22,17 +22,43 @@ const LoginLink = React.forwardRef((props, ref) => (
 export const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
+		password: "",
 		name: "",
-		surname: "",
-		password: ""
+		surname: ""
 	});
 
 	const context = useContext(AuthContext);
 
 	const onSubmit = event => {
+		let data = JSON.stringify(userInfo);
 		event.preventDefault();
-		context.login();
-		props.setPage("map");
+		console.log(data);
+
+		function handleErrors(response) {
+			if (!response.success) {
+				throw Error(response.error);
+			}
+			return response;
+		}
+
+		fetch("https://loft-taxi.glitch.me/register", {
+			method: "POST",
+			body: data,
+			headers: {
+				Accept: "application/json"
+			}
+		}).then(response => {
+			response
+				.json()
+				.then(handleErrors)
+				.then(data => {
+					context.login();
+					console.log(data);
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+		});
 	};
 
 	const onInputChange = event => {
@@ -40,6 +66,10 @@ export const SignupForm = props => {
 		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
 	const classes = useFormStyles();
+
+	if (context.isLoggedIn) {
+		return <Redirect to="/map" />;
+	}
 
 	return (
 		<Paper className={classes.form}>

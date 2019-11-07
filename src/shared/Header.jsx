@@ -38,8 +38,8 @@ export const Header = props => {
 
 	const onLogoutButtonClick = () => {
 		context.logout();
-		props.setPage("login");
 	};
+	
 	return (
 		<AppBar position="static" className={classes.bar}>
 			<Toolbar>
