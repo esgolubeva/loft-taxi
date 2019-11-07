@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 
 const SignupLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
@@ -27,36 +27,30 @@ export const LoginForm = props => {
 	const context = useContext(AuthContext);
 
 	const onSubmit = event => {
-		let data = JSON.stringify(userInfo);
+		let body = JSON.stringify(userInfo);
 		event.preventDefault();
-		console.log(data);
-
-		function handleErrors(response) {
-			if (!response.success) {
-				console.log(response);
-				throw Error(response.error);
-			}
-			return response;
-		}
 
 		fetch("https://loft-taxi.glitch.me/auth", {
 			method: "POST",
-			body: data,
+			body: body,
 			headers: {
-				Accept: "application/json"
+				Accept: "application/json",
+				"Content-Type": "application/json"
 			}
-		}).then(response => {
-			response
-				.json()
-				.then(handleErrors)
-				.then(data => {
-					context.login();
-					console.log(data);
-				})
-				.catch(function(res) {
-					console.log(res);
-				});
-		});
+		})
+			.then(response => response.json())
+			.then(data => {
+				if (!data.success) {
+					throw Error(data.error);
+				}
+				return data;
+			})
+			.then(data => {
+				context.login();
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
 	};
 
 	const onInputChange = event => {

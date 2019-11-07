@@ -30,9 +30,8 @@ export const SignupForm = props => {
 	const context = useContext(AuthContext);
 
 	const onSubmit = event => {
-		let data = JSON.stringify(userInfo);
+		let body = JSON.stringify(userInfo);
 		event.preventDefault();
-		console.log(data);
 
 		function handleErrors(response) {
 			if (!response.success) {
@@ -43,22 +42,20 @@ export const SignupForm = props => {
 
 		fetch("https://loft-taxi.glitch.me/register", {
 			method: "POST",
-			body: data,
+			body: body,
 			headers: {
-				Accept: "application/json"
+				Accept: "application/json",
+				"Content-Type": "application/json"
 			}
-		}).then(response => {
-			response
-				.json()
-				.then(handleErrors)
-				.then(data => {
-					context.login();
-					console.log(data);
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
-		});
+		})
+			.then(response => response.json())
+			.then(handleErrors)
+			.then(data => {
+				context.login();
+			})
+			.catch(function(error) {
+				console.log(error);
+			});
 	};
 
 	const onInputChange = event => {
