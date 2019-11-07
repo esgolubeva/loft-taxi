@@ -8,7 +8,7 @@ describe("App", () => {
 		render(<App />);
 	});
 
-	it.each(["map", "profile", "login", "signup", "access-denied"])(
+	it.each(["map", "profile", "login", "signup"])(
 		"should correctly render %s page",
 		pageName => {
 			let setPage = jest.fn();

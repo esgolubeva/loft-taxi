@@ -7,9 +7,7 @@ describe("Header", () => {
 	it.each`
 		buttonText   | isLoggedIn | expectedPage
 		${"Карта"}   | ${true}    | ${"map"}
-		${"Карта"}   | ${false}   | ${"access-denied"}
 		${"Профиль"} | ${true}    | ${"profile"}
-		${"Профиль"} | ${false}   | ${"access-denied"}
 	`(
 		"$buttonText button should set $expectedPage page on click if isLoggedIn=$isLoggedIn",
 		({ buttonText, isLoggedIn, expectedPage }) => {

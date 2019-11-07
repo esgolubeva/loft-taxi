@@ -29,17 +29,10 @@ export const Header = props => {
 	const classes = useStyles();
 	const context = useContext(AuthContext);
 
-	const onButtonClick = name => {
-		if (context.isLoggedIn) {
-			return props.setPage(name);
-		}
-		return props.setPage("access-denied");
-	};
-
 	const onLogoutButtonClick = () => {
 		context.logout();
 	};
-	
+
 	return (
 		<AppBar position="static" className={classes.bar}>
 			<Toolbar>
