@@ -14,43 +14,33 @@ import Typography from "@material-ui/core/Typography";
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
+import {
+	getUserInfo,
+	getIsLoggedIn,
+	getError,
+	fetchAuthRequest
+} from "../modules/auth/";
+
+import { connect } from "react-redux";
+
 const SignupLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
 ));
 
-export const LoginForm = props => {
+const LoginForm = React.memo(props => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
 		password: ""
 	});
 
-	const context = useContext(AuthContext);
+	const { fetchAuthRequest, isLoggedIn } = props;
+	// const context = useContext(AuthContext);
 
 	const onSubmit = event => {
-		let body = JSON.stringify(userInfo);
 		event.preventDefault();
+		// fetchAuthRequest(JSON.stringify(userInfo));
+		fetchAuthRequest(userInfo);
 
-		fetch("https://loft-taxi.glitch.me/auth", {
-			method: "POST",
-			body: body,
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(data => {
-				if (!data.success) {
-					throw Error(data.error);
-				}
-				return data;
-			})
-			.then(data => {
-				context.login();
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
 	};
 
 	const onInputChange = event => {
@@ -60,8 +50,8 @@ export const LoginForm = props => {
 
 	const classes = useFormStyles();
 
-	if (context.isLoggedIn) {
-		return <Redirect to="/map" />;
+	if (isLoggedIn) {
+		return <Redirect to="/profile" />;
 	}
 
 	return (
@@ -106,8 +96,21 @@ export const LoginForm = props => {
 			</Container>
 		</Paper>
 	);
-};
+});
 
 LoginForm.propTypes = {
 	setPage: PropTypes.func
 };
+
+const mapStateToProps = state => ({
+	userInfo: getUserInfo(state),
+	isLoggedIn: getIsLoggedIn(state),
+	error: getError(state)
+});
+
+const mapDispatchToProps = { fetchAuthRequest };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LoginForm);

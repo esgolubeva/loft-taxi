@@ -9,7 +9,7 @@ import { Profile } from "../profile";
 
 export const Router = () => {
 	const context = useContext(AuthContext);
-	console.log(context.isLoggedIn);
+	// console.log(context.isLoggedIn);
 	let loginPath = "/login";
 	let PrivateRoute = ({ component: RouteComponent }) => (
 		<Route
