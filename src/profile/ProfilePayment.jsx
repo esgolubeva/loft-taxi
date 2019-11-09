@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -10,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
+
+import { getCardInfo, getError, fetchCardRequest } from "../modules/card/";
 
 export const useFormStyles = makeStyles(theme => ({
 	form: {
@@ -38,19 +41,23 @@ export const useFormStyles = makeStyles(theme => ({
 	}
 }));
 
-export const ProfilePayment = React.memo(props => {
-	const [selectedDate, handleDateChange] = useState(new Date());
+const ProfilePayment = React.memo(props => {
+	const { fetchCardRequest, savedCard } = props;
+
 	const [cardInfo, setCardInfo] = useState({
-		number: "",
-		expiryDate: new Date(),
-		holderName: "",
-		cvc: ""
+		cardNumber: savedCard.cardNumber || "",
+		expiryDate: savedCard.expiryDate || new Date(),
+		cardName: savedCard.cardName || "",
+		cvc: savedCard.cvc || "",
+		token: window.localStorage.getItem("token")
 	});
 
 	const classes = useFormStyles();
+
+
 	const onSubmit = event => {
 		event.preventDefault();
-		// fetchAuthRequest(userInfo);
+		fetchCardRequest(cardInfo);
 	};
 
 	const onInputChange = event => {
@@ -59,7 +66,7 @@ export const ProfilePayment = React.memo(props => {
 		console.log(cardInfo);
 	};
 	const onDateInputChange = date => {
-		setCardInfo({expiryDate : date });
+		setCardInfo({ ...cardInfo, expiryDate: date });
 		console.log(cardInfo);
 	};
 
@@ -72,7 +79,7 @@ export const ProfilePayment = React.memo(props => {
 					</Typography>
 					<Typography variant="subtitle1">Способ оплаты</Typography>
 				</Box>
-				<form>
+				<form onSubmit={onSubmit}>
 					<Box className={classes.cardsContainer}>
 						<Paper className={classes.card}>
 							<MCIcon />
@@ -80,26 +87,25 @@ export const ProfilePayment = React.memo(props => {
 								label="Номер карты:"
 								fullWidth
 								margin="normal"
-								name="number"
+								name="cardNumber"
 								type="text"
 								placeholder="0000 0000 0000 0000"
-								value={cardInfo.number}
+								value={cardInfo.cardNumber}
 								onChange={onInputChange}
 								InputLabelProps={{ shrink: true }}
 							/>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<DatePicker
-									views={["year", "month"]}
-									minDate={new Date()}
 									name="expiryDate"
 									format="MM/yy"
+									minDate={new Date()}
+									variant="inline"
+									openTo="year"
 									margin="normal"
-									id="date-picker-inline"
+									views={["year", "month"]}
 									label="Срок действия:"
-									// value={selectedDate}
-									// onChange={( handleDateChange)}
 									value={cardInfo.expiryDate}
-									onChange={( onDateInputChange)}
+									onChange={onDateInputChange}
 									InputLabelProps={{ shrink: true }}
 								/>
 							</MuiPickersUtilsProvider>
@@ -110,10 +116,10 @@ export const ProfilePayment = React.memo(props => {
 								label="Имя владельца:"
 								fullWidth
 								margin="normal"
-								name="holderName"
+								name="cardName"
 								type="text"
 								placeholder="USER NAME"
-								value={cardInfo.holderName}
+								value={cardInfo.cardName}
 								onChange={onInputChange}
 								InputLabelProps={{ shrink: true }}
 							/>
@@ -121,8 +127,11 @@ export const ProfilePayment = React.memo(props => {
 								label="CVC:"
 								margin="normal"
 								name="cvc"
-								type="number"
+								type="text"
 								placeholder="***"
+								inputProps={{
+									maxLength: 3
+								}}
 								value={cardInfo.cvc}
 								onChange={onInputChange}
 								InputLabelProps={{ shrink: true }}
@@ -144,3 +153,15 @@ export const ProfilePayment = React.memo(props => {
 		</Paper>
 	);
 });
+
+const mapStateToProps = state => ({
+	savedCard: getCardInfo(state),
+	error: getError(state)
+});
+
+const mapDispatchToProps = { fetchCardRequest };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ProfilePayment);
