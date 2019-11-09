@@ -1,11 +1,11 @@
 import React from "react";
 import { ProfilePage } from "./ProfilePage";
-import ProfilePayment from "./ProfilePayment";
+import ProfileForm from "./ProfileForm";
 
 export const Profile = props => (
 	<ProfilePage>
 		<div data-testid="profile">
-			<ProfilePayment />
+			<ProfileForm />
 		</div>
 	</ProfilePage>
 );

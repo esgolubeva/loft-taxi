@@ -1,10 +1,11 @@
 import React from "react";
 
 import Background from "../img/bg/auth-bg.jpg";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
 	authBg: {
@@ -17,14 +18,34 @@ const useStyles = makeStyles(theme => ({
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "space-between"
+	},
+	profile: {
+		padding: "56px 0 72px",
+		width: "945px"
+	},
+	profileContainer: {
+		padding: "0 73px"
 	}
 }));
 
 export const ProfilePage = props => {
 	const classes = useStyles();
+
 	return (
 		<Box className={classes.authBg}>
-			<Container className={classes.container}>{props.children}</Container>
+			<Container className={classes.container}>
+				<Paper className={classes.profile}>
+					<Container className={classes.profileContainer}>
+						<Box textAlign="center">
+							<Typography variant="h4" component="h1">
+								Профиль
+							</Typography>
+							<Typography variant="subtitle1">Способ оплаты</Typography>
+						</Box>
+						{props.children}
+					</Container>
+				</Paper>
+			</Container>
 		</Box>
 	);
 };
