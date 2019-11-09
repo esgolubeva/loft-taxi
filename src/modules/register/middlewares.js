@@ -1,13 +1,12 @@
 import {
-	fetchAuthFailure,
-	fetchAuthSuccess,
-	fetchAuthRequest,
-	fetchLogout
+	fetchRegisterFailure,
+	fetchRegisterSuccess,
+	fetchRegisterRequest
 } from "./actions";
 
-export const authFetchMiddleware = store => next => action => {
-	if (action.type === fetchAuthRequest.toString()) {
-		fetch("https://loft-taxi.glitch.me/auth", {
+export const registerFetchMiddleware = store => next => action => {
+	if (action.type === fetchRegisterRequest.toString()) {
+		fetch("https://loft-taxi.glitch.me/register", {
 			method: "POST",
 			body: JSON.stringify(action.payload),
 			headers: {
@@ -25,14 +24,12 @@ export const authFetchMiddleware = store => next => action => {
 				return data;
 			})
 			.then(data => {
-				store.dispatch(fetchAuthSuccess(data));
+				store.dispatch(fetchRegisterSuccess(data));
 				window.localStorage.setItem("token", data.token);
 			})
 			.catch(error => {
-				store.dispatch(fetchAuthFailure(error));
+				store.dispatch(fetchRegisterFailure(error));
 			});
-	} else if (action.type === fetchLogout.toString()) {
-		window.localStorage.removeItem("token", null);
 	}
 	return next(action);
 };

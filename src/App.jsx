@@ -7,19 +7,15 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import Router from "./router/Router";
 import Header from "./shared/Header";
 
-import { AuthProvider } from "./auth";
-
 export class App extends React.Component {
 	render() {
 		return (
-			<AuthProvider>
-				<MuiThemeProvider theme={theme}>
-					<BrowserRouter>
-						<Header />
-						<Router />
-					</BrowserRouter>
-				</MuiThemeProvider>
-			</AuthProvider>
+			<MuiThemeProvider theme={theme}>
+				<BrowserRouter>
+					<Header />
+					<Router />
+				</BrowserRouter>
+			</MuiThemeProvider>
 		);
 	}
 }

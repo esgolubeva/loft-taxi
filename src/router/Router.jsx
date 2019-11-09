@@ -9,8 +9,7 @@ import { Profile } from "../profile";
 
 import { getIsLoggedIn } from "../modules/auth/";
 
-
-export const Router = props => {
+const Router = props => {
 	const { isLoggedIn } = props;
 	const loginPath = "/login";
 	const PrivateRoute = ({ component: RouteComponent }) => (

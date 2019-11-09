@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { AuthContext } from "../auth";
 import { useFormStyles } from "../shared/styles";
-
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -15,11 +14,18 @@ import Grid from "@material-ui/core/Grid";
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
+import {
+	getUserInfo,
+	getIsLoggedIn,
+	getError,
+	fetchRegisterRequest
+} from "../modules/register/";
+
 const LoginLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
 ));
 
-export const SignupForm = props => {
+const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
 		password: "",
@@ -27,44 +33,21 @@ export const SignupForm = props => {
 		surname: ""
 	});
 
-	const context = useContext(AuthContext);
+	const { fetchRegisterRequest, isLoggedIn } = props;
 
 	const onSubmit = event => {
-		let body = JSON.stringify(userInfo);
 		event.preventDefault();
-
-		function handleErrors(response) {
-			if (!response.success) {
-				throw Error(response.error);
-			}
-			return response;
-		}
-
-		fetch("https://loft-taxi.glitch.me/register", {
-			method: "POST",
-			body: body,
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(handleErrors)
-			.then(data => {
-				context.login();
-			})
-			.catch(function(error) {
-				console.log(error);
-			});
+		fetchRegisterRequest(userInfo);
 	};
 
 	const onInputChange = event => {
 		let input = event.target;
 		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
+
 	const classes = useFormStyles();
 
-	if (context.isLoggedIn) {
+	if (isLoggedIn) {
 		return <Redirect to="/map" />;
 	}
 
@@ -143,3 +126,16 @@ export const SignupForm = props => {
 SignupForm.propTypes = {
 	setPage: PropTypes.func
 };
+
+const mapStateToProps = state => ({
+	userInfo: getUserInfo(state),
+	isLoggedIn: getIsLoggedIn(state),
+	error: getError(state)
+});
+
+const mapDispatchToProps = { fetchRegisterRequest };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SignupForm);

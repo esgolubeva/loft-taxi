@@ -1,42 +1,29 @@
 import { handleActions } from "redux-actions";
 import { combineReducers } from "redux";
 import {
-	fetchAuthRequest,
-	fetchAuthSuccess,
-	fetchAuthFailure,
-	fetchLogout
-} from "./actions";
-import {
 	fetchRegisterRequest,
 	fetchRegisterSuccess,
 	fetchRegisterFailure
-} from "../register/actions";
+} from "./actions";
 
-// const userInfo = handleActions(
-// 	{
-// 		[fetchAuthRequest]: (_state, action) => action.payload
-// 	},
-// 	{}
-// );
+const userInfo = handleActions(
+	{
+		[fetchRegisterRequest]: (_state, action) => action.payload
+	},
+	{}
+);
 
 const isLoggedIn = handleActions(
 	{
-		[fetchAuthRequest]: () => false,
-		[fetchAuthFailure]: () => false,
-		[fetchAuthSuccess]: () => true,
 		[fetchRegisterRequest]: () => false,
 		[fetchRegisterFailure]: () => false,
-		[fetchRegisterSuccess]: () => true,
-		[fetchLogout]: () => false
+		[fetchRegisterSuccess]: () => true
 	},
 	window.localStorage.getItem("token") ? true : false
 );
 
 const error = handleActions(
 	{
-		[fetchAuthRequest]: () => null,
-		[fetchAuthFailure]: (_state, action) => action.payload,
-		[fetchAuthSuccess]: () => null,
 		[fetchRegisterRequest]: () => null,
 		[fetchRegisterFailure]: (_state, action) => action.payload,
 		[fetchRegisterSuccess]: () => null
@@ -45,7 +32,7 @@ const error = handleActions(
 );
 
 export default combineReducers({
-	// userInfo,
+	userInfo,
 	isLoggedIn,
 	error
 });

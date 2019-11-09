@@ -39,8 +39,30 @@ export const useFormStyles = makeStyles(theme => ({
 }));
 
 export const ProfilePayment = React.memo(props => {
-	const classes = useFormStyles();
 	const [selectedDate, handleDateChange] = useState(new Date());
+	const [cardInfo, setCardInfo] = useState({
+		number: "",
+		expiryDate: new Date(),
+		holderName: "",
+		cvc: ""
+	});
+
+	const classes = useFormStyles();
+	const onSubmit = event => {
+		event.preventDefault();
+		// fetchAuthRequest(userInfo);
+	};
+
+	const onInputChange = event => {
+		let input = event.target;
+		setCardInfo({ ...cardInfo, [input.name]: input.value });
+		console.log(cardInfo);
+	};
+	const onDateInputChange = date => {
+		setCardInfo({expiryDate : date });
+		console.log(cardInfo);
+	};
+
 	return (
 		<Paper className={classes.form}>
 			<Container className={classes.formContainer}>
@@ -58,23 +80,27 @@ export const ProfilePayment = React.memo(props => {
 								label="Номер карты:"
 								fullWidth
 								margin="normal"
-								name="cardNumber"
+								name="number"
 								type="text"
 								placeholder="0000 0000 0000 0000"
-								// value={userInfo.email}
-								// onChange={onInputChange}
+								value={cardInfo.number}
+								onChange={onInputChange}
+								InputLabelProps={{ shrink: true }}
 							/>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<DatePicker
 									views={["year", "month"]}
 									minDate={new Date()}
-									name="date"
+									name="expiryDate"
 									format="MM/yy"
 									margin="normal"
 									id="date-picker-inline"
 									label="Срок действия:"
-									value={selectedDate}
-									onChange={handleDateChange}
+									// value={selectedDate}
+									// onChange={( handleDateChange)}
+									value={cardInfo.expiryDate}
+									onChange={( onDateInputChange)}
+									InputLabelProps={{ shrink: true }}
 								/>
 							</MuiPickersUtilsProvider>
 						</Paper>
@@ -84,11 +110,12 @@ export const ProfilePayment = React.memo(props => {
 								label="Имя владельца:"
 								fullWidth
 								margin="normal"
-								name="name"
+								name="holderName"
 								type="text"
 								placeholder="USER NAME"
-								// value={userInfo.email}
-								// onChange={onInputChange}
+								value={cardInfo.holderName}
+								onChange={onInputChange}
+								InputLabelProps={{ shrink: true }}
 							/>
 							<TextField
 								label="CVC:"
@@ -96,8 +123,9 @@ export const ProfilePayment = React.memo(props => {
 								name="cvc"
 								type="number"
 								placeholder="***"
-								// value={userInfo.email}
-								// onChange={onInputChange}
+								value={cardInfo.cvc}
+								onChange={onInputChange}
+								InputLabelProps={{ shrink: true }}
 							/>
 						</Paper>
 					</Box>
