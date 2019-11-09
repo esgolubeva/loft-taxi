@@ -3,23 +3,25 @@ import { combineReducers } from "redux";
 import {
 	fetchAuthRequest,
 	fetchAuthSuccess,
-	fetchAuthFailure
+	fetchAuthFailure,
+	fetchLogout
 } from "./actions";
 
-const userInfo = handleActions(
-	{
-		[fetchAuthRequest]: (_state, action) => action.payload
-	},
-	{}
-);
+// const userInfo = handleActions(
+// 	{
+// 		[fetchAuthRequest]: (_state, action) => action.payload
+// 	},
+// 	{}
+// );
 
 const isLoggedIn = handleActions(
 	{
 		[fetchAuthRequest]: () => false,
 		[fetchAuthFailure]: () => false,
-		[fetchAuthSuccess]: () => true
+		[fetchAuthSuccess]: () => true,
+		[fetchLogout]: () => false
 	},
-	false
+	(window.localStorage.getItem("token")) ? true : false
 );
 
 const error = handleActions(
@@ -32,7 +34,7 @@ const error = handleActions(
 );
 
 export default combineReducers({
-	userInfo,
+	// userInfo,
 	isLoggedIn,
 	error
 });

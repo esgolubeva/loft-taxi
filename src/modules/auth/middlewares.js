@@ -1,15 +1,15 @@
 import {
 	fetchAuthFailure,
 	fetchAuthSuccess,
-	fetchAuthRequest
+	fetchAuthRequest,
+	fetchLogout
 } from "./actions";
 
 export const authFetchMiddleware = store => next => action => {
-	let body = JSON.stringify(store.getState().auth.userInfo);
 	if (action.type === fetchAuthRequest.toString()) {
 		fetch("https://loft-taxi.glitch.me/auth", {
 			method: "POST",
-			body: body,
+			body: JSON.stringify(action.payload),
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json"
@@ -24,10 +24,13 @@ export const authFetchMiddleware = store => next => action => {
 			})
 			.then(data => {
 				store.dispatch(fetchAuthSuccess(data));
+				window.localStorage.setItem("token", data.token);
 			})
 			.catch(error => {
 				store.dispatch(fetchAuthFailure(error));
 			});
+	} else if (action.type === fetchLogout.toString()) {
+		window.localStorage.setItem("token", null);
 	}
 	return next(action);
 };

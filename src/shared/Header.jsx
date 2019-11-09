@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { AuthContext } from "../auth";
@@ -10,9 +11,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import { statement } from "@babel/template";
 
-const NavLink =  React.forwardRef((props, ref) => (
+import { fetchLogout, getIsLoggedIn } from "../modules/auth/";
+
+const NavLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
 ));
 
@@ -25,13 +29,18 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export const Header = props => {
+const Header = withRouter(props => {
 	const classes = useStyles();
 	const context = useContext(AuthContext);
 
+	const { fetchLogout } = props;
 	const onLogoutButtonClick = () => {
-		context.logout();
+		fetchLogout();
 	};
+
+	if (props.location.pathname.match(/(\/login|\/signup)/)) {
+		return null;
+	}
 
 	return (
 		<AppBar position="static" className={classes.bar}>
@@ -51,8 +60,17 @@ export const Header = props => {
 			</Toolbar>
 		</AppBar>
 	);
-};
+});
 
 Header.propTypes = {
 	setPage: PropTypes.func
 };
+
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = { fetchLogout };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Header);
