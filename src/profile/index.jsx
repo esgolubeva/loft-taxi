@@ -1,7 +1,11 @@
 import React from "react";
+import { ProfilePage } from "./ProfilePage";
+import { ProfilePayment } from "./ProfilePayment";
 
 export const Profile = props => (
-	<div data-testid="profile">
-		<h1>Profile</h1>
-	</div>
+	<ProfilePage>
+		<div data-testid="profile">
+			<ProfilePayment />
+		</div>
+	</ProfilePage>
 );
