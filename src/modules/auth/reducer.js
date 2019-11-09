@@ -10,7 +10,7 @@ const userInfo = handleActions(
 	{
 		[fetchAuthRequest]: (_state, action) => action.payload
 	},
-	{ email: "email@example.com", password: "password" }
+	{}
 );
 
 const isLoggedIn = handleActions(

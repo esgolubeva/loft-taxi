@@ -1,20 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { AuthContext } from "../auth";
+import { connect } from "react-redux";
 
 import { Map } from "../map";
 import { Login } from "../login";
 import { Signup } from "../signup";
 import { Profile } from "../profile";
 
-export const Router = () => {
-	const context = useContext(AuthContext);
-	// console.log(context.isLoggedIn);
-	let loginPath = "/login";
-	let PrivateRoute = ({ component: RouteComponent }) => (
+import { getIsLoggedIn } from "../modules/auth/";
+
+
+export const Router = props => {
+	const { isLoggedIn } = props;
+	const loginPath = "/login";
+	const PrivateRoute = ({ component: RouteComponent }) => (
 		<Route
 			render={routeProps =>
-				context.isLoggedIn ? (
+				isLoggedIn ? (
 					<RouteComponent {...routeProps} />
 				) : (
 					<Redirect to={loginPath} />
@@ -32,3 +34,14 @@ export const Router = () => {
 		</Switch>
 	);
 };
+
+const mapStateToProps = state => ({
+	isLoggedIn: getIsLoggedIn(state)
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Router);

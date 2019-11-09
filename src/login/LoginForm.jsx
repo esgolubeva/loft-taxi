@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 
-import { AuthContext } from "../auth";
 import { useFormStyles } from "../shared/styles";
-
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -12,16 +12,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import { Link as RouterLink, Redirect } from "react-router-dom";
-
 import {
 	getUserInfo,
 	getIsLoggedIn,
 	getError,
 	fetchAuthRequest
 } from "../modules/auth/";
-
-import { connect } from "react-redux";
 
 const SignupLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
@@ -33,14 +29,13 @@ const LoginForm = React.memo(props => {
 		password: ""
 	});
 
+	const classes = useFormStyles();
+
 	const { fetchAuthRequest, isLoggedIn } = props;
-	// const context = useContext(AuthContext);
 
 	const onSubmit = event => {
 		event.preventDefault();
-		// fetchAuthRequest(JSON.stringify(userInfo));
 		fetchAuthRequest(userInfo);
-
 	};
 
 	const onInputChange = event => {
@@ -48,10 +43,8 @@ const LoginForm = React.memo(props => {
 		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
 
-	const classes = useFormStyles();
-
 	if (isLoggedIn) {
-		return <Redirect to="/profile" />;
+		return <Redirect to="/map" />;
 	}
 
 	return (
