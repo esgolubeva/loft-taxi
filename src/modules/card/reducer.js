@@ -9,7 +9,7 @@ import {
 
 const cardInfo = handleActions(
 	{
-		[fetchCardRequest]: (_state, action) => action.payload
+		[fetchCardSuccess]: (_state, action) => action.payload
 	},
 	{}
 );
