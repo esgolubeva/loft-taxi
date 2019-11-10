@@ -22,7 +22,7 @@ export const cardFetchMiddleware = store => next => action => {
 				return data;
 			})
 			.then(data => {
-				store.dispatch(fetchCardSuccess(data));
+				store.dispatch(fetchCardSuccess(action.payload));
 			})
 			.catch(error => {
 				store.dispatch(fetchCardFailure(error));

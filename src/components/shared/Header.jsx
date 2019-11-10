@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button";
 import { Link as RouterLink, withRouter } from "react-router-dom";
 import { statement } from "@babel/template";
 
-import { fetchLogout, getIsLoggedIn } from "../modules/auth/";
+import { fetchLogout, getIsLoggedIn } from "../../modules/auth";
 
 const NavLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />

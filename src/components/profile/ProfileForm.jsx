@@ -17,7 +17,7 @@ import {
 	getIsSaved,
 	fetchCardRequest,
 	fetchHideSaveMessage
-} from "../modules/card";
+} from "../../modules/card";
 
 export const useFormStyles = makeStyles(theme => ({
 	buttonContainer: {
@@ -45,8 +45,6 @@ export const useFormStyles = makeStyles(theme => ({
 		textAlign: "center"
 	}
 }));
-
-
 
 const ProfileForm = React.memo(props => {
 	const classes = useFormStyles();

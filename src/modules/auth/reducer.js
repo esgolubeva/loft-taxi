@@ -4,13 +4,11 @@ import {
 	fetchAuthRequest,
 	fetchAuthSuccess,
 	fetchAuthFailure,
-	fetchLogout
-} from "./actions";
-import {
+	fetchLogout,
 	fetchRegisterRequest,
 	fetchRegisterSuccess,
 	fetchRegisterFailure
-} from "../register/actions";
+} from "./actions";
 
 const isLoggedIn = handleActions(
 	{

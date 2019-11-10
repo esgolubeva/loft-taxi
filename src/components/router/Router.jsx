@@ -7,7 +7,7 @@ import { Login } from "../login";
 import { Signup } from "../signup";
 import { Profile } from "../profile";
 
-import { getIsLoggedIn } from "../modules/auth/";
+import { getIsLoggedIn } from "../../modules/auth";
 
 const Router = props => {
 	const { isLoggedIn } = props;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Background from "../img/bg/auth-bg.jpg";
+import Background from "../../img/bg/auth-bg.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";

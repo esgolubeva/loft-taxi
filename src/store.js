@@ -1,6 +1,5 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import { authFetchMiddleware } from "./modules/auth/middlewares";
-import { registerFetchMiddleware } from "./modules/register/middlewares";
+import { authFetchMiddleware, registerFetchMiddleware } from "./modules/auth/middlewares";
 import { cardFetchMiddleware } from "./modules/card/middlewares";
 import rootReducer from "./modules";
 

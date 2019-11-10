@@ -4,8 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { theme } from "loft-taxi-mui-theme";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
-import Router from "./router/Router";
-import Header from "./shared/Header";
+import Router from "./components/router/Router";
+import Header from "./components/shared/Header";
 
 export class App extends React.Component {
 	render() {
