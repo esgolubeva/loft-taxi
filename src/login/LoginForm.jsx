@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import {
-	getUserInfo,
 	getIsLoggedIn,
 	getError,
 	fetchAuthRequest
@@ -63,22 +62,24 @@ const LoginForm = React.memo(props => {
 				</div>
 				<form onSubmit={onSubmit}>
 					<TextField
-						label="Имя пользователя*"
-						fullWidth
-						margin="normal"
-						name="email"
+						label="Имя пользователя"
 						type="email"
+						name="email"
 						value={userInfo.email}
 						onChange={onInputChange}
+						margin="normal"
+						fullWidth
+						required
 					/>
 					<TextField
-						label="Пароль*"
-						fullWidth
-						margin="normal"
-						name="password"
+						label="Пароль"
 						type="password"
+						name="password"
 						value={userInfo.password}
 						onChange={onInputChange}
+						margin="normal"
+						fullWidth
+						required
 					/>
 					<Box className={classes.buttonContainer}>
 						<Button type="submit" variant="contained" color="primary">
@@ -96,7 +97,6 @@ LoginForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	userInfo: getUserInfo(state),
 	isLoggedIn: getIsLoggedIn(state),
 	error: getError(state)
 });

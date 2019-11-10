@@ -15,7 +15,6 @@ import Grid from "@material-ui/core/Grid";
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
 import {
-	getUserInfo,
 	getIsLoggedIn,
 	getError,
 	fetchRegisterRequest
@@ -70,45 +69,49 @@ const SignupForm = props => {
 						<Grid item xs={12}>
 							<TextField
 								label="Адрес электронной почты"
-								fullWidth
-								margin="normal"
-								name="email"
 								type="email"
+								name="email"
 								value={userInfo.email}
 								onChange={onInputChange}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								label="Имя"
-								fullWidth
-								margin="normal"
-								name="name"
 								type="text"
+								name="name"
 								value={userInfo.name}
 								onChange={onInputChange}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								label="Фамилия"
-								fullWidth
-								margin="normal"
-								name="surname"
 								type="text"
+								name="surname"
 								value={userInfo.surname}
 								onChange={onInputChange}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								label="Пароль"
-								fullWidth
-								margin="normal"
-								name="password"
 								type="password"
+								name="password"
 								value={userInfo.password}
 								onChange={onInputChange}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 					</Grid>
@@ -128,7 +131,6 @@ SignupForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-	userInfo: getUserInfo(state),
 	isLoggedIn: getIsLoggedIn(state),
 	error: getError(state)
 });

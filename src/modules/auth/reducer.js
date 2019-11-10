@@ -12,13 +12,6 @@ import {
 	fetchRegisterFailure
 } from "../register/actions";
 
-// const userInfo = handleActions(
-// 	{
-// 		[fetchAuthRequest]: (_state, action) => action.payload
-// 	},
-// 	{}
-// );
-
 const isLoggedIn = handleActions(
 	{
 		[fetchAuthRequest]: () => false,
@@ -45,7 +38,6 @@ const error = handleActions(
 );
 
 export default combineReducers({
-	// userInfo,
 	isLoggedIn,
 	error
 });

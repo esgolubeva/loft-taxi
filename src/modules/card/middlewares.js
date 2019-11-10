@@ -27,6 +27,6 @@ export const cardFetchMiddleware = store => next => action => {
 			.catch(error => {
 				store.dispatch(fetchCardFailure(error));
 			});
-	}
+	} 
 	return next(action);
 };

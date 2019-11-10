@@ -4,16 +4,22 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
-import { getCardInfo, getError, fetchCardRequest } from "../modules/card";
+import {
+	getCardInfo,
+	getError,
+	getIsSaved,
+	fetchCardRequest,
+	fetchHideSaveMessage
+} from "../modules/card";
 
 export const useFormStyles = makeStyles(theme => ({
-
 	buttonContainer: {
 		display: "flex",
 		justifyContent: "center",
@@ -30,13 +36,22 @@ export const useFormStyles = makeStyles(theme => ({
 		width: "384px",
 		padding: "40px 30px 30px",
 		position: "relative"
+	},
+	message: {
+		position: "absolute",
+		bottom: "30px",
+		left: 0,
+		width: "100%",
+		textAlign: "center"
 	}
 }));
+
+
 
 const ProfileForm = React.memo(props => {
 	const classes = useFormStyles();
 
-	const { fetchCardRequest, savedCard } = props;
+	const { fetchCardRequest, savedCard, isSaved, fetchHideSaveMessage } = props;
 
 	const [cardInfo, setCardInfo] = useState({
 		cardNumber: savedCard.cardNumber || "",
@@ -54,10 +69,24 @@ const ProfileForm = React.memo(props => {
 	const onInputChange = event => {
 		let input = event.target;
 		setCardInfo({ ...cardInfo, [input.name]: input.value });
+		if (isSaved) {
+			fetchHideSaveMessage();
+		}
 	};
-	
+
 	const onDateInputChange = date => {
 		setCardInfo({ ...cardInfo, expiryDate: date });
+	};
+
+	const Message = () => {
+		if (isSaved) {
+			return (
+				<Box className={classes.message}>
+					<Typography variant="body1">Данные карты сохранены.</Typography>
+				</Box>
+			);
+		}
+		return null;
 	};
 
 	return (
@@ -67,55 +96,59 @@ const ProfileForm = React.memo(props => {
 					<MCIcon />
 					<TextField
 						label="Номер карты:"
-						fullWidth
-						margin="normal"
-						name="cardNumber"
-						type="text"
 						placeholder="0000 0000 0000 0000"
+						type="text"
+						name="cardNumber"
 						value={cardInfo.cardNumber}
 						onChange={onInputChange}
 						InputLabelProps={{ shrink: true }}
+						margin="normal"
+						fullWidth
+						required
 					/>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<DatePicker
-							name="expiryDate"
-							format="MM/yy"
-							minDate={new Date()}
-							variant="inline"
-							openTo="year"
-							margin="normal"
-							views={["year", "month"]}
 							label="Срок действия:"
+							name="expiryDate"
 							value={cardInfo.expiryDate}
 							onChange={onDateInputChange}
+							openTo="year"
+							minDate={new Date()}
+							views={["year", "month"]}
+							format="MM/yy"
 							InputLabelProps={{ shrink: true }}
+							variant="inline"
+							margin="normal"
+							required
 						/>
 					</MuiPickersUtilsProvider>
 				</Paper>
 				<Paper className={classes.card}>
 					<TextField
 						label="Имя владельца:"
-						fullWidth
-						margin="normal"
-						name="cardName"
-						type="text"
 						placeholder="USER NAME"
+						type="text"
+						name="cardName"
 						value={cardInfo.cardName}
 						onChange={onInputChange}
 						InputLabelProps={{ shrink: true }}
+						margin="normal"
+						fullWidth
+						required
 					/>
 					<TextField
 						label="CVC:"
-						margin="normal"
-						name="cvc"
 						type="text"
 						placeholder="***"
+						name="cvc"
+						value={cardInfo.cvc}
+						onChange={onInputChange}
 						inputProps={{
 							maxLength: 3
 						}}
-						value={cardInfo.cvc}
-						onChange={onInputChange}
 						InputLabelProps={{ shrink: true }}
+						margin="normal"
+						required
 					/>
 				</Paper>
 			</Box>
@@ -124,16 +157,18 @@ const ProfileForm = React.memo(props => {
 					Сохранить
 				</Button>
 			</Box>
+			<Message />
 		</form>
 	);
 });
 
 const mapStateToProps = state => ({
 	savedCard: getCardInfo(state),
-	error: getError(state)
+	error: getError(state),
+	isSaved: getIsSaved(state)
 });
 
-const mapDispatchToProps = { fetchCardRequest };
+const mapDispatchToProps = { fetchCardRequest, fetchHideSaveMessage };
 
 export default connect(
 	mapStateToProps,

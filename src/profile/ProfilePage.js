@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	profile: {
 		padding: "56px 0 72px",
-		width: "945px"
+		width: "945px",
+		position: "relative"
 	},
 	profileContainer: {
 		padding: "0 73px"
