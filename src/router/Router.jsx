@@ -30,7 +30,7 @@ const Router = props => {
 			<Route path="/signup" component={Signup} />
 			<PrivateRoute path="/map" component={Map} />
 			<PrivateRoute path="/profile" component={Profile} />
-			{/* <Route path="/profile" component={Profile} /> */}
+			<Redirect to="/map" />
 		</Switch>
 	);
 };

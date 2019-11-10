@@ -7,14 +7,15 @@ describe("App", () => {
 	it("renders without crashing", () => {
 		render(<App />);
 	});
-
-	it.each(["map", "profile", "login", "signup"])(
-		"should correctly render %s page",
-		pageName => {
-			let setPage = jest.fn();
-			let page = currentAppPage(pageName, setPage);
-			let { queryByTestId } = render(page);
-			expect(queryByTestId(pageName)).toBeTruthy();
-		}
-	);
 });
+
+// 	it.each(["map", "profile", "login", "signup"])(
+// 		"should correctly render %s page",
+// 		pageName => {
+// 			let setPage = jest.fn();
+// 			let page = currentAppPage(pageName, setPage);
+// 			let { queryByTestId } = render(page);
+// 			expect(queryByTestId(pageName)).toBeTruthy();
+// 		}
+// 	);
+// });
