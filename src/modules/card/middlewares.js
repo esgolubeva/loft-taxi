@@ -6,7 +6,7 @@ import {
 
 export const cardFetchMiddleware = store => next => action => {
 	if (action.type === fetchCardRequest.toString()) {
-		fetch("https://loft-taxi.glitch.me/card", {
+		return fetch("https://loft-taxi.glitch.me/card", {
 			method: "POST",
 			body: JSON.stringify(action.payload),
 			headers: {
@@ -23,10 +23,11 @@ export const cardFetchMiddleware = store => next => action => {
 			})
 			.then(data => {
 				store.dispatch(fetchCardSuccess(action.payload));
+				return data;
 			})
 			.catch(error => {
 				store.dispatch(fetchCardFailure(error));
 			});
-	} 
+	}
 	return next(action);
 };

@@ -11,13 +11,7 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
-import {
-	getCardInfo,
-	getError,
-	getIsSaved,
-	fetchCardRequest,
-	fetchHideSaveMessage
-} from "../../modules/card";
+import { getCardInfo, getError, fetchCardRequest } from "../../modules/card";
 
 export const useFormStyles = makeStyles(theme => ({
 	buttonContainer: {
@@ -49,7 +43,9 @@ export const useFormStyles = makeStyles(theme => ({
 const ProfileForm = React.memo(props => {
 	const classes = useFormStyles();
 
-	const { fetchCardRequest, savedCard, isSaved, fetchHideSaveMessage } = props;
+	const { fetchCardRequest, savedCard } = props;
+
+	const [showMessage, setShowMessage] = useState(false);
 
 	const [cardInfo, setCardInfo] = useState({
 		cardNumber: savedCard.cardNumber || "",
@@ -61,23 +57,22 @@ const ProfileForm = React.memo(props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		fetchCardRequest(cardInfo);
+		fetchCardRequest(cardInfo).then(data => setShowMessage(true));
 	};
 
 	const onInputChange = event => {
 		let input = event.target;
 		setCardInfo({ ...cardInfo, [input.name]: input.value });
-		if (isSaved) {
-			fetchHideSaveMessage();
-		}
+		setShowMessage(false);
 	};
 
 	const onDateInputChange = date => {
 		setCardInfo({ ...cardInfo, expiryDate: date });
+		setShowMessage(false);
 	};
 
 	const Message = () => {
-		if (isSaved) {
+		if (showMessage) {
 			return (
 				<Box className={classes.message}>
 					<Typography variant="body1">Данные карты сохранены.</Typography>
@@ -162,11 +157,10 @@ const ProfileForm = React.memo(props => {
 
 const mapStateToProps = state => ({
 	savedCard: getCardInfo(state),
-	error: getError(state),
-	isSaved: getIsSaved(state)
+	error: getError(state)
 });
 
-const mapDispatchToProps = { fetchCardRequest, fetchHideSaveMessage };
+const mapDispatchToProps = { fetchCardRequest };
 
 export default connect(
 	mapStateToProps,

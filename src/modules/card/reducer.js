@@ -3,8 +3,7 @@ import { combineReducers } from "redux";
 import {
 	fetchCardRequest,
 	fetchCardSuccess,
-	fetchCardFailure,
-	fetchHideSaveMessage
+	fetchCardFailure
 } from "./actions";
 
 const cardInfo = handleActions(
@@ -12,16 +11,6 @@ const cardInfo = handleActions(
 		[fetchCardSuccess]: (_state, action) => action.payload
 	},
 	{}
-);
-
-const isSaved = handleActions(
-	{
-		[fetchCardRequest]: () => false,
-		[fetchCardFailure]: () => false,
-		[fetchCardSuccess]: () => true,
-		[fetchHideSaveMessage]: () => false
-	},
-	false
 );
 
 const error = handleActions(
@@ -35,6 +24,5 @@ const error = handleActions(
 
 export default combineReducers({
 	cardInfo,
-	isSaved,
 	error
 });

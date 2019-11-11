@@ -4,8 +4,7 @@ describe("card reducer", () => {
 	it("should return the initial state", () => {
 		expect(reducer(undefined, {})).toEqual({
 			cardInfo: {},
-			error: null,
-			isSaved: false
+			error: null
 		});
 	});
 
@@ -16,8 +15,7 @@ describe("card reducer", () => {
 			})
 		).toEqual({
 			cardInfo: {},
-			error: null,
-			isSaved: false
+			error: null
 		});
 	});
 
@@ -25,12 +23,11 @@ describe("card reducer", () => {
 		expect(
 			reducer([], {
 				type: "FETCH_CARD_SUCCESS",
-				payload: {"text" : "text"}
+				payload: { text: "text" }
 			})
 		).toEqual({
-			cardInfo: {"text" : "text"},
-			error: null,
-			isSaved: true
+			cardInfo: { text: "text" },
+			error: null
 		});
 	});
 
@@ -42,20 +39,7 @@ describe("card reducer", () => {
 			})
 		).toEqual({
 			cardInfo: {},
-			error: "error text",
-			isSaved: false
-		});
-	});
-
-	it("should handle FETCH_HIDE_SAVE_MESSAGE", () => {
-		expect(
-			reducer([], {
-				type: "FETCH_HIDE_SAVE_MESSAGE"
-			})
-		).toEqual({
-			cardInfo: {},
-			error: null,
-			isSaved: false
+			error: "error text"
 		});
 	});
 });
