@@ -62,6 +62,7 @@ export const registerFetchMiddleware = store => next => action => {
 			.then(data => {
 				store.dispatch(fetchRegisterSuccess(data));
 				window.localStorage.setItem("token", data.token);
+				return data;
 			})
 			.catch(error => {
 				store.dispatch(fetchRegisterFailure(error));

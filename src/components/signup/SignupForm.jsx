@@ -73,6 +73,7 @@ const SignupForm = props => {
 								name="email"
 								value={userInfo.email}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputEmail" }}
 								margin="normal"
 								fullWidth
 								required
@@ -85,6 +86,7 @@ const SignupForm = props => {
 								name="name"
 								value={userInfo.name}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputName" }}
 								margin="normal"
 								fullWidth
 								required
@@ -97,6 +99,7 @@ const SignupForm = props => {
 								name="surname"
 								value={userInfo.surname}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputSurname" }}
 								margin="normal"
 								fullWidth
 								required
@@ -109,6 +112,7 @@ const SignupForm = props => {
 								name="password"
 								value={userInfo.password}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputPassword" }}
 								margin="normal"
 								fullWidth
 								required

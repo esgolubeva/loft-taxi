@@ -12,11 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import {
-	getIsLoggedIn,
-	getError,
-	fetchAuthRequest
-} from "../../modules/auth/";
+import { getIsLoggedIn, getError, fetchAuthRequest } from "../../modules/auth/";
 
 const SignupLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
@@ -67,6 +63,7 @@ const LoginForm = React.memo(props => {
 						name="email"
 						value={userInfo.email}
 						onChange={onInputChange}
+						inputProps={{ "data-testid": "inputName" }}
 						margin="normal"
 						fullWidth
 						required
@@ -77,12 +74,18 @@ const LoginForm = React.memo(props => {
 						name="password"
 						value={userInfo.password}
 						onChange={onInputChange}
+						inputProps={{ "data-testid": "inputPassword" }}
 						margin="normal"
 						fullWidth
 						required
 					/>
 					<Box className={classes.buttonContainer}>
-						<Button type="submit" variant="contained" color="primary">
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							data-testid="buttonLogin"
+						>
 							Войти
 						</Button>
 					</Box>

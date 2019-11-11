@@ -1,48 +1,36 @@
-// import React from "react";
-// import { render, fireEvent } from "@testing-library/react";
-// import { LoginForm } from "./LoginForm";
-// import { AuthContext } from "../auth";
+import React from "react";
+import { fireEvent, wait } from "@testing-library/react";
+import { App } from "../../App";
+import LoginForm from "./LoginForm";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "../../modules";
+import { fetchAuthRequest, fetchAuthSuccess } from "../../modules/auth";
 
-// describe("LoginForm", () => {
-// 	describe("on submit", () => {
-// 		it("should set Map page and login()", () => {
-// 			let setPageMock = jest.fn();
-// 			let loginMock = jest.fn();
+describe("LoginForm", () => {
+	it("should submit form on button click and redirect to map page", () => {
+		let store = createStore(
+			rootReducer,
+			applyMiddleware(store => next => action => {
+				if (action.type === fetchAuthRequest.toString()) {
+					return Promise.resolve();
+				}
+				return next(action);
+			})
+		);
 
-// 			let authHandlerStub = {
-// 				login: loginMock,
-// 				isLoggedIn: true
-// 			};
+		let { getByTestId} = renderWithProviders(<App />, store);
 
-// 			let { getByText } = render(
-// 				<AuthContext.Provider value={authHandlerStub}>
-// 					<LoginForm setPage={setPageMock} />
-// 				</AuthContext.Provider>
-// 			);
+		fireEvent.change(getByTestId("inputName"), {
+			target: { value: "email@example.com" }
+		});
 
-// 			let button = getByText("Войти", {
-// 				selector: "span"
-// 			}).closest("button");
+		fireEvent.change(getByTestId("inputPassword"), {
+			target: { value: "password" }
+		});
 
-// 			fireEvent.click(button);
-
-// 			expect(setPageMock.mock.calls.length).toBe(1);
-// 			expect(setPageMock.mock.calls[0][0]).toBe("map");
-// 			expect(loginMock.mock.calls.length).toBe(1);
-// 		});
-// 	});
-// 	describe("on Зарегистрируйтесь link click", () => {
-// 		it("should set Signup page", () => {
-// 			let setPageMock = jest.fn();
-
-// 			let { getByText } = render(<LoginForm setPage={setPageMock} />);
-
-// 			let button = getByText("Зарегистрируйтесь");
-
-// 			fireEvent.click(button);
-
-// 			expect(setPageMock.mock.calls.length).toBe(1);
-// 			expect(setPageMock.mock.calls[0][0]).toBe("signup");
-// 		});
-// 	});
-// });
+		let loginButton = getByTestId("buttonLogin");
+		fireEvent.submit(loginButton);
+		jest.setTimeout(10000);
+		return wait(() => (getByTestId("map"));
+	});
+});

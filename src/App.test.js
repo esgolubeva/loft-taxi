@@ -1,37 +1,50 @@
 import React from "react";
-
-import { render } from "@testing-library/react";
-import { currentAppPage, App } from "./App";
-import reducer from "./modules";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-
-function renderWithRedux(
-	ui,
-	{ initialState, store = createStore(reducer, initialState) } = {}
-) {
-	return {
-		...render(<Provider store={store}>{ui}</Provider>),
-		// adding `store` to the returned utilities to allow us
-		// to reference it in our tests (just try to avoid using
-		// this to test implementation details).
-		store
-	};
-}
+import { fireEvent, wait } from "@testing-library/react";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./modules";
+import { App } from "./App";
+import { fetchAuthSuccess } from "./modules/auth";
+import { fetchAuthRequest } from "./modules/auth";
 
 describe("App", () => {
-	it("renders without crashing", () => {
-		renderWithRedux(<App />);
+	it("renders profile page on Профиль button click in header", () => {
+		let store = createStore(rootReducer);
+		let { getByText, getByTestId } = renderWithProviders(<App />, store);
+		store.dispatch(fetchAuthSuccess());
+
+		fireEvent.click(getByText("Профиль"));
+
+		expect(getByTestId("profile")).toBeTruthy();
+	});
+
+	it("renders map page on Карта button click in header", () => {
+		let store = createStore(rootReducer);
+		let { getByText, getByTestId } = renderWithProviders(<App />, store);
+		store.dispatch(fetchAuthSuccess());
+
+		fireEvent.click(getByText("Карта"));
+
+		expect(getByTestId("map")).toBeTruthy();
+	});
+
+	it("renders login page on Выйти button click in header", () => {
+		let store = createStore(rootReducer);
+		let { getByText, getByTestId } = renderWithProviders(<App />, store);
+		store.dispatch(fetchAuthSuccess());
+
+		fireEvent.click(getByText("Выйти"));
+
+		expect(getByTestId("login")).toBeTruthy();
+	});
+
+	it("toggle login and signup pages on Войти and Зарегистрируйтесь link click", () => {
+		let store = createStore(rootReducer);
+		let { getByText, getByTestId } = renderWithProviders(<App />, store);
+
+		fireEvent.click(getByText("Зарегистрируйтесь"));
+		expect(getByTestId("signup")).toBeTruthy();
+
+		fireEvent.click(getByText("Войти"));
+		expect(getByTestId("login")).toBeTruthy();
 	});
 });
-
-// 	it.each(["map", "profile", "login", "signup"])(
-// 		"should correctly render %s page",
-// 		pageName => {
-// 			let setPage = jest.fn();
-// 			let page = currentAppPage(pageName, setPage);
-// 			let { queryByTestId } = render(page);
-// 			expect(queryByTestId(pageName)).toBeTruthy();
-// 		}
-// 	);
-// });

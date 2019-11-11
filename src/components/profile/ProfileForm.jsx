@@ -102,6 +102,7 @@ const ProfileForm = React.memo(props => {
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<DatePicker
 							label="Срок действия:"
+							placeholder="12/34"
 							name="expiryDate"
 							value={cardInfo.expiryDate}
 							onChange={onDateInputChange}
@@ -132,7 +133,7 @@ const ProfileForm = React.memo(props => {
 					<TextField
 						label="CVC:"
 						type="text"
-						placeholder="***"
+						placeholder="123"
 						name="cvc"
 						value={cardInfo.cvc}
 						onChange={onInputChange}
