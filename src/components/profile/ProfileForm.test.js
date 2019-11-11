@@ -13,7 +13,6 @@ describe("ProfileForm", () => {
 				if (action.type === fetchCardRequest.toString()) {
 					return Promise.resolve();
 				}
-
 				return next(action);
 			})
 		);
