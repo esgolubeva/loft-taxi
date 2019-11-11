@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		minHeight: "calc(100vh - 71px)", // TODO: fix header height
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "space-between"
+		justifyContent: "center"
 	},
 	profile: {
 		padding: "56px 0 72px",
