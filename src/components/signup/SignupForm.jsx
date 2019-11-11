@@ -18,7 +18,7 @@ import {
 	getIsLoggedIn,
 	getError,
 	fetchRegisterRequest
-} from "../../modules/register";
+} from "../../modules/auth";
 
 const LoginLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
