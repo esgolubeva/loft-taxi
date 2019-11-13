@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
-import { AuthContext } from "../auth";
 
 import { Logo } from "loft-taxi-mui-theme";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +8,15 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+
+import { Link as RouterLink, withRouter } from "react-router-dom";
+import { statement } from "@babel/template";
+
+import { fetchLogout, getIsLoggedIn } from "../../modules/auth";
+
+const NavLink = React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
 
 const useStyles = makeStyles(theme => ({
 	bar: {
@@ -19,31 +27,29 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export const Header = props => {
+const Header = withRouter(props => {
 	const classes = useStyles();
-	const context = useContext(AuthContext);
 
-	const onButtonClick = name => {
-		if (context.isLoggedIn) {
-			return props.setPage(name);
-		}
-		return props.setPage("access-denied");
-	};
-
+	const { fetchLogout } = props;
+	
 	const onLogoutButtonClick = () => {
-		context.logout();
-		props.setPage("login");
+		fetchLogout();
 	};
+
+	if (props.location.pathname.match(/(\/login|\/signup)/)) {
+		return null;
+	}
+
 	return (
 		<AppBar position="static" className={classes.bar}>
 			<Toolbar>
 				<Typography variant="h6" className={classes.title}>
 					<Logo />
 				</Typography>
-				<Button onClick={() => onButtonClick("map")} color="inherit">
+				<Button component={NavLink} to="/map" color="inherit">
 					Карта
 				</Button>
-				<Button onClick={() => onButtonClick("profile")} color="inherit">
+				<Button component={NavLink} to="/profile" color="inherit">
 					Профиль
 				</Button>
 				<Button onClick={onLogoutButtonClick} color="inherit">
@@ -52,8 +58,17 @@ export const Header = props => {
 			</Toolbar>
 		</AppBar>
 	);
-};
+});
 
 Header.propTypes = {
 	setPage: PropTypes.func
 };
+
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = { fetchLogout };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Header);

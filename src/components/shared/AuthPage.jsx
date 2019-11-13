@@ -1,7 +1,6 @@
 import React from "react";
 
-import { useAuthPageStyles } from "../shared/styles";
-import Background from "../img/bg/auth-bg.jpg";
+import Background from "../../img/bg/auth-bg.jpg";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Logo } from "loft-taxi-mui-theme";

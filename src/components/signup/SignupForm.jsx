@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { AuthContext } from "../auth";
 import { useFormStyles } from "../shared/styles";
-
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -13,32 +12,43 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-export const SignupForm = props => {
+import { Link as RouterLink, Redirect } from "react-router-dom";
+
+import {
+	getIsLoggedIn,
+	getError,
+	fetchRegisterRequest
+} from "../../modules/auth";
+
+const LoginLink = React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
+
+const SignupForm = props => {
 	const [userInfo, setUserInfo] = useState({
 		email: "",
+		password: "",
 		name: "",
-		surname: "",
-		password: ""
+		surname: ""
 	});
 
-	const context = useContext(AuthContext);
+	const { fetchRegisterRequest, isLoggedIn } = props;
 
 	const onSubmit = event => {
 		event.preventDefault();
-		context.login();
-		props.setPage("map");
-	};
-
-	const onLoginClick = event => {
-		event.preventDefault();
-		props.setPage("login");
+		fetchRegisterRequest(userInfo);
 	};
 
 	const onInputChange = event => {
 		let input = event.target;
 		setUserInfo({ ...userInfo, [input.name]: input.value });
 	};
+
 	const classes = useFormStyles();
+
+	if (isLoggedIn) {
+		return <Redirect to="/map" />;
+	}
 
 	return (
 		<Paper className={classes.form}>
@@ -49,7 +59,7 @@ export const SignupForm = props => {
 				<div>
 					<p>
 						Уже зарегистрирован?{" "}
-						<Link href="/" onClick={onLoginClick}>
+						<Link to="/login" component={LoginLink}>
 							Войти
 						</Link>
 					</p>
@@ -59,45 +69,53 @@ export const SignupForm = props => {
 						<Grid item xs={12}>
 							<TextField
 								label="Адрес электронной почты"
-								fullWidth
-								margin="normal"
-								name="email"
 								type="email"
+								name="email"
 								value={userInfo.email}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputEmail" }}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								label="Имя"
-								fullWidth
-								margin="normal"
-								name="name"
 								type="text"
+								name="name"
 								value={userInfo.name}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputName" }}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
 							<TextField
 								label="Фамилия"
-								fullWidth
-								margin="normal"
-								name="surname"
 								type="text"
+								name="surname"
 								value={userInfo.surname}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputSurname" }}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
 								label="Пароль"
-								fullWidth
-								margin="normal"
-								name="password"
 								type="password"
+								name="password"
 								value={userInfo.password}
 								onChange={onInputChange}
+								inputProps={{ "data-testid": "inputPassword" }}
+								margin="normal"
+								fullWidth
+								required
 							/>
 						</Grid>
 					</Grid>
@@ -115,3 +133,15 @@ export const SignupForm = props => {
 SignupForm.propTypes = {
 	setPage: PropTypes.func
 };
+
+const mapStateToProps = state => ({
+	isLoggedIn: getIsLoggedIn(state),
+	error: getError(state)
+});
+
+const mapDispatchToProps = { fetchRegisterRequest };
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SignupForm);
