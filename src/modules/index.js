@@ -4,5 +4,5 @@ import card from "./card";
 
 export default combineReducers({
 	auth,
-	card
+	card,
 });

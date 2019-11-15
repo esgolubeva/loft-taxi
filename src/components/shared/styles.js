@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const useFormStyles = makeStyles(theme => ({
+export const useFormStyles = makeStyles(() => ({
 	form: {
 		padding: "60px 0",
 		width: "500px"
