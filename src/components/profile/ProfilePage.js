@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Background from "../../img/bg/auth-bg.jpg";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	authBg: {
 		backgroundColor: "#000",
 		backgroundImage: `url(${Background})`,
@@ -49,4 +50,8 @@ export const ProfilePage = props => {
 			</Container>
 		</Box>
 	);
+};
+
+ProfilePage.propTypes = {
+	children: PropTypes.node.isRequired
 };

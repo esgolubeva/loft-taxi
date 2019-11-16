@@ -3,10 +3,10 @@ import React from "react";
 import SignupForm from "./SignupForm";
 import { AuthPage } from "../shared/AuthPage";
 
-export const Signup = props => (
+export const Signup = () => (
 	<AuthPage>
 		<div data-testid="signup">
-			<SignupForm setPage={props.setPage} />
+			<SignupForm />
 		</div>
 	</AuthPage>
 );

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -131,7 +131,8 @@ const SignupForm = props => {
 };
 
 SignupForm.propTypes = {
-	setPage: PropTypes.func
+	fetchRegisterRequest: PropTypes.func,
+	isLoggedIn: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
@@ -141,7 +142,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { fetchRegisterRequest };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SignupForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

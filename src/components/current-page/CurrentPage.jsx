@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,6 +13,7 @@ import { getIsLoggedIn } from "../../modules/auth";
 const currentPage = props => {
 	const { isLoggedIn } = props;
 	const loginPath = "/login";
+	
 	const PrivateRoute = ({ component: RouteComponent }) => (
 		<Route
 			render={routeProps =>
@@ -35,13 +37,14 @@ const currentPage = props => {
 	);
 };
 
+currentPage.propTypes = {
+	isLoggedIn: PropTypes.bool
+};
+
 const mapStateToProps = state => ({
 	isLoggedIn: getIsLoggedIn(state)
 });
 
 const mapDispatchToProps = {};
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(currentPage);
+export default connect(mapStateToProps, mapDispatchToProps)(currentPage);

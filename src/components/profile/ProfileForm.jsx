@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,31 +14,31 @@ import { MCIcon } from "loft-taxi-mui-theme";
 
 import { getCardInfo, getError, fetchCardRequest } from "../../modules/card";
 
-export const useFormStyles = makeStyles(theme => ({
+export const useFormStyles = makeStyles(() => ({
 	buttonContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginTop: "46px",
+		marginTop: "46px"
 	},
 	cardsContainer: {
 		marginTop: "40px",
 		display: "flex",
-		justifyContent: "space-between",
+		justifyContent: "space-between"
 	},
 	card: {
 		boxSizing: "border-box",
 		height: "230px",
 		width: "384px",
 		padding: "40px 30px 30px",
-		position: "relative",
+		position: "relative"
 	},
 	message: {
 		position: "absolute",
 		bottom: "30px",
 		left: 0,
 		width: "100%",
-		textAlign: "center",
-	},
+		textAlign: "center"
+	}
 }));
 
 const ProfileForm = React.memo(props => {
@@ -52,7 +53,7 @@ const ProfileForm = React.memo(props => {
 		expiryDate: savedCard.expiryDate || new Date(),
 		cardName: savedCard.cardName || "",
 		cvc: savedCard.cvc || "",
-		token: window.localStorage.getItem("token"),
+		token: window.localStorage.getItem("token")
 	});
 
 	const onSubmit = event => {
@@ -139,7 +140,7 @@ const ProfileForm = React.memo(props => {
 						value={cardInfo.cvc}
 						onChange={onInputChange}
 						inputProps={{
-							maxLength: 3,
+							maxLength: 3
 						}}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
@@ -157,9 +158,14 @@ const ProfileForm = React.memo(props => {
 	);
 });
 
+ProfileForm.propTypes = {
+	fetchCardRequest: PropTypes.func,
+	savedCard: PropTypes.object
+};
+
 const mapStateToProps = state => ({
 	savedCard: getCardInfo(state),
-	error: getError(state),
+	error: getError(state)
 });
 
 const mapDispatchToProps = { fetchCardRequest };

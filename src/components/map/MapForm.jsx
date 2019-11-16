@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -75,10 +76,16 @@ const MapForm = React.memo(props => {
 		setRoute({ ...route, [input.name]: input.value });
 	};
 
+	const onSubmit = event => {
+		event.preventDefault();
+
+		console.log(JSON.stringify(route));
+	};
+
 	return (
 		<Paper className={classes.form}>
 			<Container className={classes.formContainer}>
-				<form>
+				<form onSubmit={onSubmit}>
 					<FormControl className={classes.formControl}>
 						<InputLabel id="address1">Откуда </InputLabel>
 						<AddressSelect firstAddress="address1" secondAddress="address2" />
@@ -104,6 +111,13 @@ const MapForm = React.memo(props => {
 		</Paper>
 	);
 });
+
+MapForm.propTypes = {
+	fetchAddressRequest: PropTypes.func,
+	addressList: PropTypes.array,
+	firstAddress: PropTypes.string,
+	secondAddress: PropTypes.string
+};
 
 const mapStateToProps = state => ({
 	addressList: getAddressList(state),

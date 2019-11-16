@@ -10,7 +10,7 @@ const addressList = handleActions(
 	{
 		[fetchAddressSuccess]: (_state, action) => action.payload
 	},
-	{}
+	[]
 );
 
 const error = handleActions(
