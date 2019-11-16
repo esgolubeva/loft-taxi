@@ -3,7 +3,8 @@ import { createStore, compose, applyMiddleware } from "redux";
 // import { cardFetchMiddleware } from "./modules/card/middlewares";
 import rootReducer from "./modules";
 import createSagaMiddleware from "redux-saga";
-import { handleAuth } from "./modules/auth/sagas";
+import { rootSaga } from "./modules/rootSaga";
+// import { handleAuth } from "./modules/auth/sagas";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +21,7 @@ const createAppStore = () => {
 				: noop => noop
 		)
 	);
-	sagaMiddleware.run(handleAuth);
+	sagaMiddleware.run(rootSaga);
 	return store;
 };
 

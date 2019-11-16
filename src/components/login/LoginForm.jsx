@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
@@ -95,9 +95,9 @@ const LoginForm = React.memo(props => {
 	);
 });
 
-LoginForm.propTypes = {
-	setPage: PropTypes.func
-};
+// LoginForm.propTypes = {
+// 	setPage: PropTypes.func
+// };
 
 const mapStateToProps = state => ({
 	isLoggedIn: getIsLoggedIn(state),
