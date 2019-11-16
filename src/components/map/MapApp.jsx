@@ -1,10 +1,14 @@
 import React from "react";
 import mapboxgl from "mapbox-gl";
+import PropTypes from "prop-types";
+
+import { connect } from "react-redux";
+import { fetchRouteRequest, getRoute } from "../../modules/route/";
+import { drawRoute } from "./drawRoute";
 
 mapboxgl.accessToken =
 	"pk.eyJ1IjoiZXNnb2x1YiIsImEiOiJjazJicXRoN3AwN2NnM21tZjd5aWNmeHVnIn0.-V1DvjvU7qGcA9fzZIEF8g";
-
-export class MapApp extends React.Component {
+class MapApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -12,24 +16,44 @@ export class MapApp extends React.Component {
 			lat: 59.93863,
 			zoom: 10
 		};
+		this.map = null;
 		this.mapContainerRef = React.createRef();
 	}
 
 	componentDidMount() {
-		const map = new mapboxgl.Map({
+		this.map = new mapboxgl.Map({
 			container: this.mapContainerRef.current,
 			style: "mapbox://styles/mapbox/streets-v11",
 			center: [this.state.lng, this.state.lat],
 			zoom: this.state.zoom
 		});
 
-		map.on("move", () => {
+		this.map.on("move", () => {
 			this.setState({
-				lng: map.getCenter().lng.toFixed(4),
-				lat: map.getCenter().lat.toFixed(4),
-				zoom: map.getZoom().toFixed(2)
+				lng: this.map.getCenter().lng.toFixed(4),
+				lat: this.map.getCenter().lat.toFixed(4),
+				zoom: this.map.getZoom().toFixed(2)
 			});
 		});
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps !== this.props) {
+			const { route } = this.props;
+
+			if (this.map.getLayer("route")) {
+				this.map.removeLayer("route");
+				this.map.removeSource("route");
+			}
+			if (route.length) {
+				console.log(route.length);
+				drawRoute(this.map, route);
+			}
+
+			// if(isOrderMade && orderCoords && orderCoords.length > 0) {
+			//     if(prevProps.orderCoords !== orderCoords) this.renderRoute()
+			// }
+		}
 	}
 
 	render() {
@@ -54,3 +78,15 @@ export class MapApp extends React.Component {
 		);
 	}
 }
+
+MapApp.propTypes = {
+	route: PropTypes.array
+};
+
+const mapStateToProps = state => ({
+	route: getRoute(state)
+});
+
+const mapDispatchToProps = { fetchRouteRequest };
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapApp);

@@ -1,5 +1,5 @@
 import React from "react";
-import { MapApp } from "./MapApp";
+import MapApp from "./MapApp";
 import MapForm from "./MapForm";
 
 export const Map = () => (

@@ -19,6 +19,7 @@ import {
 	getAddressList,
 	getIsLoading
 } from "../../modules/address/";
+import { fetchRouteRequest, getRoute } from "../../modules/route/";
 
 const useFormStyles = makeStyles(() => ({
 	form: {
@@ -47,7 +48,7 @@ const MapForm = React.memo(props => {
 		fetchAddressRequest();
 	}, []);
 
-	const { addressList } = props;
+	const { addressList, fetchRouteRequest } = props;
 
 	const classes = useFormStyles();
 
@@ -80,7 +81,7 @@ const MapForm = React.memo(props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-
+		fetchRouteRequest(route);
 		console.log(JSON.stringify(route));
 	};
 
@@ -116,6 +117,7 @@ const MapForm = React.memo(props => {
 
 MapForm.propTypes = {
 	fetchAddressRequest: PropTypes.func,
+	fetchRouteRequest: PropTypes.func,
 	addressList: PropTypes.array,
 	firstAddress: PropTypes.string,
 	secondAddress: PropTypes.string
@@ -126,6 +128,6 @@ const mapStateToProps = state => ({
 	isLoading: getIsLoading(state)
 });
 
-const mapDispatchToProps = { fetchAddressRequest };
+const mapDispatchToProps = { fetchAddressRequest, fetchRouteRequest };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapForm);

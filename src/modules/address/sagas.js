@@ -12,13 +12,13 @@ const getAddresses = () =>
 
 export function* handleAddress() {
 	yield takeEvery(fetchAddressRequest, function*(action) {
-		// try {
-		let response = yield call(getAddresses, action);
-		yield put(fetchAddressSuccess(response.addresses));
-		// console.log(response.addresses);
-		// } catch (error) {
-		// 	yield put(fetchAddressFailure(error));
-		// 	// console.log(error);
-		// }
+		try {
+			let response = yield call(getAddresses, action);
+			yield put(fetchAddressSuccess(response.addresses));
+			// console.log(response.addresses);
+		} catch (error) {
+			yield put(fetchAddressFailure(error));
+			console.log(error);
+		}
 	});
 }
