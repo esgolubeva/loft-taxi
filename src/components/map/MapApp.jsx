@@ -8,8 +8,8 @@ export class MapApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			lng: 13.41053,
-			lat: 52.52437,
+			lng: 30.31413,
+			lat: 59.93863,
 			zoom: 10
 		};
 		this.mapContainerRef = React.createRef();
