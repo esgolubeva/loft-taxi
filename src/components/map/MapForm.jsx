@@ -14,29 +14,29 @@ import FormControl from "@material-ui/core/FormControl";
 import {
 	fetchAddressRequest,
 	getAddressList,
-	getIsLoading,
+	getIsLoading
 } from "../../modules/address/";
 
 const useFormStyles = makeStyles(() => ({
 	form: {
 		padding: "40px 0",
-		width: "500px",
+		width: "500px"
 	},
 	formContainer: {
-		padding: "0 50px",
+		padding: "0 50px"
 	},
 	formControl: {
-		minWidth: "100%",
+		minWidth: "100%"
 	},
 	buttonContainer: {
-		marginTop: "30px",
-	},
+		marginTop: "30px"
+	}
 }));
 
 const MapForm = React.memo(props => {
 	const [route, setRoute] = useState({
 		address1: "",
-		address2: "",
+		address2: ""
 	});
 
 	useEffect(() => {
@@ -49,28 +49,29 @@ const MapForm = React.memo(props => {
 	const classes = useFormStyles();
 
 	const AddressSelect = props => {
-		const { addressNumber } = props;
+		const { firstAddress, secondAddress } = props;
 		return (
 			<Select
-				labelId={addressNumber}
-				value={route[addressNumber]}
+				value={route[firstAddress]}
 				onChange={onChange}
-				inputProps={{ name: addressNumber }}
+				inputProps={{ name: firstAddress }}
 				autoWidth
 			>
 				{addressList.length &&
-					addressList.map(addressItem => (
-						<MenuItem key={addressItem} value={addressItem}>
-							{addressItem}
-						</MenuItem>
-					))}
+					addressList.map(
+						addressItem =>
+							addressItem != route[secondAddress] && (
+								<MenuItem key={addressItem} value={addressItem}>
+									{addressItem}
+								</MenuItem>
+							)
+					)}
 			</Select>
 		);
 	};
 
 	const onChange = event => {
 		let input = event.target;
-		console.log(input);
 		setRoute({ ...route, [input.name]: input.value });
 	};
 
@@ -80,11 +81,11 @@ const MapForm = React.memo(props => {
 				<form>
 					<FormControl className={classes.formControl}>
 						<InputLabel id="address1">Откуда </InputLabel>
-						<AddressSelect addressNumber="address1" />
+						<AddressSelect firstAddress="address1" secondAddress="address2" />
 					</FormControl>
 					<FormControl className={classes.formControl}>
 						<InputLabel id="address2">Куда </InputLabel>
-						<AddressSelect addressNumber="address2" />
+						<AddressSelect firstAddress="address2" secondAddress="address1" />
 					</FormControl>
 					<Box className={classes.buttonContainer}>
 						<Button
@@ -106,7 +107,7 @@ const MapForm = React.memo(props => {
 
 const mapStateToProps = state => ({
 	addressList: getAddressList(state),
-	isLoading: getIsLoading(state),
+	isLoading: getIsLoading(state)
 });
 
 const mapDispatchToProps = { fetchAddressRequest };

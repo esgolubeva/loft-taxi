@@ -3,12 +3,12 @@ import { combineReducers } from "redux";
 import {
 	fetchAddressRequest,
 	fetchAddressSuccess,
-	fetchAddressFailure,
+	fetchAddressFailure
 } from "./actions";
 
 const addressList = handleActions(
 	{
-		[fetchAddressSuccess]: (_state, action) => action.payload,
+		[fetchAddressSuccess]: (_state, action) => action.payload
 	},
 	{}
 );
@@ -17,7 +17,7 @@ const error = handleActions(
 	{
 		[fetchAddressRequest]: () => null,
 		[fetchAddressFailure]: (_state, action) => action.payload,
-		[fetchAddressSuccess]: () => null,
+		[fetchAddressSuccess]: () => null
 	},
 	null
 );
@@ -26,7 +26,7 @@ const isLoading = handleActions(
 	{
 		[fetchAddressRequest]: () => true,
 		[fetchAddressFailure]: () => false,
-		[fetchAddressSuccess]: () => false,
+		[fetchAddressSuccess]: () => false
 	},
 	false
 );
@@ -34,5 +34,5 @@ const isLoading = handleActions(
 export default combineReducers({
 	addressList,
 	error,
-	isLoading,
+	isLoading
 });

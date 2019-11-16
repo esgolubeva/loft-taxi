@@ -6,5 +6,5 @@ import address from "./address";
 export default combineReducers({
 	auth,
 	card,
-	address,
+	address
 });

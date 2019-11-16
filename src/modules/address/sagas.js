@@ -2,7 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import {
 	fetchAddressRequest,
 	fetchAddressSuccess,
-	fetchAddressFailure,
+	fetchAddressFailure
 } from "./actions";
 
 const getAddresses = () =>
