@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+import {
+	Container,
+	Box,
+	Paper,
+	MenuItem,
+	Select,
+	Button,
+	FormControl,
+	InputLabel
+} from "@material-ui/core/";
 
 import {
 	fetchAddressRequest,

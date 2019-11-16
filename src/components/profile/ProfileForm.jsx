@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { Box, Typography, Paper, TextField, Button } from "@material-ui/core/";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";

@@ -4,12 +4,10 @@ import PropTypes from "prop-types";
 
 import { Logo } from "loft-taxi-mui-theme";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core/";
+
 import { Link as RouterLink, withRouter } from "react-router-dom";
-import { statement } from "@babel/template";
+// import { statement } from "@babel/template";
 
 import { fetchLogout } from "../../modules/auth";
 
@@ -19,11 +17,11 @@ const NavLink = React.forwardRef((props, ref) => (
 
 const useStyles = makeStyles(() => ({
 	bar: {
-		backgroundColor: "#fff",
+		backgroundColor: "#fff"
 	},
 	title: {
-		flexGrow: 1,
-	},
+		flexGrow: 1
+	}
 }));
 
 const Header = withRouter(props => {
@@ -60,7 +58,7 @@ const Header = withRouter(props => {
 });
 
 Header.propTypes = {
-	setPage: PropTypes.func,
+	setPage: PropTypes.func
 };
 
 const mapStateToProps = state => state;

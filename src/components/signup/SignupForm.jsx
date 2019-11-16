@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { useFormStyles } from "../shared/styles";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import {
+	Paper,
+	Container,
+	Typography,
+	Link,
+	Grid,
+	TextField,
+	Box,
+	Button
+} from "@material-ui/core/";
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 

@@ -4,13 +4,15 @@ import { connect } from "react-redux";
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
 import { useFormStyles } from "../shared/styles";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import {
+	Container,
+	Paper,
+	Typography,
+	Link,
+	TextField,
+	Box,
+	Button
+} from "@material-ui/core/";
 
 import { getIsLoggedIn, getError, fetchAuthRequest } from "../../modules/auth/";
 
@@ -107,7 +109,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { fetchAuthRequest };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
