@@ -14,12 +14,8 @@ import {
 	InputLabel
 } from "@material-ui/core/";
 
-import {
-	fetchAddressRequest,
-	getAddressList,
-	getIsLoading
-} from "../../modules/address/";
-import { fetchRouteRequest, getRoute } from "../../modules/route/";
+import { fetchAddressRequest, getAddressList } from "../../modules/address/";
+import { fetchRouteRequest } from "../../modules/route/";
 
 const useFormStyles = makeStyles(() => ({
 	form: {
@@ -39,8 +35,8 @@ const useFormStyles = makeStyles(() => ({
 
 const MapForm = React.memo(props => {
 	const [route, setRoute] = useState({
-		address1: "",
-		address2: ""
+		from: "",
+		to: ""
 	});
 
 	useEffect(() => {
@@ -53,23 +49,24 @@ const MapForm = React.memo(props => {
 	const classes = useFormStyles();
 
 	const AddressSelect = props => {
-		const { firstAddress, secondAddress } = props;
+		const { addressKey, otherAddress } = props;
+
+		let availableAddresses = addressList
+			.filter(item => item != otherAddress)
+			.map(addressItem => (
+				<MenuItem key={addressItem} value={addressItem}>
+					{addressItem}
+				</MenuItem>
+			));
+
 		return (
 			<Select
-				value={route[firstAddress]}
+				value={route[addressKey]}
 				onChange={onChange}
-				inputProps={{ name: firstAddress }}
+				inputProps={{ name: addressKey }}
 				autoWidth
 			>
-				{addressList.length &&
-					addressList.map(
-						addressItem =>
-							addressItem != route[secondAddress] && (
-								<MenuItem key={addressItem} value={addressItem}>
-									{addressItem}
-								</MenuItem>
-							)
-					)}
+				{availableAddresses}
 			</Select>
 		);
 	};
@@ -82,7 +79,6 @@ const MapForm = React.memo(props => {
 	const onSubmit = event => {
 		event.preventDefault();
 		fetchRouteRequest(route);
-		console.log(JSON.stringify(route));
 	};
 
 	return (
@@ -90,12 +86,12 @@ const MapForm = React.memo(props => {
 			<Container className={classes.formContainer}>
 				<form onSubmit={onSubmit}>
 					<FormControl className={classes.formControl}>
-						<InputLabel id="address1">Откуда </InputLabel>
-						<AddressSelect firstAddress="address1" secondAddress="address2" />
+						<InputLabel id="from">Откуда</InputLabel>
+						<AddressSelect addressKey="from" otherAddress={route.to} />
 					</FormControl>
 					<FormControl className={classes.formControl}>
-						<InputLabel id="address2">Куда </InputLabel>
-						<AddressSelect firstAddress="address2" secondAddress="address1" />
+						<InputLabel id="to">Куда</InputLabel>
+						<AddressSelect addressKey="to" otherAddress={route.from} />
 					</FormControl>
 					<Box className={classes.buttonContainer}>
 						<Button
@@ -119,13 +115,12 @@ MapForm.propTypes = {
 	fetchAddressRequest: PropTypes.func,
 	fetchRouteRequest: PropTypes.func,
 	addressList: PropTypes.array,
-	firstAddress: PropTypes.string,
-	secondAddress: PropTypes.string
+	addressKey: PropTypes.string,
+	otherAddress: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-	addressList: getAddressList(state),
-	isLoading: getIsLoading(state)
+	addressList: getAddressList(state)
 });
 
 const mapDispatchToProps = { fetchAddressRequest, fetchRouteRequest };

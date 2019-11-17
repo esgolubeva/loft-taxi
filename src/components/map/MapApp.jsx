@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
-import { fetchRouteRequest, getRoute } from "../../modules/route/";
+import { fetchRouteRequest, getRouteCoords } from "../../modules/route/";
 import { drawRoute } from "./drawRoute";
 
 mapboxgl.accessToken =
@@ -39,15 +39,14 @@ class MapApp extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps !== this.props) {
-			const { route } = this.props;
+			const { routeCoords } = this.props;
 
 			if (this.map.getLayer("route")) {
 				this.map.removeLayer("route");
 				this.map.removeSource("route");
 			}
-			if (route.length) {
-				console.log(route.length);
-				drawRoute(this.map, route);
+			if (routeCoords.length) {
+				drawRoute(this.map, routeCoords);
 			}
 
 			// if(isOrderMade && orderCoords && orderCoords.length > 0) {
@@ -80,11 +79,11 @@ class MapApp extends React.Component {
 }
 
 MapApp.propTypes = {
-	route: PropTypes.array
+	routeCoords: PropTypes.array
 };
 
 const mapStateToProps = state => ({
-	route: getRoute(state)
+	routeCoords: getRouteCoords(state)
 });
 
 const mapDispatchToProps = { fetchRouteRequest };

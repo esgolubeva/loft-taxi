@@ -7,7 +7,7 @@ import {
 
 const getRoute = action =>
 	fetch(
-		`https://loft-taxi.glitch.me/route?address1=${action.payload.address1}&address2=${action.payload.address2}`
+		`https://loft-taxi.glitch.me/route?address1=${action.payload.from}&address2=${action.payload.to}`
 	).then(response => response.json());
 
 export function* routeSaga() {

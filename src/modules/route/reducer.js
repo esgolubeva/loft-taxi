@@ -6,14 +6,7 @@ import {
 	fetchRouteFailure
 } from "./actions";
 
-const routePoints = handleActions(
-	{
-		[fetchRouteRequest]: (_state, action) => action.payload
-	},
-	{}
-);
-
-const route = handleActions(
+const routeCoords = handleActions(
 	{
 		[fetchRouteRequest]: () => [],
 		[fetchRouteFailure]: () => [],
@@ -32,7 +25,6 @@ const error = handleActions(
 );
 
 export default combineReducers({
-	routePoints,
-	route,
+	routeCoords,
 	error
 });
