@@ -8,7 +8,7 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
-import { getCardInfo, getError, fetchCardRequest } from "../../modules/card";
+import { getCardInfo, getError, sendCardRequest } from "../../modules/card";
 
 export const useFormStyles = makeStyles(() => ({
 	buttonContainer: {
@@ -40,7 +40,7 @@ export const useFormStyles = makeStyles(() => ({
 const ProfileForm = React.memo(props => {
 	const classes = useFormStyles();
 
-	const { fetchCardRequest, savedCard } = props;
+	const { sendCardRequest, savedCard } = props;
 
 	const [showMessage, setShowMessage] = useState(false);
 
@@ -54,7 +54,7 @@ const ProfileForm = React.memo(props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		fetchCardRequest(cardInfo);
+		sendCardRequest(cardInfo);
 		// .then(data => setShowMessage(true));
 	};
 
@@ -155,7 +155,7 @@ const ProfileForm = React.memo(props => {
 });
 
 ProfileForm.propTypes = {
-	fetchCardRequest: PropTypes.func,
+	sendCardRequest: PropTypes.func,
 	savedCard: PropTypes.object
 };
 
@@ -164,6 +164,6 @@ const mapStateToProps = state => ({
 	error: getError(state)
 });
 
-const mapDispatchToProps = { fetchCardRequest };
+const mapDispatchToProps = { sendCardRequest };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileForm);

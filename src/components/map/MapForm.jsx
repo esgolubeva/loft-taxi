@@ -16,6 +16,7 @@ import {
 
 import { fetchAddressRequest, getAddressList } from "../../modules/address/";
 import { fetchRouteRequest } from "../../modules/route/";
+import { fetchCardRequest, getPaymentMethodSave } from "../../modules/card/";
 
 const useFormStyles = makeStyles(() => ({
 	form: {
@@ -42,9 +43,17 @@ const MapForm = React.memo(props => {
 	useEffect(() => {
 		const { fetchAddressRequest } = props;
 		fetchAddressRequest();
+		if (!paymentMethodSave) {
+			fetchCardRequest();
+		}
 	}, []);
 
-	const { addressList, fetchRouteRequest } = props;
+	const {
+		addressList,
+		fetchRouteRequest,
+		fetchCardRequest,
+		paymentMethodSave
+	} = props;
 
 	const classes = useFormStyles();
 
@@ -81,6 +90,10 @@ const MapForm = React.memo(props => {
 		fetchRouteRequest(route);
 	};
 
+	if (!paymentMethodSave) {
+		return <div>Заполните данные банковской карты</div>;
+	}
+
 	return (
 		<Paper className={classes.form}>
 			<Container className={classes.formContainer}>
@@ -114,15 +127,22 @@ const MapForm = React.memo(props => {
 MapForm.propTypes = {
 	fetchAddressRequest: PropTypes.func,
 	fetchRouteRequest: PropTypes.func,
+	fetchCardRequest: PropTypes.func,
+	paymentMethodSave: PropTypes.bool,
 	addressList: PropTypes.array,
 	addressKey: PropTypes.string,
 	otherAddress: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-	addressList: getAddressList(state)
+	addressList: getAddressList(state),
+	paymentMethodSave: getPaymentMethodSave(state)
 });
 
-const mapDispatchToProps = { fetchAddressRequest, fetchRouteRequest };
+const mapDispatchToProps = {
+	fetchAddressRequest,
+	fetchRouteRequest,
+	fetchCardRequest
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapForm);
