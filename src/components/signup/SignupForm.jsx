@@ -19,7 +19,7 @@ import { Link as RouterLink, Redirect } from "react-router-dom";
 import {
 	getIsLoggedIn,
 	getError,
-	fetchRegisterRequest
+	sendRegisterRequest
 } from "../../modules/auth";
 
 const LoginLink = React.forwardRef((props, ref) => (
@@ -34,11 +34,11 @@ const SignupForm = props => {
 		surname: ""
 	});
 
-	const { fetchRegisterRequest, isLoggedIn } = props;
+	const { sendRegisterRequest, isLoggedIn } = props;
 
 	const onSubmit = event => {
 		event.preventDefault();
-		fetchRegisterRequest(userInfo);
+		sendRegisterRequest(userInfo);
 	};
 
 	const onInputChange = event => {
@@ -133,7 +133,7 @@ const SignupForm = props => {
 };
 
 SignupForm.propTypes = {
-	fetchRegisterRequest: PropTypes.func,
+	sendRegisterRequest: PropTypes.func,
 	isLoggedIn: PropTypes.bool
 };
 
@@ -142,6 +142,6 @@ const mapStateToProps = state => ({
 	error: getError(state)
 });
 
-const mapDispatchToProps = { fetchRegisterRequest };
+const mapDispatchToProps = { sendRegisterRequest };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

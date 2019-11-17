@@ -3,14 +3,14 @@ import { fireEvent, wait } from "@testing-library/react";
 import ProfileForm from "./ProfileForm";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "../../modules";
-import { fetchCardRequest, fetchCardSuccess } from "../../modules/card";
+import { sendCardRequest, sendCardSuccess } from "../../modules/card";
 
 describe("ProfileForm", () => {
 	it("should submit form on button click", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
-				if (action.type === fetchCardRequest.toString()) {
+				if (action.type === sendCardRequest.toString()) {
 					return Promise.resolve();
 				}
 				return next(action);

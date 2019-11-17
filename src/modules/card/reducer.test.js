@@ -8,10 +8,10 @@ describe("card reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_CARD_REQUEST", () => {
+	it("should handle SEND_CARD_REQUEST", () => {
 		expect(
 			reducer([], {
-				type: "FETCH_CARD_REQUEST"
+				type: "SEND_CARD_REQUEST"
 			})
 		).toEqual({
 			cardInfo: {},
@@ -19,10 +19,10 @@ describe("card reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_CARD_SUCCESS", () => {
+	it("should handle SEND_CARD_SUCCESS", () => {
 		expect(
 			reducer([], {
-				type: "FETCH_CARD_SUCCESS",
+				type: "SEND_CARD_SUCCESS",
 				payload: { text: "text" }
 			})
 		).toEqual({
@@ -31,10 +31,10 @@ describe("card reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_CARD_FAILURE", () => {
+	it("should handle SEND_CARD_FAILURE", () => {
 		expect(
 			reducer([], {
-				type: "FETCH_CARD_FAILURE",
+				type: "SEND_CARD_FAILURE",
 				payload: "error text"
 			})
 		).toEqual({

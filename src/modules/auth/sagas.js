@@ -1,12 +1,12 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
-	fetchAuthRequest,
-	fetchAuthSuccess,
-	fetchAuthFailure,
+	sendAuthRequest,
+	sendAuthSuccess,
+	sendAuthFailure,
 	fetchLogout,
-	fetchRegisterFailure,
-	fetchRegisterSuccess,
-	fetchRegisterRequest,
+	sendRegisterFailure,
+	sendRegisterSuccess,
+	sendRegisterRequest,
 } from "./actions";
 
 const getResponse = (action, path) =>
@@ -31,14 +31,14 @@ function saveToken(token) {
 }
 
 export function* handleAuth() {
-	yield takeEvery(fetchAuthRequest, function*(action) {
+	yield takeEvery(sendAuthRequest, function*(action) {
 		try {
 			const path = "auth";
 			const response = yield call(getResponse, action, path);
 			yield call(saveToken, response.token);
-			yield put(fetchAuthSuccess());
+			yield put(sendAuthSuccess());
 		} catch (error) {
-			yield put(fetchAuthFailure(error.message));
+			yield put(sendAuthFailure(error.message));
 			console.log(error.message);
 		}
 	});
@@ -48,14 +48,14 @@ export function* handleAuth() {
 }
 
 export function* handleRegister() {
-	yield takeEvery(fetchRegisterRequest, function*(action) {
+	yield takeEvery(sendRegisterRequest, function*(action) {
 		try {
 			const path = "register";
 			const response = yield call(getResponse, action, path);
 			yield call(saveToken, response.token);
-			yield put(fetchRegisterSuccess());
+			yield put(sendRegisterSuccess());
 		} catch (error) {
-			yield put(fetchRegisterFailure(error.message));
+			yield put(sendRegisterFailure(error.message));
 			console.log(error.message);
 		}
 	});

@@ -14,7 +14,7 @@ import {
 	Button
 } from "@material-ui/core/";
 
-import { getIsLoggedIn, getError, fetchAuthRequest } from "../../modules/auth/";
+import { getIsLoggedIn, getError, sendAuthRequest } from "../../modules/auth/";
 
 const SignupLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
@@ -28,11 +28,11 @@ const LoginForm = React.memo(props => {
 
 	const classes = useFormStyles();
 
-	const { fetchAuthRequest, isLoggedIn } = props;
+	const { sendAuthRequest, isLoggedIn } = props;
 
 	const onSubmit = event => {
 		event.preventDefault();
-		fetchAuthRequest(userInfo);
+		sendAuthRequest(userInfo);
 	};
 
 	const onInputChange = event => {
@@ -98,7 +98,7 @@ const LoginForm = React.memo(props => {
 });
 
 LoginForm.propTypes = {
-	fetchAuthRequest: PropTypes.func,
+	sendAuthRequest: PropTypes.func,
 	isLoggedIn: PropTypes.bool
 };
 
@@ -107,6 +107,6 @@ const mapStateToProps = state => ({
 	error: getError(state)
 });
 
-const mapDispatchToProps = { fetchAuthRequest };
+const mapDispatchToProps = { sendAuthRequest };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

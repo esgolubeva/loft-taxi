@@ -4,21 +4,21 @@ import { App } from "../../App";
 import SignupForm from "./SignupForm";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "../../modules";
-import { fetchRegisterRequest, fetchRegisterSuccess } from "../../modules/auth";
+import { sendRegisterRequest, sendRegisterSuccess } from "../../modules/auth";
 
 describe("SignupForm", () => {
 	it("should on Зарегистрироваться button click redirect to map page", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
-				if (action.type === fetchRegisterRequest.toString()) {
+				if (action.type === sendRegisterRequest.toString()) {
 					expect(action.payload).toStrictEqual({
 						email: "email@example.com",
                         password: "password",
                         name: "name",
                         surname: "surname"
 					});
-					return store.dispatch(fetchRegisterSuccess());
+					return store.dispatch(sendRegisterSuccess());
 				}
 				return next(action);
 			})
