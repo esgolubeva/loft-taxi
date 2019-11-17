@@ -4,7 +4,8 @@ describe("card reducer", () => {
 	it("should return the initial state", () => {
 		expect(reducer(undefined, {})).toEqual({
 			cardInfo: {},
-			error: null
+			error: null,
+			paymentMethodSave: false
 		});
 	});
 
@@ -15,7 +16,8 @@ describe("card reducer", () => {
 			})
 		).toEqual({
 			cardInfo: {},
-			error: null
+			error: null,
+			paymentMethodSave: false
 		});
 	});
 
@@ -27,7 +29,8 @@ describe("card reducer", () => {
 			})
 		).toEqual({
 			cardInfo: { text: "text" },
-			error: null
+			error: null,
+			paymentMethodSave: true
 		});
 	});
 
@@ -39,7 +42,8 @@ describe("card reducer", () => {
 			})
 		).toEqual({
 			cardInfo: {},
-			error: "error text"
+			error: "error text",
+			paymentMethodSave: false
 		});
 	});
 });

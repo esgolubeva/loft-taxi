@@ -14,9 +14,9 @@ describe("SignupForm", () => {
 				if (action.type === sendRegisterRequest.toString()) {
 					expect(action.payload).toStrictEqual({
 						email: "email@example.com",
-                        password: "password",
-                        name: "name",
-                        surname: "surname"
+						password: "password",
+						name: "name",
+						surname: "surname"
 					});
 					return store.dispatch(sendRegisterSuccess());
 				}
@@ -24,12 +24,9 @@ describe("SignupForm", () => {
 			})
 		);
 
-		let { getByTestId, getByText } = renderWithProviders(
-				<App />,
-			store
-        );
-        
-        fireEvent.click(getByText("Зарегистрируйтесь"));
+		let { getByTestId, getByText } = renderWithProviders(<App />, store);
+
+		fireEvent.click(getByText("Зарегистрируйтесь"));
 		expect(getByTestId("signup")).toBeTruthy();
 
 		fireEvent.change(getByTestId("inputEmail"), {
@@ -38,12 +35,12 @@ describe("SignupForm", () => {
 
 		fireEvent.change(getByTestId("inputPassword"), {
 			target: { value: "password" }
-        });
-        
+		});
+
 		fireEvent.change(getByTestId("inputName"), {
 			target: { value: "name" }
-        });
-        
+		});
+
 		fireEvent.change(getByTestId("inputSurname"), {
 			target: { value: "surname" }
 		});
