@@ -3,9 +3,9 @@ import reducer from "./reducer";
 describe("card reducer", () => {
 	it("should return the initial state", () => {
 		expect(reducer(undefined, {})).toEqual({
-			cardInfo: {},
+			savedCard: {},
 			error: null,
-			paymentMethodSave: false
+			paymentMethodSaved: false
 		});
 	});
 
@@ -15,9 +15,9 @@ describe("card reducer", () => {
 				type: "SEND_CARD_REQUEST"
 			})
 		).toEqual({
-			cardInfo: {},
+			savedCard: {},
 			error: null,
-			paymentMethodSave: false
+			paymentMethodSaved: false
 		});
 	});
 
@@ -28,9 +28,9 @@ describe("card reducer", () => {
 				payload: { text: "text" }
 			})
 		).toEqual({
-			cardInfo: { text: "text" },
+			savedCard: { text: "text" },
 			error: null,
-			paymentMethodSave: true
+			paymentMethodSaved: true
 		});
 	});
 
@@ -41,9 +41,9 @@ describe("card reducer", () => {
 				payload: "error text"
 			})
 		).toEqual({
-			cardInfo: {},
+			savedCard: {},
 			error: "error text",
-			paymentMethodSave: false
+			paymentMethodSaved: false
 		});
 	});
 });

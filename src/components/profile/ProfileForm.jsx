@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -8,7 +8,12 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
-import { getCardInfo, getError, sendCardRequest } from "../../modules/card";
+import {
+	getSavedCard,
+	getError,
+	sendCardRequest,
+	fetchCardRequest
+} from "../../modules/card";
 
 export const useFormStyles = makeStyles(() => ({
 	buttonContainer: {
@@ -40,45 +45,45 @@ export const useFormStyles = makeStyles(() => ({
 const ProfileForm = React.memo(props => {
 	const classes = useFormStyles();
 
-	const { sendCardRequest, savedCard } = props;
+	const { sendCardRequest, fetchCardRequest, savedCard } = props;
 
-	const [showMessage, setShowMessage] = useState(false);
+	// useEffect(() => {
+	// 	fetchCardRequest();
+	// }, []);
+
+	// useEffect(() => {setCardInfo(savedCard)}, [savedCard]);
 
 	const [cardInfo, setCardInfo] = useState({
 		cardNumber: savedCard.cardNumber || "",
 		expiryDate: savedCard.expiryDate || new Date(),
 		cardName: savedCard.cardName || "",
-		cvc: savedCard.cvc || "",
-		token: window.localStorage.getItem("token")
+		cvc: savedCard.cvc || ""
 	});
 
 	const onSubmit = event => {
 		event.preventDefault();
 		sendCardRequest(cardInfo);
-		// .then(data => setShowMessage(true));
 	};
 
 	const onInputChange = event => {
 		let input = event.target;
 		setCardInfo({ ...cardInfo, [input.name]: input.value });
-		setShowMessage(false);
 	};
 
 	const onDateInputChange = date => {
 		setCardInfo({ ...cardInfo, expiryDate: date });
-		setShowMessage(false);
 	};
 
-	const Message = () => {
-		if (showMessage) {
-			return (
-				<Box className={classes.message}>
-					<Typography variant="body1">Данные карты сохранены.</Typography>
-				</Box>
-			);
-		}
-		return null;
-	};
+	// const Message = () => {
+	// 	if (showMessage) {
+	// 		return (
+	// 			<Box className={classes.message}>
+	// 				<Typography variant="body1">Данные карты сохранены.</Typography>
+	// 			</Box>
+	// 		);
+	// 	}
+	// 	return null;
+	// };
 
 	return (
 		<form onSubmit={onSubmit}>
@@ -149,21 +154,21 @@ const ProfileForm = React.memo(props => {
 					Сохранить
 				</Button>
 			</Box>
-			<Message />
 		</form>
 	);
 });
 
 ProfileForm.propTypes = {
 	sendCardRequest: PropTypes.func,
+	fetchCardRequest: PropTypes.func,
 	savedCard: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-	savedCard: getCardInfo(state),
+	savedCard: getSavedCard(state),
 	error: getError(state)
 });
 
-const mapDispatchToProps = { sendCardRequest };
+const mapDispatchToProps = { sendCardRequest, fetchCardRequest };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileForm);

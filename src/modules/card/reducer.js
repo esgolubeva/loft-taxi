@@ -6,25 +6,27 @@ import {
 	sendCardRequest,
 	fetchCardRequest,
 	fetchCardSuccess,
-	fetchCardFailure
+	fetchCardFailure,
+	setPaymentMethodSaved
 } from "./actions";
 
 import { fetchLogout } from "../auth/actions";
 
-const paymentMethodSave = handleActions(
+const paymentMethodSaved = handleActions(
 	{
 		[sendCardRequest]: () => false,
 		[sendCardSuccess]: () => true,
 		[sendCardFailure]: () => false,
 		[fetchCardRequest]: () => false,
-		[fetchCardSuccess]: () => true,
+		[fetchCardSuccess]: () => false,
 		[fetchCardFailure]: () => false,
+		[setPaymentMethodSaved]: () => true,
 		[fetchLogout]: () => false
 	},
 	false
 );
 
-const cardInfo = handleActions(
+const savedCard = handleActions(
 	{
 		[sendCardRequest]: () => {},
 		[sendCardSuccess]: (_state, action) => action.payload,
@@ -48,7 +50,7 @@ const error = handleActions(
 );
 
 export default combineReducers({
-	paymentMethodSave,
-	cardInfo,
+	paymentMethodSaved,
+	savedCard,
 	error
 });

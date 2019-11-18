@@ -27,14 +27,6 @@ class MapApp extends React.Component {
 			center: [this.state.lng, this.state.lat],
 			zoom: this.state.zoom
 		});
-
-		this.map.on("move", () => {
-			this.setState({
-				lng: this.map.getCenter().lng.toFixed(4),
-				lat: this.map.getCenter().lat.toFixed(4),
-				zoom: this.map.getZoom().toFixed(2)
-			});
-		});
 	}
 
 	componentDidUpdate(prevProps) {
@@ -42,16 +34,16 @@ class MapApp extends React.Component {
 			const { routeCoords } = this.props;
 
 			if (this.map.getLayer("route")) {
+				this.map.flyTo({
+					center: [this.state.lng, this.state.lat],
+					zoom: this.state.zoom
+				});
 				this.map.removeLayer("route");
 				this.map.removeSource("route");
 			}
 			if (routeCoords.length) {
 				drawRoute(this.map, routeCoords);
 			}
-
-			// if(isOrderMade && orderCoords && orderCoords.length > 0) {
-			//     if(prevProps.orderCoords !== orderCoords) this.renderRoute()
-			// }
 		}
 	}
 
