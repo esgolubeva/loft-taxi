@@ -1,4 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
+import axios from "axios";
 import {
 	sendAuthRequest,
 	sendAuthSuccess,
@@ -6,25 +7,19 @@ import {
 	fetchLogout,
 	sendRegisterFailure,
 	sendRegisterSuccess,
-	sendRegisterRequest,
+	sendRegisterRequest
 } from "./actions";
 
-const getResponse = (action, path) =>
-	fetch(`https://loft-taxi.glitch.me/${path}`, {
-		method: "POST",
-		body: JSON.stringify(action.payload),
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-	})
-		.then(response => response.json())
-		.then(data => {
-			if (!data.success) {
-				throw Error(data.error);
+const postAuthRequest = (action, path) => {
+	return axios
+		.post(`https://loft-taxi.glitch.me/${path}`, action.payload)
+		.then(response => {
+			if (!response.data.success) {
+				throw Error(response.data.error);
 			}
-			return data;
+			return response.data;
 		});
+};
 
 function saveToken(token) {
 	window.localStorage.setItem("token", token);
@@ -34,7 +29,7 @@ export function* handleAuth() {
 	yield takeEvery(sendAuthRequest, function*(action) {
 		try {
 			const path = "auth";
-			const response = yield call(getResponse, action, path);
+			const response = yield call(postAuthRequest, action, path);
 			yield call(saveToken, response.token);
 			yield put(sendAuthSuccess());
 		} catch (error) {
@@ -51,7 +46,7 @@ export function* handleRegister() {
 	yield takeEvery(sendRegisterRequest, function*(action) {
 		try {
 			const path = "register";
-			const response = yield call(getResponse, action, path);
+			const response = yield call(postAuthRequest, action, path);
 			yield call(saveToken, response.token);
 			yield put(sendRegisterSuccess());
 		} catch (error) {

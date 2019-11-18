@@ -1,3 +1,4 @@
+import axios from "axios";
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
 	fetchAddressRequest,
@@ -5,17 +6,18 @@ import {
 	fetchAddressFailure
 } from "./actions";
 
-const getAddresses = () =>
-	fetch("https://loft-taxi.glitch.me/addressList").then(response =>
-		response.json()
-	);
+const getAddressRequest = path => {
+	return axios.get(`https://loft-taxi.glitch.me/${path}`).then(response => {
+		return response.data;
+	});
+};
 
 export function* handleAddress() {
-	yield takeEvery(fetchAddressRequest, function*(action) {
+	yield takeEvery(fetchAddressRequest, function*() {
 		try {
-			let response = yield call(getAddresses, action);
+			const path = "addressList";
+			let response = yield call(getAddressRequest, path);
 			yield put(fetchAddressSuccess(response.addresses));
-			// console.log(response.addresses);
 		} catch (error) {
 			yield put(fetchAddressFailure(error));
 			console.log(error);

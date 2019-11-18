@@ -1,3 +1,4 @@
+import axios from "axios";
 import { takeEvery, call, put } from "redux-saga/effects";
 import {
 	fetchRouteRequest,
@@ -5,17 +6,19 @@ import {
 	fetchRouteFailure
 } from "./actions";
 
-const getRoute = action =>
-	fetch(
-		`https://loft-taxi.glitch.me/route?address1=${action.payload.from}&address2=${action.payload.to}`
-	).then(response => response.json());
+const getRouteRequest = action => {
+	return axios
+		.get(
+			`https://loft-taxi.glitch.me/route?address1=${action.payload.from}&address2=${action.payload.to}d`
+		)
+		.then(response => response.data);
+};
 
 export function* routeSaga() {
 	yield takeEvery(fetchRouteRequest, function*(action) {
 		try {
-			let response = yield call(getRoute, action);
+			let response = yield call(getRouteRequest, action);
 			yield put(fetchRouteSuccess(response));
-			console.log(response);
 		} catch (error) {
 			yield put(fetchRouteFailure(error));
 			console.log(error);
