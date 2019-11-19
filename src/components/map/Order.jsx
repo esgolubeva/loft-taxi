@@ -68,7 +68,7 @@ const Order = withRouter(props => {
 						color="primary"
 						size="large"
 					>
-						Профиль
+						Перейти в Профиль
 					</Button>
 				</Box>
 			);
