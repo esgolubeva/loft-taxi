@@ -5,7 +5,8 @@ describe("card reducer", () => {
 		expect(reducer(undefined, {})).toEqual({
 			savedCard: {},
 			error: null,
-			paymentMethodSaved: false
+			paymentMethodSaved: false,
+			successMessageIsShown: false
 		});
 	});
 
@@ -17,7 +18,8 @@ describe("card reducer", () => {
 		).toEqual({
 			savedCard: {},
 			error: null,
-			paymentMethodSaved: false
+			paymentMethodSaved: false,
+			successMessageIsShown: false
 		});
 	});
 
@@ -30,7 +32,8 @@ describe("card reducer", () => {
 		).toEqual({
 			savedCard: { text: "text" },
 			error: null,
-			paymentMethodSaved: true
+			paymentMethodSaved: true,
+			successMessageIsShown: true
 		});
 	});
 
@@ -43,7 +46,8 @@ describe("card reducer", () => {
 		).toEqual({
 			savedCard: {},
 			error: "error text",
-			paymentMethodSaved: false
+			paymentMethodSaved: false,
+			successMessageIsShown: false
 		});
 	});
 });

@@ -7,7 +7,7 @@ import {
 	fetchCardRequest,
 	fetchCardSuccess,
 	fetchCardFailure,
-	setPaymentMethodSaved
+	setSuccessMessageIsShown
 } from "./actions";
 
 import { fetchLogout } from "../auth/actions";
@@ -18,9 +18,8 @@ const paymentMethodSaved = handleActions(
 		[sendCardSuccess]: () => true,
 		[sendCardFailure]: () => false,
 		[fetchCardRequest]: () => false,
-		[fetchCardSuccess]: () => false,
+		[fetchCardSuccess]: () => true,
 		[fetchCardFailure]: () => false,
-		[setPaymentMethodSaved]: () => true,
 		[fetchLogout]: () => false
 	},
 	false
@@ -30,8 +29,7 @@ const savedCard = handleActions(
 	{
 		[sendCardRequest]: () => {},
 		[sendCardSuccess]: (_state, action) => action.payload,
-		[fetchCardSuccess]: (_state, action) => action.payload,
-		[fetchLogout]: () => null
+		[fetchCardSuccess]: (_state, action) => action.payload
 	},
 	{}
 );
@@ -49,8 +47,23 @@ const error = handleActions(
 	null
 );
 
+const successMessageIsShown = handleActions(
+	{
+		[sendCardRequest]: () => false,
+		[sendCardSuccess]: () => true,
+		[sendCardFailure]: () => false,
+		[fetchCardRequest]: () => false,
+		[setSuccessMessageIsShown]: (_state, action) => action.payload,
+		[fetchCardSuccess]: () => false,
+		[fetchCardFailure]: () => false,
+		[fetchLogout]: () => false
+	},
+	false
+);
+
 export default combineReducers({
 	paymentMethodSaved,
 	savedCard,
-	error
+	error,
+	successMessageIsShown
 });

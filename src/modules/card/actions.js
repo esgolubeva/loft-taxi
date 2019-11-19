@@ -6,4 +6,4 @@ export const sendCardFailure = createAction("SEND_CARD_FAILURE");
 export const fetchCardRequest = createAction("FETCH_CARD_REQUEST");
 export const fetchCardSuccess = createAction("FETCH_CARD_SUCCESS");
 export const fetchCardFailure = createAction("FETCH_CARD_FAILURE");
-export const setPaymentMethodSaved = createAction("SET_PAYMENT_METHOD_SAVE");
+export const setSuccessMessageIsShown = createAction("SET_SUCCESS_MESSAGE_IS_SHOWN")

@@ -54,7 +54,7 @@ function* fetchCard() {
 			const path = "card";
 			const response = yield call(getCardRequest, path);
 			yield put(fetchCardSuccess(response));
-			yield put(setPaymentMethodSaved());
+			// yield put(setPaymentMethodSaved());
 		} catch (error) {
 			yield put(fetchCardFailure(error));
 			console.log(error);

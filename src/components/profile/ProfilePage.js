@@ -39,7 +39,6 @@ export const ProfilePage = props => {
 							<Typography variant="h4" component="h1">
 								Профиль
 							</Typography>
-							<Typography variant="subtitle1">Способ оплаты</Typography>
 						</Box>
 						{props.children}
 					</Container>

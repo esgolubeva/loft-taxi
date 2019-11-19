@@ -42,7 +42,9 @@ const Order = withRouter(props => {
 	} = props;
 
 	useEffect(() => {
-		fetchCardRequest();
+		if (!paymentMethodSaved) {
+			fetchCardRequest();
+		}
 	}, []);
 
 	const classes = useFormStyles();

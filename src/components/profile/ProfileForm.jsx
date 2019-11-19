@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link as RouterLink, withRouter } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Paper, TextField, Button } from "@material-ui/core/";
@@ -12,8 +13,14 @@ import {
 	getSavedCard,
 	getError,
 	sendCardRequest,
-	fetchCardRequest
+	fetchCardRequest,
+	setSuccessMessageIsShown,
+	getSuccessMessageIsShown
 } from "../../modules/card";
+
+const NavLink = React.forwardRef((props, ref) => (
+	<RouterLink innerRef={ref} {...props} />
+));
 
 export const useFormStyles = makeStyles(() => ({
 	buttonContainer: {
@@ -34,141 +41,170 @@ export const useFormStyles = makeStyles(() => ({
 		position: "relative"
 	},
 	message: {
-		position: "absolute",
-		bottom: "30px",
-		left: 0,
-		width: "100%",
+		marginTop: "30px",
 		textAlign: "center"
+	},
+	button: {
+		marginTop: "30px"
 	}
 }));
 
-const ProfileForm = React.memo(props => {
-	const classes = useFormStyles();
+const ProfileForm = withRouter(
+	React.memo(props => {
+		const classes = useFormStyles();
 
-	const { sendCardRequest, fetchCardRequest, savedCard } = props;
+		const {
+			sendCardRequest,
+			savedCard,
+			setSuccessMessageIsShown,
+			successMessageIsShown
+		} = props;
 
-	// useEffect(() => {
-	// 	fetchCardRequest();
-	// }, []);
+		const [cardInfo, setCardInfo] = useState({
+			cardNumber: savedCard.cardNumber || "",
+			expiryDate: savedCard.expiryDate || new Date(),
+			cardName: savedCard.cardName || "",
+			cvc: savedCard.cvc || ""
+		});
 
-	// useEffect(() => {setCardInfo(savedCard)}, [savedCard]);
+		const onSubmit = event => {
+			event.preventDefault();
+			sendCardRequest(cardInfo);
+		};
 
-	const [cardInfo, setCardInfo] = useState({
-		cardNumber: savedCard.cardNumber || "",
-		expiryDate: savedCard.expiryDate || new Date(),
-		cardName: savedCard.cardName || "",
-		cvc: savedCard.cvc || ""
-	});
+		const onInputChange = event => {
+			let input = event.target;
+			setCardInfo({ ...cardInfo, [input.name]: input.value });
+		};
 
-	const onSubmit = event => {
-		event.preventDefault();
-		sendCardRequest(cardInfo);
-	};
+		const onDateInputChange = date => {
+			setCardInfo({ ...cardInfo, expiryDate: date });
+		};
 
-	const onInputChange = event => {
-		let input = event.target;
-		setCardInfo({ ...cardInfo, [input.name]: input.value });
-	};
+		useEffect(() => {
+			return () => {
+				setSuccessMessageIsShown(false);
+			};
+		}, []);
 
-	const onDateInputChange = date => {
-		setCardInfo({ ...cardInfo, expiryDate: date });
-	};
+		if (successMessageIsShown) {
+			return (
+				<Box className={classes.message}>
+					<Typography variant="body1">Данные карты сохранены.</Typography>
+					<Button
+						className={classes.button}
+						component={NavLink}
+						to="/map"
+						variant="contained"
+						color="primary"
+						size="large"
+					>
+						Заказать такси
+					</Button>
+				</Box>
+			);
+		}
 
-	// const Message = () => {
-	// 	if (showMessage) {
-	// 		return (
-	// 			<Box className={classes.message}>
-	// 				<Typography variant="body1">Данные карты сохранены.</Typography>
-	// 			</Box>
-	// 		);
-	// 	}
-	// 	return null;
-	// };
-
-	return (
-		<form onSubmit={onSubmit}>
-			<Box className={classes.cardsContainer}>
-				<Paper className={classes.card}>
-					<MCIcon />
-					<TextField
-						label="Номер карты:"
-						placeholder="0000 0000 0000 0000"
-						type="text"
-						name="cardNumber"
-						value={cardInfo.cardNumber}
-						onChange={onInputChange}
-						InputLabelProps={{ shrink: true }}
-						margin="normal"
-						fullWidth
-						required
-					/>
-					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<DatePicker
-							label="Срок действия:"
-							placeholder="12/34"
-							name="expiryDate"
-							value={cardInfo.expiryDate}
-							onChange={onDateInputChange}
-							openTo="year"
-							minDate={new Date()}
-							views={["year", "month"]}
-							format="MM/yy"
+		return (
+			<form onSubmit={onSubmit}>
+				<Box textAlign="center">
+					<Typography variant="subtitle1">Способ оплаты</Typography>
+				</Box>
+				<Box className={classes.cardsContainer}>
+					<Paper className={classes.card}>
+						<MCIcon />
+						<TextField
+							label="Номер карты:"
+							placeholder="0000 0000 0000 0000"
+							type="text"
+							name="cardNumber"
+							value={cardInfo.cardNumber}
+							onChange={onInputChange}
 							InputLabelProps={{ shrink: true }}
-							variant="inline"
+							margin="normal"
+							fullWidth
+							required
+						/>
+						<MuiPickersUtilsProvider utils={DateFnsUtils}>
+							<DatePicker
+								label="Срок действия:"
+								placeholder="12/34"
+								name="expiryDate"
+								value={cardInfo.expiryDate}
+								onChange={onDateInputChange}
+								openTo="year"
+								minDate={new Date()}
+								views={["year", "month"]}
+								format="MM/yy"
+								InputLabelProps={{ shrink: true }}
+								variant="inline"
+								margin="normal"
+								required
+							/>
+						</MuiPickersUtilsProvider>
+					</Paper>
+					<Paper className={classes.card}>
+						<TextField
+							label="Имя владельца:"
+							placeholder="USER NAME"
+							type="text"
+							name="cardName"
+							value={cardInfo.cardName}
+							onChange={onInputChange}
+							InputLabelProps={{ shrink: true }}
+							margin="normal"
+							fullWidth
+							required
+						/>
+						<TextField
+							label="CVC:"
+							type="text"
+							placeholder="123"
+							name="cvc"
+							value={cardInfo.cvc}
+							onChange={onInputChange}
+							inputProps={{
+								maxLength: 3
+							}}
+							InputLabelProps={{ shrink: true }}
 							margin="normal"
 							required
 						/>
-					</MuiPickersUtilsProvider>
-				</Paper>
-				<Paper className={classes.card}>
-					<TextField
-						label="Имя владельца:"
-						placeholder="USER NAME"
-						type="text"
-						name="cardName"
-						value={cardInfo.cardName}
-						onChange={onInputChange}
-						InputLabelProps={{ shrink: true }}
-						margin="normal"
-						fullWidth
-						required
-					/>
-					<TextField
-						label="CVC:"
-						type="text"
-						placeholder="123"
-						name="cvc"
-						value={cardInfo.cvc}
-						onChange={onInputChange}
-						inputProps={{
-							maxLength: 3
-						}}
-						InputLabelProps={{ shrink: true }}
-						margin="normal"
-						required
-					/>
-				</Paper>
-			</Box>
-			<Box className={classes.buttonContainer}>
-				<Button type="submit" variant="contained" color="primary" size="large">
-					Сохранить
-				</Button>
-			</Box>
-		</form>
-	);
-});
+					</Paper>
+				</Box>
+				<Box className={classes.buttonContainer}>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						size="large"
+					>
+						Сохранить
+					</Button>
+				</Box>
+			</form>
+		);
+	})
+);
 
 ProfileForm.propTypes = {
 	sendCardRequest: PropTypes.func,
 	fetchCardRequest: PropTypes.func,
-	savedCard: PropTypes.object
+	savedCard: PropTypes.object,
+	successMessageIsShown: PropTypes.bool,
+	setSuccessMessageIsShown: PropTypes.func
 };
 
 const mapStateToProps = state => ({
 	savedCard: getSavedCard(state),
-	error: getError(state)
+	error: getError(state),
+	successMessageIsShown: getSuccessMessageIsShown(state)
 });
 
-const mapDispatchToProps = { sendCardRequest, fetchCardRequest };
+const mapDispatchToProps = {
+	sendCardRequest,
+	fetchCardRequest,
+	setSuccessMessageIsShown
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileForm);
