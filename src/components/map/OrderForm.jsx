@@ -55,6 +55,7 @@ const OrderForm = React.memo(props => {
 				value={route[addressKey]}
 				onChange={onChange}
 				inputProps={{ name: addressKey }}
+				data-testid={addressKey}
 				autoWidth
 			>
 				{availableAddresses}
