@@ -22,17 +22,7 @@ const error = handleActions(
 	null
 );
 
-const isLoading = handleActions(
-	{
-		[fetchAddressRequest]: () => true,
-		[fetchAddressFailure]: () => false,
-		[fetchAddressSuccess]: () => false
-	},
-	false
-);
-
 export default combineReducers({
 	addressList,
-	error,
-	isLoading
+	error
 });
