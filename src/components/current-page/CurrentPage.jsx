@@ -7,7 +7,6 @@ import { Map } from "../map";
 import { Login } from "../login";
 import { Signup } from "../signup";
 import { Profile } from "../profile";
-
 import { getIsLoggedIn } from "../../modules/auth";
 
 const currentPage = props => {

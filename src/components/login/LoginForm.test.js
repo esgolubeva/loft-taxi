@@ -1,7 +1,8 @@
 import React from "react";
 import { fireEvent, wait } from "@testing-library/react";
-import { App } from "../../App";
 import { createStore, applyMiddleware } from "redux";
+
+import { App } from "../../App";
 import rootReducer from "../../modules";
 import { sendAuthRequest, sendAuthSuccess } from "../../modules/auth";
 

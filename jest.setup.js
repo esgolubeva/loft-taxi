@@ -1,7 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import { createAppStore } from "./src/store";
 import { Provider } from "react-redux";
 
 // See: https://github.com/mapbox/mapbox-gl-js/issues/3436#issuecomment-485535598

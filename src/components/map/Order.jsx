@@ -5,8 +5,8 @@ import { Link as RouterLink, withRouter } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Paper, Box, Typography, Button } from "@material-ui/core/";
-import OrderForm from "./OrderForm";
 
+import OrderForm from "./OrderForm";
 import { fetchCardRequest, getPaymentMethodSaved } from "../../modules/card";
 import { getOrderIsAccepted, resetRoute } from "../../modules/route";
 

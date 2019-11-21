@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core/";
 
 import { Link as RouterLink, withRouter } from "react-router-dom";
-// import { statement } from "@babel/template";
 
 import { fetchLogout } from "../../modules/auth";
 

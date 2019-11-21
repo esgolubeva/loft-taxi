@@ -1,6 +1,7 @@
 import React from "react";
 import { fireEvent, wait } from "@testing-library/react";
 import { createStore, applyMiddleware } from "redux";
+
 import { App } from "../../App";
 import ProfileForm from "./ProfileForm";
 import rootReducer from "../../modules";
@@ -10,8 +11,6 @@ import { sendAuthSuccess } from "../../modules/auth";
 describe("ProfileForm", () => {
 	describe("if successMessageIsShown = false", () => {
 		it("renders correctly and should submit form on Сохранить button click", () => {
-			const testDate = new Date();
-
 			const sendRequestMock = jest.fn();
 
 			let store = createStore(
