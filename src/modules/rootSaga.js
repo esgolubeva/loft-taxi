@@ -1,13 +1,13 @@
 import { fork } from "redux-saga/effects";
-import { handleAuth, handleRegister } from "./auth/sagas";
+import { authSaga, registerSaga } from "./auth/sagas";
 import { paymentSaga } from "./card/sagas";
-import { handleAddress } from "./address/sagas";
+import { addressSaga } from "./address/sagas";
 import { routeSaga } from "./route/sagas";
 
 export function* rootSaga() {
-	yield fork(handleAuth);
-	yield fork(handleRegister);
+	yield fork(authSaga);
+	yield fork(registerSaga);
 	yield fork(paymentSaga);
-	yield fork(handleAddress);
+	yield fork(addressSaga);
 	yield fork(routeSaga);
 }

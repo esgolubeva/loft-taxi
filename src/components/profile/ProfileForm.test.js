@@ -1,17 +1,23 @@
 import React from "react";
 import { fireEvent, wait } from "@testing-library/react";
-import ProfileForm from "./ProfileForm";
 import { createStore, applyMiddleware } from "redux";
+import { App } from "../../App";
+import ProfileForm from "./ProfileForm";
 import rootReducer from "../../modules";
 import { sendCardRequest, sendCardSuccess } from "../../modules/card";
+import { sendAuthSuccess } from "../../modules/auth";
 
 describe("ProfileForm", () => {
 	it("should submit form on button click", () => {
+		const testDate = new Date();
+
+		const sendRequestMock = jest.fn();
+
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
 				if (action.type === sendCardRequest.toString()) {
-					return Promise.resolve();
+					sendRequestMock(action.payload);
 				}
 				return next(action);
 			})
@@ -26,8 +32,8 @@ describe("ProfileForm", () => {
 			target: { value: "1111 1111 1111 1111" }
 		});
 
-		fireEvent.change(getByPlaceholderText("12/34"), {
-			target: { value: "02/22" }
+		fireEvent.change(getByPlaceholderText("12/34"), { //TODO
+			target: { value: new Date(1) }
 		});
 
 		fireEvent.change(getByPlaceholderText("USER NAME"), {
@@ -38,10 +44,31 @@ describe("ProfileForm", () => {
 			target: { value: "321" }
 		});
 
-		let saveButton = getByText("Сохранить");
+		fireEvent.submit(getByText("Сохранить"));
 
-		fireEvent.submit(saveButton);
+		wait(() => expect(sendRequestMock).toHaveBeenCalledWith({
+			cardNumber: "1111 1111 1111 1111",
+			expiryDate: new Date(1),
+			cardName: "John Doe",
+			cvc: "321"
+		}), 1000);
 
-		return wait(() => getByText("Данные карты сохранены."));
+	});
+
+	describe("if successMessageIsShown = true", () => {
+		it("renders correctly and on Заказать такси button click redirect to /map", () => {
+			let store = createStore(rootReducer);
+			let { getByText, getByTestId } = renderWithProviders(<App />, store);
+			store.dispatch(sendAuthSuccess());
+
+			fireEvent.click(getByText("Профиль"));
+			store.dispatch(sendCardSuccess());
+
+			expect(getByText("Данные карты сохранены.")).toBeTruthy();
+			expect(getByText("Заказать такси")).toBeTruthy();
+
+			fireEvent.click(getByText("Заказать такси"));
+			expect(getByTestId("map")).toBeTruthy();
+		});
 	});
 });

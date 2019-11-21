@@ -10,7 +10,7 @@ describe("address reducer", () => {
 
 	it("should handle FETCH_ADDRESS_REQUEST", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ADDRESS_REQUEST"
 			})
 		).toEqual({
@@ -21,7 +21,7 @@ describe("address reducer", () => {
 
 	it("should handle FETCH_ADDRESS_SUCCESS", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ADDRESS_SUCCESS",
 				payload: [1, 2, 3]
 			})
@@ -33,7 +33,7 @@ describe("address reducer", () => {
 
 	it("should handle FETCH_ADDRESS_FAILURE", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ADDRESS_FAILURE",
 				payload: "error text"
 			})

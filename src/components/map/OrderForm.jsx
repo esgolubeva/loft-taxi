@@ -54,7 +54,7 @@ const OrderForm = React.memo(props => {
 			<Select
 				value={route[addressKey]}
 				onChange={onChange}
-				inputProps={{ name: addressKey }}
+				inputProps={{ name: addressKey, id: addressKey }}
 				data-testid={addressKey}
 				autoWidth
 			>
@@ -76,11 +76,11 @@ const OrderForm = React.memo(props => {
 	return (
 		<form onSubmit={onSubmit}>
 			<FormControl className={classes.formControl}>
-				<InputLabel id="from">Откуда</InputLabel>
+				<InputLabel htmlFor="from">Откуда</InputLabel>
 				<AddressSelect addressKey="from" otherAddress={route.to} />
 			</FormControl>
 			<FormControl className={classes.formControl}>
-				<InputLabel id="to">Куда</InputLabel>
+				<InputLabel htmlFor="to">Куда</InputLabel>
 				<AddressSelect addressKey="to" otherAddress={route.from} />
 			</FormControl>
 			<Box className={classes.buttonContainer}>

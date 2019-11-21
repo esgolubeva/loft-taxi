@@ -1,11 +1,11 @@
 import React from "react";
 import { fireEvent, wait } from "@testing-library/react";
 import { App } from "../../App";
-// import Order from "./Order";
+import Order from "./Order";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "../../modules";
 import { sendAuthSuccess } from "../../modules/auth";
-import { fetchCardRequest, fetchCardSuccess } from "../../modules/card";
+import { fetchCardSuccess } from "../../modules/card";
 import { fetchRouteSuccess } from "../../modules/route";
 
 describe("Order", () => {
@@ -21,28 +21,33 @@ describe("Order", () => {
 			fireEvent.click(getByText("Перейти в Профиль"));
 			expect(getByTestId("profile")).toBeTruthy();
 		});
-    });
-    describe("if paymentMethodSaved = true", () => {
-		it("renders correctly", () => {
+	});
+	describe("if paymentMethodSaved = true", () => {
+		it("renders Form correctly", () => {
 			let store = createStore(rootReducer);
 			store.dispatch(sendAuthSuccess());
 			store.dispatch(fetchCardSuccess("payload"));
-			let { getByText } = renderWithProviders(<App />, store);
+			let { getByText } = renderWithProviders(<Order />, store);
 
 			expect(getByText("Откуда")).toBeTruthy();
 			expect(getByText("Куда")).toBeTruthy();
 		});
 	});
-
-	describe("if orderIsAccepted = true", () => {
-		it("renders correctly", () => {
+	describe("if paymentMethodSaved = true and orderIsAccepted = true", () => {
+		it("renders correctly and on Сделать новый заказ button click set orderIsAccepted = false", () => {
 			let store = createStore(rootReducer);
+			let { getByText } = renderWithProviders(<Order />, store);
 			store.dispatch(sendAuthSuccess());
 			store.dispatch(fetchCardSuccess("payload"));
-			store.dispatch(fetchRouteSuccess("payload"));
-			let { getByText } = renderWithProviders(<App />, store);
+			store.dispatch(fetchRouteSuccess());
 
-			expect(getByText("Ваш заказ принят")).toBeTruthy();
+			expect(getByText("Ваш заказ принят. Такси скоро приедет.")).toBeTruthy();
+			expect(getByText("Сделать новый заказ")).toBeTruthy();
+
+			fireEvent.click(getByText("Сделать новый заказ"));
+
+			expect(getByText("Откуда")).toBeTruthy();
+			expect(getByText("Куда")).toBeTruthy();
 		});
 	});
 });

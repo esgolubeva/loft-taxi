@@ -10,7 +10,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_AUTH_REQUEST", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_AUTH_REQUEST"
 			})
 		).toEqual({
@@ -21,7 +21,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_AUTH_SUCCESS", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_AUTH_SUCCESS"
 			})
 		).toEqual({
@@ -32,7 +32,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_AUTH_FAILURE", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_AUTH_FAILURE",
 				payload: "error text"
 			})
@@ -44,7 +44,7 @@ describe("auth reducer", () => {
 
 	it("should handle FETCH_LOGOUT", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_LOGOUT"
 			})
 		).toEqual({
@@ -55,7 +55,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_REGISTER_REQUEST", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_REGISTER_REQUEST"
 			})
 		).toEqual({
@@ -66,7 +66,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_REGISTER_SUCCESS", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_REGISTER_SUCCESS"
 			})
 		).toEqual({
@@ -77,7 +77,7 @@ describe("auth reducer", () => {
 
 	it("should handle SEND_REGISTER_FAILURE", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "SEND_REGISTER_FAILURE",
 				payload: "error text"
 			})

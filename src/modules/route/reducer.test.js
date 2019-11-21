@@ -11,7 +11,7 @@ describe("route reducer", () => {
 
 	it("should handle FETCH_ROUTE_REQUEST", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ROUTE_REQUEST"
 			})
 		).toEqual({
@@ -23,7 +23,7 @@ describe("route reducer", () => {
 
 	it("should handle FETCH_ROUTE_SUCCESS", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ROUTE_SUCCESS",
 				payload: [1, 2, 3]
 			})
@@ -36,7 +36,7 @@ describe("route reducer", () => {
 
 	it("should handle FETCH_ROUTE_FAILURE", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_ROUTE_FAILURE",
 				payload: "error text"
 			})
@@ -49,7 +49,7 @@ describe("route reducer", () => {
 
 	it("should handle RESET_ROUTE", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "RESET_ROUTE"
 			})
 		).toEqual({
