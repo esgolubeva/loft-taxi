@@ -17,7 +17,7 @@ export const getCardRequest = path => {
 	return axios
 		.get(`https://loft-taxi.glitch.me/${path}?token=${token}`)
 		.then(response => {
-			if (!response.data.success) {
+			if (response.data.hasOwnProperty("error")) {
 				throw Error(response.data.error);
 			}
 			return response.data;
