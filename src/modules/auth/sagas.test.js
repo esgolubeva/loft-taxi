@@ -1,4 +1,4 @@
-import { recordSaga } from "../../recordSaga";
+import { recordSaga } from "../recordSaga";
 import * as api from "./api";
 import { sendAuthRequestSaga, sendRegisterRequestSaga } from "./sagas";
 import {
@@ -59,7 +59,7 @@ describe.only("sendRegisterRequestSaga", () => {
 	api.saveToken = jest.fn();
 	const error = new Error("text");
 
-	it("should authorize with success", async () => {
+	it("should register with success", async () => {
 		api.postAuthRequest.mockImplementation(() =>
 			Promise.resolve({
 				token: "abc"
@@ -81,7 +81,7 @@ describe.only("sendRegisterRequestSaga", () => {
 		expect(dispatched).toContainEqual(sendRegisterSuccess());
 	});
 
-	it("should authorize with failure", async () => {
+	it("should register with failure", async () => {
 		api.postAuthRequest.mockImplementation(() => {
 			throw error;
 		});

@@ -8,51 +8,56 @@ import { sendCardRequest, sendCardSuccess } from "../../modules/card";
 import { sendAuthSuccess } from "../../modules/auth";
 
 describe("ProfileForm", () => {
-	it("should submit form on button click", () => {
-		const testDate = new Date();
+	describe("if successMessageIsShown = false", () => {
+		it("renders correctly and should submit form on Сохранить button click", () => {
+			const testDate = new Date();
 
-		const sendRequestMock = jest.fn();
+			const sendRequestMock = jest.fn();
 
-		let store = createStore(
-			rootReducer,
-			applyMiddleware(store => next => action => {
-				if (action.type === sendCardRequest.toString()) {
-					sendRequestMock(action.payload);
-				}
-				return next(action);
-			})
-		);
+			let store = createStore(
+				rootReducer,
+				applyMiddleware(store => next => action => {
+					if (action.type === sendCardRequest.toString()) {
+						sendRequestMock(action.payload);
+					}
+					return next(action);
+				})
+			);
 
-		let { getByText, getByPlaceholderText } = renderWithProviders(
-			<ProfileForm />,
-			store
-		);
+			let { getByText, getByPlaceholderText } = renderWithProviders(
+				<ProfileForm />,
+				store
+			);
 
-		fireEvent.change(getByPlaceholderText("0000 0000 0000 0000"), {
-			target: { value: "1111 1111 1111 1111" }
+			fireEvent.change(getByPlaceholderText("0000 0000 0000 0000"), {
+				target: { value: "1111 1111 1111 1111" }
+			});
+
+			fireEvent.change(getByPlaceholderText("12/34"), {
+				target: { value: new Date(1) }
+			});
+
+			fireEvent.change(getByPlaceholderText("USER NAME"), {
+				target: { value: "John Doe" }
+			});
+
+			fireEvent.change(getByPlaceholderText("123"), {
+				target: { value: "321" }
+			});
+
+			fireEvent.submit(getByText("Сохранить"));
+
+			wait(
+				() =>
+					expect(sendRequestMock).toHaveBeenCalledWith({
+						cardNumber: "1111 1111 1111 1111",
+						expiryDate: new Date(1),
+						cardName: "John Doe",
+						cvc: "321"
+					}),
+				1000
+			);
 		});
-
-		fireEvent.change(getByPlaceholderText("12/34"), { //TODO
-			target: { value: new Date(1) }
-		});
-
-		fireEvent.change(getByPlaceholderText("USER NAME"), {
-			target: { value: "John Doe" }
-		});
-
-		fireEvent.change(getByPlaceholderText("123"), {
-			target: { value: "321" }
-		});
-
-		fireEvent.submit(getByText("Сохранить"));
-
-		wait(() => expect(sendRequestMock).toHaveBeenCalledWith({
-			cardNumber: "1111 1111 1111 1111",
-			expiryDate: new Date(1),
-			cardName: "John Doe",
-			cvc: "321"
-		}), 1000);
-
 	});
 
 	describe("if successMessageIsShown = true", () => {

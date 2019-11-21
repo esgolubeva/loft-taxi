@@ -1,4 +1,4 @@
-import { recordSaga } from "../../recordSaga";
+import { recordSaga } from "../recordSaga";
 import * as api from "./api";
 import { sendCardRequestSaga, fetchCardRequestSaga } from "./sagas";
 import {

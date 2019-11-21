@@ -1,4 +1,4 @@
-import { recordSaga } from "../../recordSaga";
+import { recordSaga } from "../recordSaga";
 import * as api from "./api";
 import { fetchAddressRequestSaga } from "./sagas";
 import {

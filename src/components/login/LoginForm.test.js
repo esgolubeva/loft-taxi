@@ -6,7 +6,7 @@ import rootReducer from "../../modules";
 import { sendAuthRequest, sendAuthSuccess } from "../../modules/auth";
 
 describe("LoginForm", () => {
-	it("should on Войти button click redirect to map page", () => {
+	it("should on Войти button click redirect to /map", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {

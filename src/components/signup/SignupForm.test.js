@@ -7,7 +7,7 @@ import rootReducer from "../../modules";
 import { sendRegisterRequest, sendRegisterSuccess } from "../../modules/auth";
 
 describe("SignupForm", () => {
-	it("should on Зарегистрироваться button click redirect to map page", () => {
+	it("should on Зарегистрироваться button click redirect to /map", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
