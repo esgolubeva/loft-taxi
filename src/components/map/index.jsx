@@ -1,8 +1,10 @@
 import React from "react";
-import { MapApp } from "./MapApp";
+import MapApp from "./MapApp";
+import Order from "./Order";
 
-export const Map = props => (
+export const Map = () => (
 	<div data-testid="map">
 		<MapApp />
+		<Order />
 	</div>
 );

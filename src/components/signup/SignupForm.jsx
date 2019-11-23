@@ -1,23 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { useFormStyles } from "../shared/styles";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
+import {
+	Paper,
+	Container,
+	Typography,
+	Link,
+	Grid,
+	TextField,
+	Box,
+	Button
+} from "@material-ui/core/";
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 
 import {
 	getIsLoggedIn,
 	getError,
-	fetchRegisterRequest
+	sendRegisterRequest
 } from "../../modules/auth";
 
 const LoginLink = React.forwardRef((props, ref) => (
@@ -32,11 +34,11 @@ const SignupForm = props => {
 		surname: ""
 	});
 
-	const { fetchRegisterRequest, isLoggedIn } = props;
+	const { sendRegisterRequest, isLoggedIn } = props;
 
 	const onSubmit = event => {
 		event.preventDefault();
-		fetchRegisterRequest(userInfo);
+		sendRegisterRequest(userInfo);
 	};
 
 	const onInputChange = event => {
@@ -131,7 +133,8 @@ const SignupForm = props => {
 };
 
 SignupForm.propTypes = {
-	setPage: PropTypes.func
+	sendRegisterRequest: PropTypes.func,
+	isLoggedIn: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
@@ -139,9 +142,6 @@ const mapStateToProps = state => ({
 	error: getError(state)
 });
 
-const mapDispatchToProps = { fetchRegisterRequest };
+const mapDispatchToProps = { sendRegisterRequest };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SignupForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

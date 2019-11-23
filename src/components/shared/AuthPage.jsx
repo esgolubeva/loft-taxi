@@ -1,13 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Background from "../../img/bg/auth-bg.jpg";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Logo } from "loft-taxi-mui-theme";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import { Container, Box } from "@material-ui/core/";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
 	authBg: {
 		backgroundColor: "#000",
 		backgroundImage: `url(${Background})`,
@@ -42,4 +41,8 @@ export const AuthPage = props => {
 			</Container>
 		</div>
 	);
+};
+
+AuthPage.propTypes = {
+	children: PropTypes.node.isRequired
 };

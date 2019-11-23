@@ -4,32 +4,29 @@ import { App } from "../../App";
 import SignupForm from "./SignupForm";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "../../modules";
-import { fetchRegisterRequest, fetchRegisterSuccess } from "../../modules/auth";
+import { sendRegisterRequest, sendRegisterSuccess } from "../../modules/auth";
 
 describe("SignupForm", () => {
-	it("should on Зарегистрироваться button click redirect to map page", () => {
+	it("should on Зарегистрироваться button click redirect to /map", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
-				if (action.type === fetchRegisterRequest.toString()) {
+				if (action.type === sendRegisterRequest.toString()) {
 					expect(action.payload).toStrictEqual({
 						email: "email@example.com",
-                        password: "password",
-                        name: "name",
-                        surname: "surname"
+						password: "password",
+						name: "name",
+						surname: "surname"
 					});
-					return store.dispatch(fetchRegisterSuccess());
+					return store.dispatch(sendRegisterSuccess());
 				}
 				return next(action);
 			})
 		);
 
-		let { getByTestId, getByText } = renderWithProviders(
-				<App />,
-			store
-        );
-        
-        fireEvent.click(getByText("Зарегистрируйтесь"));
+		let { getByTestId, getByText } = renderWithProviders(<App />, store);
+
+		fireEvent.click(getByText("Зарегистрируйтесь"));
 		expect(getByTestId("signup")).toBeTruthy();
 
 		fireEvent.change(getByTestId("inputEmail"), {
@@ -38,12 +35,12 @@ describe("SignupForm", () => {
 
 		fireEvent.change(getByTestId("inputPassword"), {
 			target: { value: "password" }
-        });
-        
+		});
+
 		fireEvent.change(getByTestId("inputName"), {
 			target: { value: "name" }
-        });
-        
+		});
+
 		fireEvent.change(getByTestId("inputSurname"), {
 			target: { value: "surname" }
 		});

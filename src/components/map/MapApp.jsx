@@ -1,35 +1,50 @@
 import React from "react";
 import mapboxgl from "mapbox-gl";
+import PropTypes from "prop-types";
+
+import { connect } from "react-redux";
+import { fetchRouteRequest, getRouteCoords } from "../../modules/route/";
+import { drawRoute } from "./drawRoute";
 
 mapboxgl.accessToken =
 	"pk.eyJ1IjoiZXNnb2x1YiIsImEiOiJjazJicXRoN3AwN2NnM21tZjd5aWNmeHVnIn0.-V1DvjvU7qGcA9fzZIEF8g";
-
-export class MapApp extends React.Component {
+class MapApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			lng: 13.41053,
-			lat: 52.52437,
+			lng: 30.31413,
+			lat: 59.93863,
 			zoom: 10
 		};
+		this.map = null;
 		this.mapContainerRef = React.createRef();
 	}
 
 	componentDidMount() {
-		const map = new mapboxgl.Map({
+		this.map = new mapboxgl.Map({
 			container: this.mapContainerRef.current,
 			style: "mapbox://styles/mapbox/streets-v11",
 			center: [this.state.lng, this.state.lat],
 			zoom: this.state.zoom
 		});
+	}
 
-		map.on("move", () => {
-			this.setState({
-				lng: map.getCenter().lng.toFixed(4),
-				lat: map.getCenter().lat.toFixed(4),
-				zoom: map.getZoom().toFixed(2)
-			});
-		});
+	componentDidUpdate(prevProps) {
+		if (prevProps !== this.props) {
+			const { routeCoords } = this.props;
+
+			if (this.map.getLayer("route")) {
+				this.map.flyTo({
+					center: [this.state.lng, this.state.lat],
+					zoom: this.state.zoom
+				});
+				this.map.removeLayer("route");
+				this.map.removeSource("route");
+			}
+			if (routeCoords.length) {
+				drawRoute(this.map, routeCoords);
+			}
+		}
 	}
 
 	render() {
@@ -54,3 +69,15 @@ export class MapApp extends React.Component {
 		);
 	}
 }
+
+MapApp.propTypes = {
+	routeCoords: PropTypes.array
+};
+
+const mapStateToProps = state => ({
+	routeCoords: getRouteCoords(state)
+});
+
+const mapDispatchToProps = { fetchRouteRequest };
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapApp);

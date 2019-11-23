@@ -1,13 +1,34 @@
 import { handleActions } from "redux-actions";
 import { combineReducers } from "redux";
 import {
+	sendCardFailure,
+	sendCardSuccess,
+	sendCardRequest,
 	fetchCardRequest,
 	fetchCardSuccess,
-	fetchCardFailure
+	fetchCardFailure,
+	setSuccessMessageIsShown
 } from "./actions";
 
-const cardInfo = handleActions(
+import { fetchLogout } from "../auth/actions";
+
+const paymentMethodSaved = handleActions(
 	{
+		[sendCardRequest]: () => false,
+		[sendCardSuccess]: () => true,
+		[sendCardFailure]: () => false,
+		[fetchCardRequest]: () => false,
+		[fetchCardSuccess]: () => true,
+		[fetchCardFailure]: () => false,
+		[fetchLogout]: () => false
+	},
+	false
+);
+
+const savedCard = handleActions(
+	{
+		[sendCardRequest]: () => {},
+		[sendCardSuccess]: (_state, action) => action.payload,
 		[fetchCardSuccess]: (_state, action) => action.payload
 	},
 	{}
@@ -15,14 +36,34 @@ const cardInfo = handleActions(
 
 const error = handleActions(
 	{
+		[sendCardRequest]: () => null,
+		[sendCardSuccess]: () => null,
+		[sendCardFailure]: (_state, action) => action.payload,
 		[fetchCardRequest]: () => null,
+		[fetchCardSuccess]: () => null,
 		[fetchCardFailure]: (_state, action) => action.payload,
-		[fetchCardSuccess]: () => null
+		[fetchLogout]: () => null
 	},
 	null
 );
 
+const successMessageIsShown = handleActions(
+	{
+		[sendCardRequest]: () => false,
+		[sendCardSuccess]: () => true,
+		[sendCardFailure]: () => false,
+		[fetchCardRequest]: () => false,
+		[setSuccessMessageIsShown]: (_state, action) => action.payload,
+		[fetchCardSuccess]: () => false,
+		[fetchCardFailure]: () => false,
+		[fetchLogout]: () => false
+	},
+	false
+);
+
 export default combineReducers({
-	cardInfo,
-	error
+	paymentMethodSaved,
+	savedCard,
+	error,
+	successMessageIsShown
 });

@@ -1,21 +1,22 @@
 import React from "react";
 import { fireEvent, wait } from "@testing-library/react";
-import { App } from "../../App";
 import { createStore, applyMiddleware } from "redux";
+
+import { App } from "../../App";
 import rootReducer from "../../modules";
-import { fetchAuthRequest, fetchAuthSuccess } from "../../modules/auth";
+import { sendAuthRequest, sendAuthSuccess } from "../../modules/auth";
 
 describe("LoginForm", () => {
-	it("should on Войти button click redirect to map page", () => {
+	it("should on Войти button click redirect to /map", () => {
 		let store = createStore(
 			rootReducer,
 			applyMiddleware(store => next => action => {
-				if (action.type === fetchAuthRequest.toString()) {
+				if (action.type === sendAuthRequest.toString()) {
 					expect(action.payload).toStrictEqual({
 						email: "email@example.com",
 						password: "password"
 					});
-					return store.dispatch(fetchAuthSuccess());
+					return store.dispatch(sendAuthSuccess());
 				}
 				return next(action);
 			})

@@ -1,23 +1,23 @@
 import { handleActions } from "redux-actions";
 import { combineReducers } from "redux";
 import {
-	fetchAuthRequest,
-	fetchAuthSuccess,
-	fetchAuthFailure,
+	sendAuthRequest,
+	sendAuthSuccess,
+	sendAuthFailure,
 	fetchLogout,
-	fetchRegisterRequest,
-	fetchRegisterSuccess,
-	fetchRegisterFailure
+	sendRegisterRequest,
+	sendRegisterSuccess,
+	sendRegisterFailure
 } from "./actions";
 
 const isLoggedIn = handleActions(
 	{
-		[fetchAuthRequest]: () => false,
-		[fetchAuthFailure]: () => false,
-		[fetchAuthSuccess]: () => true,
-		[fetchRegisterRequest]: () => false,
-		[fetchRegisterFailure]: () => false,
-		[fetchRegisterSuccess]: () => true,
+		[sendAuthRequest]: () => false,
+		[sendAuthFailure]: () => false,
+		[sendAuthSuccess]: () => true,
+		[sendRegisterRequest]: () => false,
+		[sendRegisterFailure]: () => false,
+		[sendRegisterSuccess]: () => true,
 		[fetchLogout]: () => false
 	},
 	window.localStorage.getItem("token") ? true : false
@@ -25,12 +25,12 @@ const isLoggedIn = handleActions(
 
 const error = handleActions(
 	{
-		[fetchAuthRequest]: () => null,
-		[fetchAuthFailure]: (_state, action) => action.payload,
-		[fetchAuthSuccess]: () => null,
-		[fetchRegisterRequest]: () => null,
-		[fetchRegisterFailure]: (_state, action) => action.payload,
-		[fetchRegisterSuccess]: () => null
+		[sendAuthRequest]: () => null,
+		[sendAuthFailure]: (_state, action) => action.payload,
+		[sendAuthSuccess]: () => null,
+		[sendRegisterRequest]: () => null,
+		[sendRegisterFailure]: (_state, action) => action.payload,
+		[sendRegisterSuccess]: () => null
 	},
 	null
 );

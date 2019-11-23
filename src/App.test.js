@@ -3,14 +3,14 @@ import { fireEvent, wait } from "@testing-library/react";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./modules";
 import { App } from "./App";
-import { fetchAuthSuccess } from "./modules/auth";
-import { fetchAuthRequest } from "./modules/auth";
+import { sendAuthSuccess } from "./modules/auth";
+import { sendAuthRequest } from "./modules/auth";
 
 describe("App", () => {
 	it("renders profile page on Профиль button click in header", () => {
 		let store = createStore(rootReducer);
 		let { getByText, getByTestId } = renderWithProviders(<App />, store);
-		store.dispatch(fetchAuthSuccess());
+		store.dispatch(sendAuthSuccess());
 
 		fireEvent.click(getByText("Профиль"));
 
@@ -20,7 +20,7 @@ describe("App", () => {
 	it("renders map page on Карта button click in header", () => {
 		let store = createStore(rootReducer);
 		let { getByText, getByTestId } = renderWithProviders(<App />, store);
-		store.dispatch(fetchAuthSuccess());
+		store.dispatch(sendAuthSuccess());
 
 		fireEvent.click(getByText("Карта"));
 
@@ -30,7 +30,7 @@ describe("App", () => {
 	it("renders login page on Выйти button click in header", () => {
 		let store = createStore(rootReducer);
 		let { getByText, getByTestId } = renderWithProviders(<App />, store);
-		store.dispatch(fetchAuthSuccess());
+		store.dispatch(sendAuthSuccess());
 
 		fireEvent.click(getByText("Выйти"));
 

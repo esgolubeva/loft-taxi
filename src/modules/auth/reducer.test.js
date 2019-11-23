@@ -8,10 +8,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_AUTH_REQUEST", () => {
+	it("should handle SEND_AUTH_REQUEST", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_AUTH_REQUEST"
+			reducer({}, {
+				type: "SEND_AUTH_REQUEST"
 			})
 		).toEqual({
 			isLoggedIn: false,
@@ -19,10 +19,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_AUTH_SUCCESS", () => {
+	it("should handle SEND_AUTH_SUCCESS", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_AUTH_SUCCESS"
+			reducer({}, {
+				type: "SEND_AUTH_SUCCESS"
 			})
 		).toEqual({
 			isLoggedIn: true,
@@ -30,10 +30,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_AUTH_FAILURE", () => {
+	it("should handle SEND_AUTH_FAILURE", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_AUTH_FAILURE",
+			reducer({}, {
+				type: "SEND_AUTH_FAILURE",
 				payload: "error text"
 			})
 		).toEqual({
@@ -44,7 +44,7 @@ describe("auth reducer", () => {
 
 	it("should handle FETCH_LOGOUT", () => {
 		expect(
-			reducer([], {
+			reducer({}, {
 				type: "FETCH_LOGOUT"
 			})
 		).toEqual({
@@ -53,10 +53,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_REGISTER_REQUEST", () => {
+	it("should handle SEND_REGISTER_REQUEST", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_REGISTER_REQUEST"
+			reducer({}, {
+				type: "SEND_REGISTER_REQUEST"
 			})
 		).toEqual({
 			isLoggedIn: false,
@@ -64,10 +64,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_REGISTER_SUCCESS", () => {
+	it("should handle SEND_REGISTER_SUCCESS", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_REGISTER_SUCCESS"
+			reducer({}, {
+				type: "SEND_REGISTER_SUCCESS"
 			})
 		).toEqual({
 			isLoggedIn: true,
@@ -75,10 +75,10 @@ describe("auth reducer", () => {
 		});
 	});
 
-	it("should handle FETCH_REGISTER_FAILURE", () => {
+	it("should handle SEND_REGISTER_FAILURE", () => {
 		expect(
-			reducer([], {
-				type: "FETCH_REGISTER_FAILURE",
+			reducer({}, {
+				type: "SEND_REGISTER_FAILURE",
 				payload: "error text"
 			})
 		).toEqual({
