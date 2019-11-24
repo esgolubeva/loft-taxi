@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link as RouterLink, Redirect } from "react-router-dom";
+import useForm from "react-hook-form";
+import { RHFInput } from "react-hook-form-input";
 
 import { useFormStyles } from "../shared/styles";
 import {
@@ -21,23 +23,14 @@ const SignupLink = React.forwardRef((props, ref) => (
 ));
 
 const LoginForm = React.memo(props => {
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		password: ""
-	});
-
+	const methods = useForm();
+	const { handleSubmit, register, setValue, errors } = methods;
 	const classes = useFormStyles();
-
 	const { sendAuthRequest, isLoggedIn } = props;
 
-	const onSubmit = event => {
-		event.preventDefault();
-		sendAuthRequest(userInfo);
-	};
-
-	const onInputChange = event => {
-		let input = event.target;
-		setUserInfo({ ...userInfo, [input.name]: input.value });
+	const onSubmit = data => {
+		console.log(data);
+		sendAuthRequest(data);
 	};
 
 	if (isLoggedIn) {
@@ -58,25 +51,29 @@ const LoginForm = React.memo(props => {
 						</Link>
 					</p>
 				</div>
-				<form onSubmit={onSubmit}>
-					<TextField
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<RHFInput
+						as={<TextField />}
 						label="Имя пользователя"
-						type="email"
 						name="email"
-						value={userInfo.email}
-						onChange={onInputChange}
+						register={register({
+							pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+						})}
+						setValue={setValue}
 						inputProps={{ "data-testid": "inputName" }}
+						helperText={errors.email && "Incorrect entry."}
 						margin="normal"
 						fullWidth
 						required
 					/>
-					<TextField
+					<RHFInput
+						as={<TextField />}
 						label="Пароль"
-						type="password"
 						name="password"
-						value={userInfo.password}
-						onChange={onInputChange}
+						register={register}
+						setValue={setValue}
 						inputProps={{ "data-testid": "inputPassword" }}
+						helperText={errors.password && "Incorrect entry."}
 						margin="normal"
 						fullWidth
 						required
