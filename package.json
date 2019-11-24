@@ -28,6 +28,7 @@
 		"date-fns": "^2.0.0-beta.5",
 		"history": "^4.10.1",
 		"html-webpack-plugin": "^3.2.0",
+		"husky": "^3.1.0",
 		"loft-taxi-mui-theme": "^1.0.1",
 		"mapbox-gl": "^1.5.0",
 		"mutationobserver-shim": "^0.3.3",
@@ -65,6 +66,11 @@
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.9",
 		"webpack-dev-server": "^3.9.0"
+	},
+	"husky": {
+		"hooks" : {
+			"pre-commit": "CI=true npm test"
+		}
 	},
 	"browserslist": [
 		"last 1 version",
