@@ -27,10 +27,10 @@ module.exports = {
 		new HtmlWebPackPlugin({
 			template: path.resolve(__dirname, "src", "index.html"),
 			filename: "index.html",
-			publicPath: '/'
+			publicPath: "/"
 		})
 	],
 	devServer: {
-		historyApiFallback: true,
-	  }
+		historyApiFallback: true
+	}
 };

@@ -11,6 +11,6 @@ export const postAuthRequest = (payload, path) => {
 		});
 };
 
-export const saveToken = (token) => {
+export const saveToken = token => {
 	window.localStorage.setItem("token", token);
-}
+};

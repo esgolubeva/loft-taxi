@@ -55,6 +55,7 @@
 		"babel-jest": "^24.9.0",
 		"babel-loader": "^8.0.6",
 		"css-loader": "^3.2.0",
+		"eslint": "^6.7.0",
 		"eslint-plugin-jest": "^23.0.4",
 		"eslint-plugin-react": "^7.16.0",
 		"eslint-plugin-react-hooks": "^2.2.0",
@@ -68,7 +69,7 @@
 		"webpack-dev-server": "^3.9.0"
 	},
 	"husky": {
-		"hooks" : {
+		"hooks": {
 			"pre-commit": "CI=true npm test"
 		}
 	},
