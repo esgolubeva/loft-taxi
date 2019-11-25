@@ -3,7 +3,7 @@ import auth from "./auth";
 import card from "./card";
 import address from "./address";
 import route from "./route";
-import { fetchLogout } from "./auth/actions";
+import { logout } from "./auth/actions";
 
 const rootReducer = combineReducers({
 	auth,
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 });
 
 export default (state, action) => {
-	if (action.type === fetchLogout.toString()) {
+	if (action.type === logout.toString()) {
 		state = undefined;
 	}
 

@@ -6,7 +6,7 @@ import {
 	sendAuthRequest,
 	sendAuthSuccess,
 	sendAuthFailure,
-	fetchLogout,
+	logout,
 	sendRegisterFailure,
 	sendRegisterSuccess,
 	sendRegisterRequest
@@ -25,7 +25,7 @@ export function* sendAuthRequestSaga(action) {
 
 export function* authSaga() {
 	yield takeEvery(sendAuthRequest, sendAuthRequestSaga);
-	yield takeEvery(fetchLogout, function() {
+	yield takeEvery(logout, function() {
 		window.localStorage.removeItem("token");
 	});
 }
@@ -44,7 +44,7 @@ export function* sendRegisterRequestSaga(action) {
 
 export function* registerSaga() {
 	yield takeEvery(sendRegisterRequest, sendRegisterRequestSaga);
-	yield takeEvery(fetchLogout, function() {
+	yield takeEvery(logout, function() {
 		window.localStorage.removeItem("token");
 	});
 }

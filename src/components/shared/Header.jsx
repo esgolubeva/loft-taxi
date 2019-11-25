@@ -7,7 +7,7 @@ import { Logo } from "loft-taxi-mui-theme";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core/";
 
-import { fetchLogout } from "../../modules/auth";
+import { logout } from "../../modules/auth";
 import { NavLink } from "./NavLink";
 
 const useStyles = makeStyles(() => ({
@@ -21,10 +21,10 @@ const useStyles = makeStyles(() => ({
 
 const Header = React.memo(props => {
 	const classes = useStyles();
-	const { fetchLogout } = props;
+	const { logout } = props;
 
 	const onLogoutButtonClick = () => {
-		fetchLogout();
+		logout();
 	};
 
 	if (props.location.pathname.match(/(\/login|\/signup)/)) {
@@ -54,7 +54,7 @@ const Header = React.memo(props => {
 Header.displayName = "Header";
 
 Header.propTypes = {
-	fetchLogout: PropTypes.func,
+	logout: PropTypes.func,
 	location: PropTypes.shape({
 		pathname: PropTypes.string.isRequired
 	}).isRequired
@@ -62,6 +62,6 @@ Header.propTypes = {
 
 const mapStateToProps = state => state;
 
-const mapDispatchToProps = { fetchLogout };
+const mapDispatchToProps = { logout };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

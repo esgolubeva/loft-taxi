@@ -10,8 +10,6 @@ import {
 	setSuccessMessageIsShown
 } from "./actions";
 
-import { fetchLogout } from "../auth/actions";
-
 const paymentMethodSaved = handleActions(
 	{
 		[sendCardRequest]: () => false,
@@ -19,8 +17,7 @@ const paymentMethodSaved = handleActions(
 		[sendCardFailure]: () => false,
 		[fetchCardRequest]: () => false,
 		[fetchCardSuccess]: () => true,
-		[fetchCardFailure]: () => false,
-		[fetchLogout]: () => false
+		[fetchCardFailure]: () => false
 	},
 	false
 );
@@ -42,8 +39,7 @@ const error = handleActions(
 		[sendCardFailure]: (_state, action) => action.payload,
 		[fetchCardRequest]: () => null,
 		[fetchCardSuccess]: () => null,
-		[fetchCardFailure]: (_state, action) => action.payload,
-		[fetchLogout]: () => null
+		[fetchCardFailure]: (_state, action) => action.payload
 	},
 	null
 );
@@ -56,8 +52,7 @@ const successMessageIsShown = handleActions(
 		[fetchCardRequest]: () => false,
 		[setSuccessMessageIsShown]: (_state, action) => action.payload,
 		[fetchCardSuccess]: () => false,
-		[fetchCardFailure]: () => false,
-		[fetchLogout]: () => false
+		[fetchCardFailure]: () => false
 	},
 	false
 );
