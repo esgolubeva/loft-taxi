@@ -77,7 +77,7 @@ const ProfileForm = React.memo(props => {
 		return () => {
 			setSuccessMessageIsShown(false);
 		};
-	});
+	}, []);
 
 	const onSubmit = data => {
 		sendCardRequest(data);
