@@ -20,7 +20,7 @@ module.exports = {
 		ecmaVersion: 2018,
 		sourceType: "module"
 	},
-	plugins: ["react", "jest"],
+	plugins: ["react", "jest",  "react-hooks"],
 	rules: {
 		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
@@ -30,6 +30,7 @@ module.exports = {
 		"jest/no-focused-tests": "error",
 		"jest/no-identical-title": "error",
 		"jest/prefer-to-have-length": "warn",
-		"jest/valid-expect": "error"
+		"jest/valid-expect": "error",
+		"react-hooks/rules-of-hooks": "error"
 	}
 };
