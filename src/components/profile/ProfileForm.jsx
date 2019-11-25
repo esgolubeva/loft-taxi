@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import useForm from "react-hook-form";
+import { RHFInput } from "react-hook-form-input";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Paper, TextField, Button } from "@material-ui/core/";
@@ -9,17 +10,15 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
+import { NavLink } from "../shared/NavLink";
 import {
 	getSavedCard,
 	getError,
 	sendCardRequest,
 	setSuccessMessageIsShown,
-	getSuccessMessageIsShown
+	getSuccessMessageIsShown,
+	fetchCardRequest
 } from "../../modules/card";
-
-const NavLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
 
 export const useFormStyles = makeStyles(() => ({
 	buttonContainer: {
@@ -48,42 +47,41 @@ export const useFormStyles = makeStyles(() => ({
 	}
 }));
 
+// eslint-disable-next-line react/display-name
 const ProfileForm = React.memo(props => {
-	const classes = useFormStyles();
-
 	const {
 		sendCardRequest,
 		savedCard,
+		fetchCardRequest,
 		setSuccessMessageIsShown,
 		successMessageIsShown
 	} = props;
+	const classes = useFormStyles();
 
-	const [cardInfo, setCardInfo] = useState({
-		cardNumber: savedCard.cardNumber || "",
-		expiryDate: savedCard.expiryDate || new Date(),
-		cardName: savedCard.cardName || "",
-		cvc: savedCard.cvc || ""
-	});
+	const { handleSubmit, register, setValue } = useForm();
 
-	const onSubmit = event => {
-		event.preventDefault();
-		sendCardRequest(cardInfo);
-	};
+	useEffect(() => {
+		fetchCardRequest();
+	}, []);
 
-	const onInputChange = event => {
-		let input = event.target;
-		setCardInfo({ ...cardInfo, [input.name]: input.value });
-	};
-
-	const onDateInputChange = date => {
-		setCardInfo({ ...cardInfo, expiryDate: date });
-	};
+	useEffect(() => {
+		if (savedCard) {
+			setValue("cardNumber", savedCard.cardNumber);
+			setValue("expiryDate", savedCard.expiryDate);
+			setValue("cardName", savedCard.cardName);
+			setValue("cvc", savedCard.cvc);
+		}
+	}, [savedCard]);
 
 	useEffect(() => {
 		return () => {
 			setSuccessMessageIsShown(false);
 		};
-	}, []);
+	});
+
+	const onSubmit = data => {
+		sendCardRequest(data);
+	};
 
 	if (successMessageIsShown) {
 		return (
@@ -104,68 +102,70 @@ const ProfileForm = React.memo(props => {
 	}
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<Box textAlign="center">
 				<Typography variant="subtitle1">Способ оплаты</Typography>
 			</Box>
 			<Box className={classes.cardsContainer}>
 				<Paper className={classes.card}>
 					<MCIcon />
-					<TextField
+					<RHFInput
+						as={<TextField />}
 						label="Номер карты:"
 						placeholder="0000 0000 0000 0000"
-						type="text"
 						name="cardNumber"
-						value={cardInfo.cardNumber}
-						onChange={onInputChange}
+						register={register}
+						setValue={setValue}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
 						fullWidth
 						required
 					/>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
-						<DatePicker
+						<RHFInput
+							as={<DatePicker />}
 							label="Срок действия:"
 							placeholder="12/34"
 							name="expiryDate"
-							value={cardInfo.expiryDate}
-							onChange={onDateInputChange}
-							openTo="year"
-							minDate={new Date()}
+							register={register}
+							setValue={setValue}
+							InputLabelProps={{ shrink: true }}
 							views={["year", "month"]}
 							format="MM/yy"
-							InputLabelProps={{ shrink: true }}
-							variant="inline"
+							disablePast
+							disableToolbar
 							margin="normal"
+							fullWidth
 							required
 						/>
 					</MuiPickersUtilsProvider>
 				</Paper>
 				<Paper className={classes.card}>
-					<TextField
+					<RHFInput
+						as={<TextField />}
 						label="Имя владельца:"
 						placeholder="USER NAME"
-						type="text"
 						name="cardName"
-						value={cardInfo.cardName}
-						onChange={onInputChange}
+						register={register}
+						setValue={setValue}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
 						fullWidth
 						required
 					/>
-					<TextField
-						label="CVC:"
-						type="text"
+					<RHFInput
+						as={<TextField />}
+						label="CVC"
 						placeholder="123"
 						name="cvc"
-						value={cardInfo.cvc}
-						onChange={onInputChange}
+						register={register}
+						setValue={setValue}
 						inputProps={{
 							maxLength: 3
 						}}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
+						fullWidth
 						required
 					/>
 				</Paper>
@@ -179,13 +179,12 @@ const ProfileForm = React.memo(props => {
 	);
 });
 
-NavLink.displayName = "NavLink";
-
 ProfileForm.propTypes = {
 	sendCardRequest: PropTypes.func,
 	savedCard: PropTypes.object,
 	successMessageIsShown: PropTypes.bool,
-	setSuccessMessageIsShown: PropTypes.func
+	setSuccessMessageIsShown: PropTypes.func,
+	fetchCardRequest: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -196,7 +195,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	sendCardRequest,
-	setSuccessMessageIsShown
+	setSuccessMessageIsShown,
+	fetchCardRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileForm);

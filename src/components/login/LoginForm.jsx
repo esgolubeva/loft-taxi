@@ -23,8 +23,7 @@ const SignupLink = React.forwardRef((props, ref) => (
 ));
 
 const LoginForm = React.memo(props => {
-	const methods = useForm();
-	const { handleSubmit, register, setValue, errors } = methods;
+	const { handleSubmit, register, setValue } = useForm();
 	const classes = useFormStyles();
 	const { sendAuthRequest, isLoggedIn } = props;
 
@@ -56,12 +55,13 @@ const LoginForm = React.memo(props => {
 						as={<TextField />}
 						label="Имя пользователя"
 						name="email"
-						register={register({
-							pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-						})}
+						register={register}
+						// register={register({
+						// 	pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+						// })}
 						setValue={setValue}
 						inputProps={{ "data-testid": "inputName" }}
-						helperText={errors.email && "Incorrect entry."}
+						// helperText={errors.email && "Incorrect entry."}
 						margin="normal"
 						fullWidth
 						required
@@ -72,8 +72,7 @@ const LoginForm = React.memo(props => {
 						name="password"
 						register={register}
 						setValue={setValue}
-						inputProps={{ "data-testid": "inputPassword" }}
-						helperText={errors.password && "Incorrect entry."}
+						inputProps={{ "data-testid": "inputPassword", type: "password" }}
 						margin="normal"
 						fullWidth
 						required
@@ -93,6 +92,9 @@ const LoginForm = React.memo(props => {
 		</Paper>
 	);
 });
+
+SignupLink.displayName = "SignupLink";
+LoginForm.displayName = "LoginForm";
 
 LoginForm.propTypes = {
 	sendAuthRequest: PropTypes.func,

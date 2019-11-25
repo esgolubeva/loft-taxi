@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import useForm from "react-hook-form";
+import { RHFInput } from "react-hook-form-input";
 
 import { useFormStyles } from "../shared/styles";
 import {
@@ -26,24 +28,16 @@ const LoginLink = React.forwardRef((props, ref) => (
 	<RouterLink innerRef={ref} {...props} />
 ));
 
-const SignupForm = props => {
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		password: "",
-		name: "",
-		surname: ""
-	});
+LoginLink.displayName = "LoginLink";
+
+const SignupForm = React.memo(props => {
+	const { handleSubmit, register, setValue } = useForm();
 
 	const { sendRegisterRequest, isLoggedIn } = props;
 
-	const onSubmit = event => {
-		event.preventDefault();
-		sendRegisterRequest(userInfo);
-	};
-
-	const onInputChange = event => {
-		let input = event.target;
-		setUserInfo({ ...userInfo, [input.name]: input.value });
+	const onSubmit = data => {
+		console.log(data);
+		sendRegisterRequest(data);
 	};
 
 	const classes = useFormStyles();
@@ -66,28 +60,28 @@ const SignupForm = props => {
 						</Link>
 					</p>
 				</div>
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Адрес электронной почты"
-								type="email"
 								name="email"
-								value={userInfo.email}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputEmail" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{ "data-testid": "inputEmail", type: "email" }}
 								margin="normal"
 								fullWidth
 								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Имя"
-								type="text"
 								name="name"
-								value={userInfo.name}
-								onChange={onInputChange}
+								register={register}
+								setValue={setValue}
 								inputProps={{ "data-testid": "inputName" }}
 								margin="normal"
 								fullWidth
@@ -95,12 +89,12 @@ const SignupForm = props => {
 							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Фамилия"
-								type="text"
 								name="surname"
-								value={userInfo.surname}
-								onChange={onInputChange}
+								register={register}
+								setValue={setValue}
 								inputProps={{ "data-testid": "inputSurname" }}
 								margin="normal"
 								fullWidth
@@ -108,13 +102,16 @@ const SignupForm = props => {
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Пароль"
-								type="password"
 								name="password"
-								value={userInfo.password}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputPassword" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{
+									"data-testid": "inputPassword",
+									type: "password"
+								}}
 								margin="normal"
 								fullWidth
 								required
@@ -130,7 +127,9 @@ const SignupForm = props => {
 			</Container>
 		</Paper>
 	);
-};
+});
+
+SignupForm.displayName = "SignupForm";
 
 SignupForm.propTypes = {
 	sendRegisterRequest: PropTypes.func,

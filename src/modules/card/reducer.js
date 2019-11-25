@@ -27,11 +27,12 @@ const paymentMethodSaved = handleActions(
 
 const savedCard = handleActions(
 	{
-		[sendCardRequest]: () => {},
+		[sendCardFailure]: () => null,
 		[sendCardSuccess]: (_state, action) => action.payload,
+		[fetchCardFailure]: () => null,
 		[fetchCardSuccess]: (_state, action) => action.payload
 	},
-	{}
+	null
 );
 
 const error = handleActions(
