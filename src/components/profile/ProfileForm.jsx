@@ -47,7 +47,6 @@ export const useFormStyles = makeStyles(() => ({
 	}
 }));
 
-// eslint-disable-next-line react/display-name
 const ProfileForm = React.memo(props => {
 	const {
 		sendCardRequest,
@@ -178,6 +177,8 @@ const ProfileForm = React.memo(props => {
 		</form>
 	);
 });
+
+ProfileForm.displayName = "ProfileForm";
 
 ProfileForm.propTypes = {
 	sendCardRequest: PropTypes.func,

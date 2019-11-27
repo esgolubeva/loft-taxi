@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import useForm from "react-hook-form";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -25,19 +26,23 @@ const useFormStyles = makeStyles(() => ({
 }));
 
 const OrderForm = React.memo(props => {
-	const [route, setRoute] = useState({
-		from: "",
-		to: ""
-	});
+	const { handleSubmit, register, setValue, getValues, watch } = useForm();
+	const { fetchAddressRequest, addressList, fetchRouteRequest } = props;
+	const classes = useFormStyles();
 
 	useEffect(() => {
-		const { fetchAddressRequest } = props;
 		fetchAddressRequest();
+
+		register({ name: "from" }, { required: true });
+		register({ name: "to" }, { required: true });
 	}, []);
 
-	const { addressList, fetchRouteRequest } = props;
+	const values = getValues();
 
-	const classes = useFormStyles();
+	const watchFrom = watch("from");
+	const watchTo = watch("to");
+
+	
 
 	const AddressSelect = props => {
 		const { addressKey, otherAddress } = props;
@@ -52,8 +57,9 @@ const OrderForm = React.memo(props => {
 
 		return (
 			<Select
-				value={route[addressKey]}
+				value={values[addressKey] || ""}
 				onChange={onChange}
+				name={addressKey}
 				inputProps={{ name: addressKey, id: addressKey }}
 				data-testid={addressKey}
 				autoWidth
@@ -64,24 +70,22 @@ const OrderForm = React.memo(props => {
 	};
 
 	const onChange = event => {
-		let input = event.target;
-		setRoute({ ...route, [input.name]: input.value });
+		setValue(event.target.name, event.target.value);
 	};
 
-	const onSubmit = event => {
-		event.preventDefault();
-		fetchRouteRequest(route);
+	const onSubmit = data => {
+		fetchRouteRequest(data);
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormControl className={classes.formControl}>
 				<InputLabel htmlFor="from">Откуда</InputLabel>
-				<AddressSelect addressKey="from" otherAddress={route.to} />
+				<AddressSelect addressKey="from" otherAddress={watchTo} />
 			</FormControl>
 			<FormControl className={classes.formControl}>
 				<InputLabel htmlFor="to">Куда</InputLabel>
-				<AddressSelect addressKey="to" otherAddress={route.from} />
+				<AddressSelect addressKey="to" otherAddress={watchFrom} />
 			</FormControl>
 			<Box className={classes.buttonContainer}>
 				<Button
@@ -98,6 +102,8 @@ const OrderForm = React.memo(props => {
 		</form>
 	);
 });
+
+OrderForm.displayName = "OrderForm";
 
 OrderForm.propTypes = {
 	fetchAddressRequest: PropTypes.func,
