@@ -10,7 +10,7 @@ import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { MCIcon } from "loft-taxi-mui-theme";
 
-import { NavLink } from "../shared/NavLink";
+import { SuccessMessage } from "./SuccessMessage";
 import {
 	getSavedCard,
 	getError,
@@ -37,13 +37,6 @@ export const useFormStyles = makeStyles(() => ({
 		width: "384px",
 		padding: "40px 30px 30px",
 		position: "relative"
-	},
-	message: {
-		marginTop: "30px",
-		textAlign: "center"
-	},
-	button: {
-		marginTop: "30px"
 	}
 }));
 
@@ -85,21 +78,7 @@ const ProfileForm = React.memo(props => {
 	};
 
 	if (successMessageIsShown) {
-		return (
-			<Box className={classes.message}>
-				<Typography variant="body1">Данные карты сохранены.</Typography>
-				<Button
-					className={classes.button}
-					component={NavLink}
-					to="/map"
-					variant="contained"
-					color="primary"
-					size="large"
-				>
-					Заказать такси
-				</Button>
-			</Box>
-		);
+		return <SuccessMessage />;
 	}
 
 	return (
@@ -113,7 +92,7 @@ const ProfileForm = React.memo(props => {
 					<RHFInput
 						as={<TextField />}
 						label="Номер карты:"
-						placeholder="0000 0000 0000 0000"
+						placeholder="1234123412341234"
 						name="cardNumber"
 						register={register}
 						setValue={setValue}
@@ -200,7 +179,6 @@ const ProfileForm = React.memo(props => {
 });
 
 ProfileForm.displayName = "ProfileForm";
-
 ProfileForm.propTypes = {
 	sendCardRequest: PropTypes.func,
 	savedCard: PropTypes.object,

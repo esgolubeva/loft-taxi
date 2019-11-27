@@ -52,7 +52,6 @@ const Header = React.memo(props => {
 });
 
 Header.displayName = "Header";
-
 Header.propTypes = {
 	logout: PropTypes.func,
 	location: PropTypes.shape({

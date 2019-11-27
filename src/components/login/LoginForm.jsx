@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import useForm from "react-hook-form";
 import { RHFInput } from "react-hook-form-input";
 
@@ -17,10 +17,7 @@ import {
 } from "@material-ui/core/";
 
 import { getIsLoggedIn, getError, sendAuthRequest } from "../../modules/auth/";
-
-const SignupLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
+import { NavLink } from "../shared/NavLink";
 
 const LoginForm = React.memo(props => {
 	const { handleSubmit, register, setValue } = useForm();
@@ -44,7 +41,7 @@ const LoginForm = React.memo(props => {
 				<div>
 					<p>
 						Новый пользователь?{" "}
-						<Link to="/signup" component={SignupLink}>
+						<Link to="/signup" component={NavLink}>
 							Зарегистрируйтесь
 						</Link>
 					</p>
@@ -92,9 +89,7 @@ const LoginForm = React.memo(props => {
 	);
 });
 
-SignupLink.displayName = "SignupLink";
 LoginForm.displayName = "LoginForm";
-
 LoginForm.propTypes = {
 	sendAuthRequest: PropTypes.func,
 	isLoggedIn: PropTypes.bool

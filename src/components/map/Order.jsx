@@ -36,14 +36,13 @@ const Order = React.memo(props => {
 		orderIsAccepted,
 		resetRoute
 	} = props;
+	const classes = useFormStyles();
 
 	useEffect(() => {
 		if (!paymentMethodSaved) {
 			fetchCardRequest();
 		}
 	}, []);
-
-	const classes = useFormStyles();
 
 	const onNewOrderClick = () => {
 		resetRoute();
@@ -101,7 +100,6 @@ const Order = React.memo(props => {
 });
 
 Order.displayName = "Order";
-
 Order.propTypes = {
 	fetchCardRequest: PropTypes.func,
 	resetRoute: PropTypes.func,
