@@ -55,7 +55,7 @@ class MapApp extends React.Component {
 			left: 0,
 			bottom: 0,
 			width: "100%",
-			height: window.innerHeight - 72 // TODO add header height
+			height: window.innerHeight - 72
 		};
 
 		return (

@@ -28,7 +28,6 @@ const LoginForm = React.memo(props => {
 	const { sendAuthRequest, isLoggedIn } = props;
 
 	const onSubmit = data => {
-		console.log(data);
 		sendAuthRequest(data);
 	};
 

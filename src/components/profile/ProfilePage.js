@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
 		backgroundSize: "cover"
 	},
 	container: {
-		minHeight: "calc(100vh - 71px)", // TODO: fix header height
+		minHeight: "calc(100vh - 71px)",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center"

@@ -36,7 +36,6 @@ const SignupForm = React.memo(props => {
 	const { sendRegisterRequest, isLoggedIn } = props;
 
 	const onSubmit = data => {
-		console.log(data);
 		sendRegisterRequest(data);
 	};
 
