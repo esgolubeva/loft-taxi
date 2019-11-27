@@ -82,7 +82,7 @@ const SignupForm = React.memo(props => {
 								name="name"
 								register={register}
 								setValue={setValue}
-								inputProps={{ "data-testid": "inputName" }}
+								inputProps={{ "data-testid": "inputName", type: "text" }}
 								margin="normal"
 								fullWidth
 								required
@@ -95,7 +95,7 @@ const SignupForm = React.memo(props => {
 								name="surname"
 								register={register}
 								setValue={setValue}
-								inputProps={{ "data-testid": "inputSurname" }}
+								inputProps={{ "data-testid": "inputSurname", type: "text" }}
 								margin="normal"
 								fullWidth
 								required
@@ -110,7 +110,8 @@ const SignupForm = React.memo(props => {
 								setValue={setValue}
 								inputProps={{
 									"data-testid": "inputPassword",
-									type: "password"
+									type: "password",
+									minLength: 8
 								}}
 								margin="normal"
 								fullWidth

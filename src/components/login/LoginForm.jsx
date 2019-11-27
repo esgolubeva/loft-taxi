@@ -56,12 +56,8 @@ const LoginForm = React.memo(props => {
 						label="Имя пользователя"
 						name="email"
 						register={register}
-						// register={register({
-						// 	pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-						// })}
 						setValue={setValue}
-						inputProps={{ "data-testid": "inputName" }}
-						// helperText={errors.email && "Incorrect entry."}
+						inputProps={{ "data-testid": "inputName", type: "email" }}
 						margin="normal"
 						fullWidth
 						required
@@ -72,7 +68,11 @@ const LoginForm = React.memo(props => {
 						name="password"
 						register={register}
 						setValue={setValue}
-						inputProps={{ "data-testid": "inputPassword", type: "password" }}
+						inputProps={{
+							"data-testid": "inputPassword",
+							type: "password",
+							minLength: 8
+						}}
 						margin="normal"
 						fullWidth
 						required

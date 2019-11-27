@@ -57,7 +57,7 @@ const ProfileForm = React.memo(props => {
 	} = props;
 	const classes = useFormStyles();
 
-	const { handleSubmit, register, setValue } = useForm();
+	const { handleSubmit, register, setValue, errors } = useForm();
 
 	useEffect(() => {
 		fetchCardRequest();
@@ -69,6 +69,8 @@ const ProfileForm = React.memo(props => {
 			setValue("expiryDate", savedCard.expiryDate);
 			setValue("cardName", savedCard.cardName);
 			setValue("cvc", savedCard.cvc);
+		} else {
+			setValue("expiryDate", new Date());
 		}
 	}, [savedCard]);
 
@@ -115,6 +117,14 @@ const ProfileForm = React.memo(props => {
 						name="cardNumber"
 						register={register}
 						setValue={setValue}
+						helperText={
+							errors.cardNumber && "Номер карты должен сожержать 16 символов"
+						}
+						rules={{
+							minLength: 16,
+							maxLength: 16
+						}}
+						InputProps={{ type: "number" }}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
 						fullWidth
@@ -148,6 +158,12 @@ const ProfileForm = React.memo(props => {
 						register={register}
 						setValue={setValue}
 						InputLabelProps={{ shrink: true }}
+						helperText={
+							errors.cardName && "Имя должно содержать только латинские символы"
+						}
+						rules={{
+							pattern: /^[A-Za-z\s]+$/i
+						}}
 						margin="normal"
 						fullWidth
 						required
@@ -160,6 +176,11 @@ const ProfileForm = React.memo(props => {
 						register={register}
 						setValue={setValue}
 						inputProps={{
+							type: "number"
+						}}
+						helperText={errors.cvc && "cvc должен сожержать 3 символа"}
+						rules={{
+							minLength: 3,
 							maxLength: 3
 						}}
 						InputLabelProps={{ shrink: true }}

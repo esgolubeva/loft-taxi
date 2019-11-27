@@ -74,7 +74,7 @@ const OrderForm = React.memo(props => {
 					{availableAddresses}
 				</Select>
 				<FormHelperText>
-					{errors[addressKey] && "The field is required"}
+					{errors[addressKey] && "This field is required"}
 				</FormHelperText>
 			</>
 		);
