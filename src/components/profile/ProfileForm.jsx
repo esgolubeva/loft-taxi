@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import useForm from "react-hook-form";
 import { RHFInput } from "react-hook-form-input";
+import formatStringByPattern from "format-string-by-pattern";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Paper, TextField, Button } from "@material-ui/core/";
@@ -74,12 +75,36 @@ const ProfileForm = React.memo(props => {
 	}, []);
 
 	const onSubmit = data => {
+		console.log(data);
 		sendCardRequest(data);
 	};
 
 	if (successMessageIsShown) {
 		return <SuccessMessage />;
 	}
+
+	const formatNumber = (data, value) => {
+		const onlyNumbers = value.replace(/[^\d]/g, "");
+		let formattedValue;
+		switch (data) {
+			case "cardNumber":
+				formattedValue = formatStringByPattern(
+					"9999 9999 9999 9999",
+					onlyNumbers
+				);
+				break;
+			case "cvc":
+				formattedValue = formatStringByPattern("999", onlyNumbers);
+				break;
+			default:
+				formattedValue = onlyNumbers;
+		}
+		return formattedValue;
+	};
+
+	const formatInput = (data, value) => {
+		setValue(data, formatNumber(data, value));
+	};
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -92,18 +117,18 @@ const ProfileForm = React.memo(props => {
 					<RHFInput
 						as={<TextField />}
 						label="Номер карты:"
-						placeholder="1234123412341234"
+						placeholder="0000 0000 0000 0000"
 						name="cardNumber"
 						register={register}
-						setValue={setValue}
+						setValue={formatInput}
 						helperText={
 							errors.cardNumber && "Номер карты должен сожержать 16 символов"
 						}
 						rules={{
-							minLength: 16,
-							maxLength: 16
+							minLength: 19,
+							maxLength: 19
 						}}
-						InputProps={{ type: "number" }}
+						InputProps={{ type: "string" }}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
 						fullWidth
@@ -153,9 +178,9 @@ const ProfileForm = React.memo(props => {
 						placeholder="123"
 						name="cvc"
 						register={register}
-						setValue={setValue}
+						setValue={formatInput}
 						inputProps={{
-							type: "number"
+							type: "string"
 						}}
 						helperText={errors.cvc && "cvc должен сожержать 3 символа"}
 						rules={{
