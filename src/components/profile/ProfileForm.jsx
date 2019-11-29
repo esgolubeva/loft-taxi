@@ -167,7 +167,7 @@ const ProfileForm = React.memo(props => {
 						InputLabelProps={{ shrink: true }}
 						inputProps={{
 							type: "text",
-							pattern: "[a-zA-z+0-9][a-zA-Z0-9 ]+",
+							pattern: "[a-zA-z+0-9 ]+",
 							title:
 								"Имя может содержать только латинские символы, цифры и символ пробела"
 						}}
