@@ -1,18 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import { Logo } from "loft-taxi-mui-theme";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core/";
 
-import { Link as RouterLink, withRouter } from "react-router-dom";
-
-import { fetchLogout } from "../../modules/auth";
-
-const NavLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
+import { logout } from "../../modules/auth";
+import { NavLink } from "./NavLink";
 
 const useStyles = makeStyles(() => ({
 	bar: {
@@ -23,13 +19,12 @@ const useStyles = makeStyles(() => ({
 	}
 }));
 
-const Header = withRouter(props => {
+const Header = React.memo(props => {
 	const classes = useStyles();
-
-	const { fetchLogout } = props;
+	const { logout } = props;
 
 	const onLogoutButtonClick = () => {
-		fetchLogout();
+		logout();
 	};
 
 	if (props.location.pathname.match(/(\/login|\/signup)/)) {
@@ -56,12 +51,16 @@ const Header = withRouter(props => {
 	);
 });
 
+Header.displayName = "Header";
 Header.propTypes = {
-	setPage: PropTypes.func
+	logout: PropTypes.func,
+	location: PropTypes.shape({
+		pathname: PropTypes.string.isRequired
+	}).isRequired
 };
 
 const mapStateToProps = state => state;
 
-const mapDispatchToProps = { fetchLogout };
+const mapDispatchToProps = { logout };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { Provider } from "react-redux";
+import 'mutationobserver-shim';
 
 // See: https://github.com/mapbox/mapbox-gl-js/issues/3436#issuecomment-485535598
 jest.mock("mapbox-gl/dist/mapbox-gl", () => ({

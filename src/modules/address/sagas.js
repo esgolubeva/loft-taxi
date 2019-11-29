@@ -1,4 +1,3 @@
-import axios from "axios";
 import { takeEvery, call, put } from "redux-saga/effects";
 import * as api from "./api";
 import {

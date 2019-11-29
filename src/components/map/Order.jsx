@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link as RouterLink, withRouter } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Paper, Box, Typography, Button } from "@material-ui/core/";
 
 import OrderForm from "./OrderForm";
+import { NavLink } from "../shared/NavLink";
 import { fetchCardRequest, getPaymentMethodSaved } from "../../modules/card";
 import { getOrderIsAccepted, resetRoute } from "../../modules/route";
-
-const NavLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
 
 const useFormStyles = makeStyles(() => ({
 	container: {
@@ -33,21 +29,20 @@ const useFormStyles = makeStyles(() => ({
 	}
 }));
 
-const Order = withRouter(props => {
+const Order = React.memo(props => {
 	const {
 		paymentMethodSaved,
 		fetchCardRequest,
 		orderIsAccepted,
 		resetRoute
 	} = props;
+	const classes = useFormStyles();
 
 	useEffect(() => {
 		if (!paymentMethodSaved) {
 			fetchCardRequest();
 		}
 	}, []);
-
-	const classes = useFormStyles();
 
 	const onNewOrderClick = () => {
 		resetRoute();
@@ -76,7 +71,7 @@ const Order = withRouter(props => {
 			return (
 				<Box className={classes.message}>
 					<Typography variant="body1">
-						 Ваш заказ принят. Такси скоро приедет.
+						Ваш заказ принят. Такси скоро приедет.
 					</Typography>
 					<Button
 						onClick={onNewOrderClick}
@@ -104,6 +99,7 @@ const Order = withRouter(props => {
 	);
 });
 
+Order.displayName = "Order";
 Order.propTypes = {
 	fetchCardRequest: PropTypes.func,
 	resetRoute: PropTypes.func,

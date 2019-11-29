@@ -12,7 +12,7 @@ import { getIsLoggedIn } from "../../modules/auth";
 const currentPage = props => {
 	const { isLoggedIn } = props;
 	const loginPath = "/login";
-	
+
 	const PrivateRoute = ({ component: RouteComponent }) => (
 		<Route
 			render={routeProps =>

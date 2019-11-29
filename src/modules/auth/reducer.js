@@ -4,10 +4,10 @@ import {
 	sendAuthRequest,
 	sendAuthSuccess,
 	sendAuthFailure,
-	fetchLogout,
 	sendRegisterRequest,
 	sendRegisterSuccess,
-	sendRegisterFailure
+	sendRegisterFailure,
+	logout
 } from "./actions";
 
 const isLoggedIn = handleActions(
@@ -18,7 +18,7 @@ const isLoggedIn = handleActions(
 		[sendRegisterRequest]: () => false,
 		[sendRegisterFailure]: () => false,
 		[sendRegisterSuccess]: () => true,
-		[fetchLogout]: () => false
+		[logout]: () => false
 	},
 	window.localStorage.getItem("token") ? true : false
 );

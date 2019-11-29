@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import useForm from "react-hook-form";
+import { RHFInput } from "react-hook-form-input";
 
 import { useFormStyles } from "../shared/styles";
 import {
@@ -14,39 +17,21 @@ import {
 	Button
 } from "@material-ui/core/";
 
-import { Link as RouterLink, Redirect } from "react-router-dom";
-
 import {
 	getIsLoggedIn,
 	getError,
 	sendRegisterRequest
 } from "../../modules/auth";
+import { NavLink } from "../shared/NavLink";
 
-const LoginLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
-
-const SignupForm = props => {
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		password: "",
-		name: "",
-		surname: ""
-	});
-
+const SignupForm = React.memo(props => {
 	const { sendRegisterRequest, isLoggedIn } = props;
-
-	const onSubmit = event => {
-		event.preventDefault();
-		sendRegisterRequest(userInfo);
-	};
-
-	const onInputChange = event => {
-		let input = event.target;
-		setUserInfo({ ...userInfo, [input.name]: input.value });
-	};
-
 	const classes = useFormStyles();
+	const { handleSubmit, register, setValue } = useForm();
+
+	const onSubmit = data => {
+		sendRegisterRequest(data);
+	};
 
 	if (isLoggedIn) {
 		return <Redirect to="/map" />;
@@ -61,60 +46,64 @@ const SignupForm = props => {
 				<div>
 					<p>
 						Уже зарегистрирован?{" "}
-						<Link to="/login" component={LoginLink}>
+						<Link to="/login" component={NavLink}>
 							Войти
 						</Link>
 					</p>
 				</div>
-				<form onSubmit={onSubmit}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<Grid container spacing={3}>
 						<Grid item xs={12}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Адрес электронной почты"
-								type="email"
 								name="email"
-								value={userInfo.email}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputEmail" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{ "data-testid": "inputEmail", type: "email" }}
 								margin="normal"
 								fullWidth
 								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Имя"
-								type="text"
 								name="name"
-								value={userInfo.name}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputName" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{ "data-testid": "inputName", type: "text" }}
 								margin="normal"
 								fullWidth
 								required
 							/>
 						</Grid>
 						<Grid item xs={6}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Фамилия"
-								type="text"
 								name="surname"
-								value={userInfo.surname}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputSurname" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{ "data-testid": "inputSurname", type: "text" }}
 								margin="normal"
 								fullWidth
 								required
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
+							<RHFInput
+								as={<TextField />}
 								label="Пароль"
-								type="password"
 								name="password"
-								value={userInfo.password}
-								onChange={onInputChange}
-								inputProps={{ "data-testid": "inputPassword" }}
+								register={register}
+								setValue={setValue}
+								inputProps={{
+									"data-testid": "inputPassword",
+									type: "password",
+									minLength: 8
+								}}
 								margin="normal"
 								fullWidth
 								required
@@ -130,8 +119,9 @@ const SignupForm = props => {
 			</Container>
 		</Paper>
 	);
-};
+});
 
+SignupForm.displayName = "SignupForm";
 SignupForm.propTypes = {
 	sendRegisterRequest: PropTypes.func,
 	isLoggedIn: PropTypes.bool

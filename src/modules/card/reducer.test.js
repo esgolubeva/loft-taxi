@@ -3,7 +3,7 @@ import reducer from "./reducer";
 describe("card reducer", () => {
 	it("should return the initial state", () => {
 		expect(reducer(undefined, {})).toEqual({
-			savedCard: {},
+			savedCard: null,
 			error: null,
 			paymentMethodSaved: false,
 			successMessageIsShown: false
@@ -19,7 +19,7 @@ describe("card reducer", () => {
 				}
 			)
 		).toEqual({
-			savedCard: {},
+			savedCard: null,
 			error: null,
 			paymentMethodSaved: false,
 			successMessageIsShown: false
@@ -35,7 +35,7 @@ describe("card reducer", () => {
 				}
 			)
 		).toEqual({
-			savedCard: {},
+			savedCard: null,
 			error: null,
 			paymentMethodSaved: false,
 			successMessageIsShown: false
@@ -86,7 +86,7 @@ describe("card reducer", () => {
 				}
 			)
 		).toEqual({
-			savedCard: {},
+			savedCard: null,
 			error: "error text",
 			paymentMethodSaved: false,
 			successMessageIsShown: false
@@ -103,7 +103,7 @@ describe("card reducer", () => {
 				}
 			)
 		).toEqual({
-			savedCard: {},
+			savedCard: null,
 			error: "error text",
 			paymentMethodSaved: false,
 			successMessageIsShown: false

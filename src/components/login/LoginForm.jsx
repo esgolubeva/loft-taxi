@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import useForm from "react-hook-form";
+import { RHFInput } from "react-hook-form-input";
 
 import { useFormStyles } from "../shared/styles";
 import {
@@ -15,29 +17,15 @@ import {
 } from "@material-ui/core/";
 
 import { getIsLoggedIn, getError, sendAuthRequest } from "../../modules/auth/";
-
-const SignupLink = React.forwardRef((props, ref) => (
-	<RouterLink innerRef={ref} {...props} />
-));
+import { NavLink } from "../shared/NavLink";
 
 const LoginForm = React.memo(props => {
-	const [userInfo, setUserInfo] = useState({
-		email: "",
-		password: ""
-	});
-
+	const { handleSubmit, register, setValue } = useForm();
 	const classes = useFormStyles();
-
 	const { sendAuthRequest, isLoggedIn } = props;
 
-	const onSubmit = event => {
-		event.preventDefault();
-		sendAuthRequest(userInfo);
-	};
-
-	const onInputChange = event => {
-		let input = event.target;
-		setUserInfo({ ...userInfo, [input.name]: input.value });
+	const onSubmit = data => {
+		sendAuthRequest(data);
 	};
 
 	if (isLoggedIn) {
@@ -53,30 +41,34 @@ const LoginForm = React.memo(props => {
 				<div>
 					<p>
 						Новый пользователь?{" "}
-						<Link to="/signup" component={SignupLink}>
+						<Link to="/signup" component={NavLink}>
 							Зарегистрируйтесь
 						</Link>
 					</p>
 				</div>
-				<form onSubmit={onSubmit}>
-					<TextField
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<RHFInput
+						as={<TextField />}
 						label="Имя пользователя"
-						type="email"
 						name="email"
-						value={userInfo.email}
-						onChange={onInputChange}
-						inputProps={{ "data-testid": "inputName" }}
+						register={register}
+						setValue={setValue}
+						inputProps={{ "data-testid": "inputName", type: "email" }}
 						margin="normal"
 						fullWidth
 						required
 					/>
-					<TextField
+					<RHFInput
+						as={<TextField />}
 						label="Пароль"
-						type="password"
 						name="password"
-						value={userInfo.password}
-						onChange={onInputChange}
-						inputProps={{ "data-testid": "inputPassword" }}
+						register={register}
+						setValue={setValue}
+						inputProps={{
+							"data-testid": "inputPassword",
+							type: "password",
+							minLength: 8
+						}}
 						margin="normal"
 						fullWidth
 						required
@@ -97,6 +89,7 @@ const LoginForm = React.memo(props => {
 	);
 });
 
+LoginForm.displayName = "LoginForm";
 LoginForm.propTypes = {
 	sendAuthRequest: PropTypes.func,
 	isLoggedIn: PropTypes.bool

@@ -28,8 +28,8 @@ describe("ProfileForm", () => {
 				store
 			);
 
-			fireEvent.change(getByPlaceholderText("0000 0000 0000 0000"), {
-				target: { value: "1111 1111 1111 1111" }
+			fireEvent.change(getByPlaceholderText("1234123412341234"), {
+				target: { value: "1111111111111111" }
 			});
 
 			fireEvent.change(getByPlaceholderText("12/34"), {
@@ -49,7 +49,7 @@ describe("ProfileForm", () => {
 			wait(
 				() =>
 					expect(sendRequestMock).toHaveBeenCalledWith({
-						cardNumber: "1111 1111 1111 1111",
+						cardNumber: "1111111111111111",
 						expiryDate: new Date(1),
 						cardName: "John Doe",
 						cvc: "321"

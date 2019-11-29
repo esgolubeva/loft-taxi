@@ -1,10 +1,9 @@
 import React from "react";
-import { fireEvent, wait } from "@testing-library/react";
-import { createStore, applyMiddleware } from "redux";
+import { fireEvent } from "@testing-library/react";
+import { createStore } from "redux";
 import rootReducer from "./modules";
 import { App } from "./App";
 import { sendAuthSuccess } from "./modules/auth";
-import { sendAuthRequest } from "./modules/auth";
 
 describe("App", () => {
 	it("renders profile page on Профиль button click in header", () => {
