@@ -75,7 +75,6 @@ const ProfileForm = React.memo(props => {
 	}, []);
 
 	const onSubmit = data => {
-		console.log(data);
 		sendCardRequest(data);
 	};
 
