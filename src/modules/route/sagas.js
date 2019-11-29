@@ -8,7 +8,7 @@ import {
 
 export function* fetchRouteRequestSaga(action) {
 	try {
-		let response = yield call(api.getRouteRequest, action);
+		const response = yield call(api.getRouteRequest, action);
 		yield put(fetchRouteSuccess(response));
 	} catch (error) {
 		yield put(fetchRouteFailure(error));

@@ -53,7 +53,7 @@ const OrderForm = React.memo(props => {
 	const AddressSelect = props => {
 		const { addressKey, otherAddress } = props;
 
-		let availableAddresses = addressList
+		const availableAddresses = addressList
 			.filter(item => item != otherAddress)
 			.map(addressItem => (
 				<MenuItem key={addressItem} value={addressItem}>
