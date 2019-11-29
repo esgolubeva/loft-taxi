@@ -82,8 +82,9 @@ const ProfileForm = React.memo(props => {
 		return <SuccessMessage />;
 	}
 
-	const formatNumber = (data, value) => {
+	const formatInputValue = (data, value) => {
 		const onlyNumbers = value.replace(/[^\d]/g, "");
+		const LettersNumbersSpaces = value.replace(/[^A-Za-z0-9 ]/g, "");
 		let formattedValue;
 		switch (data) {
 			case "cardNumber":
@@ -95,14 +96,17 @@ const ProfileForm = React.memo(props => {
 			case "cvc":
 				formattedValue = formatStringByPattern("999", onlyNumbers);
 				break;
+			case "cardName":
+				formattedValue = LettersNumbersSpaces.toUpperCase();
+				break;
 			default:
-				formattedValue = onlyNumbers;
+				formattedValue = value;
 		}
 		return formattedValue;
 	};
 
-	const formatInput = (data, value) => {
-		setValue(data, formatNumber(data, value));
+	const onInputChange = (data, value) => {
+		setValue(data, formatInputValue(data, value));
 	};
 
 	return (
@@ -119,7 +123,7 @@ const ProfileForm = React.memo(props => {
 						placeholder="0000 0000 0000 0000"
 						name="cardNumber"
 						register={register}
-						setValue={formatInput}
+						setValue={onInputChange}
 						helperText={
 							errors.cardNumber && "Номер карты должен сожержать 16 символов"
 						}
@@ -159,12 +163,13 @@ const ProfileForm = React.memo(props => {
 						placeholder="USER NAME"
 						name="cardName"
 						register={register}
-						setValue={setValue}
+						setValue={onInputChange}
 						InputLabelProps={{ shrink: true }}
 						inputProps={{
 							type: "text",
-							pattern: "[a-zA-Z0-9 ]+",
-							title: "Имя может содержать только латинские символы, цифры и символ пробела"
+							pattern: "[a-zA-z+0-9][a-zA-Z0-9 ]+",
+							title:
+								"Имя может содержать только латинские символы, цифры и символ пробела"
 						}}
 						margin="normal"
 						fullWidth
@@ -176,7 +181,7 @@ const ProfileForm = React.memo(props => {
 						placeholder="123"
 						name="cvc"
 						register={register}
-						setValue={formatInput}
+						setValue={onInputChange}
 						inputProps={{
 							type: "string"
 						}}
