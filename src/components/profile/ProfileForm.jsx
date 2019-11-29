@@ -162,11 +162,10 @@ const ProfileForm = React.memo(props => {
 						register={register}
 						setValue={setValue}
 						InputLabelProps={{ shrink: true }}
-						helperText={
-							errors.cardName && "Имя должно содержать только латинские символы"
-						}
-						rules={{
-							pattern: /^[A-Za-z\s]+$/i
+						inputProps={{
+							type: "text",
+							pattern: "[a-zA-Z0-9 ]+",
+							title: "Имя может содержать только латинские символы, цифры и символ пробела"
 						}}
 						margin="normal"
 						fullWidth
