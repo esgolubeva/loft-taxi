@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import useForm from "react-hook-form";
 import { RHFInput } from "react-hook-form-input";
+import formatStringByPattern from "format-string-by-pattern";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Paper, TextField, Button } from "@material-ui/core/";
@@ -81,6 +82,33 @@ const ProfileForm = React.memo(props => {
 		return <SuccessMessage />;
 	}
 
+	const formatInputValue = (data, value) => {
+		const onlyNumbers = value.replace(/[^\d]/g, "");
+		const LettersNumbersSpaces = value.replace(/[^A-Za-z0-9 ]/g, "");
+		let formattedValue;
+		switch (data) {
+			case "cardNumber":
+				formattedValue = formatStringByPattern(
+					"9999 9999 9999 9999",
+					onlyNumbers
+				);
+				break;
+			case "cvc":
+				formattedValue = formatStringByPattern("999", onlyNumbers);
+				break;
+			case "cardName":
+				formattedValue = LettersNumbersSpaces.toUpperCase();
+				break;
+			default:
+				formattedValue = value;
+		}
+		return formattedValue;
+	};
+
+	const onInputChange = (data, value) => {
+		setValue(data, formatInputValue(data, value));
+	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Box textAlign="center">
@@ -92,18 +120,18 @@ const ProfileForm = React.memo(props => {
 					<RHFInput
 						as={<TextField />}
 						label="Номер карты:"
-						placeholder="1234123412341234"
+						placeholder="0000 0000 0000 0000"
 						name="cardNumber"
 						register={register}
-						setValue={setValue}
+						setValue={onInputChange}
 						helperText={
 							errors.cardNumber && "Номер карты должен сожержать 16 символов"
 						}
 						rules={{
-							minLength: 16,
-							maxLength: 16
+							minLength: 19,
+							maxLength: 19
 						}}
-						InputProps={{ type: "number" }}
+						InputProps={{ type: "string" }}
 						InputLabelProps={{ shrink: true }}
 						margin="normal"
 						fullWidth
@@ -135,13 +163,13 @@ const ProfileForm = React.memo(props => {
 						placeholder="USER NAME"
 						name="cardName"
 						register={register}
-						setValue={setValue}
+						setValue={onInputChange}
 						InputLabelProps={{ shrink: true }}
-						helperText={
-							errors.cardName && "Имя должно содержать только латинские символы"
-						}
-						rules={{
-							pattern: /^[A-Za-z\s]+$/i
+						inputProps={{
+							type: "text",
+							pattern: "[a-zA-z+0-9 ]+",
+							title:
+								"Имя может содержать только латинские символы, цифры и символ пробела"
 						}}
 						margin="normal"
 						fullWidth
@@ -153,9 +181,9 @@ const ProfileForm = React.memo(props => {
 						placeholder="123"
 						name="cvc"
 						register={register}
-						setValue={setValue}
+						setValue={onInputChange}
 						inputProps={{
-							type: "number"
+							type: "string"
 						}}
 						helperText={errors.cvc && "cvc должен сожержать 3 символа"}
 						rules={{

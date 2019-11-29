@@ -9,7 +9,7 @@ import { Signup } from "../signup";
 import { Profile } from "../profile";
 import { getIsLoggedIn } from "../../modules/auth";
 
-const currentPage = props => {
+const CurrentPage = props => {
 	const { isLoggedIn } = props;
 	const loginPath = "/login";
 
@@ -36,7 +36,7 @@ const currentPage = props => {
 	);
 };
 
-currentPage.propTypes = {
+CurrentPage.propTypes = {
 	isLoggedIn: PropTypes.bool
 };
 
@@ -46,4 +46,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(currentPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CurrentPage);

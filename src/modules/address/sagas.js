@@ -9,7 +9,7 @@ import {
 export function* fetchAddressRequestSaga() {
 	try {
 		const path = "addressList";
-		let response = yield call(api.getAddressRequest, path);
+		const response = yield call(api.getAddressRequest, path);
 		yield put(fetchAddressSuccess(response.addresses));
 	} catch (error) {
 		yield put(fetchAddressFailure(error));
